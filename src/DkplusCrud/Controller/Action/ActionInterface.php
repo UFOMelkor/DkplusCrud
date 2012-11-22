@@ -20,6 +20,8 @@ use Zend\EventManager\EventManagerInterface as EventManager;
  */
 interface ActionInterface
 {
+    public function getName();
+
     public function addFeature(Feature $feature);
 
     public function setController(Controller $controller);

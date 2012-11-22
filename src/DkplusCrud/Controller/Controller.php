@@ -8,6 +8,7 @@
 
 namespace DkplusCrud\Controller;
 
+use OutOfBoundsException;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
 
@@ -19,25 +20,37 @@ use Zend\Mvc\MvcEvent;
  */
 class Controller extends AbstractActionController
 {
+    /** @var Action\ActionInterface[] */
+    protected $actions = array();
+
+
     public function addAction(Action\ActionInterface $action)
     {
-
-    }
-
-    public function addFeature($actionName, Feature\FeatureInterface $feature)
-    {
-
+        $action->setController($this);
+        $this->actions[$action->getName()] = $action;
     }
 
     /**
-     * Register the default events for this controller
-     *
-     * @return void
+     * @param string $actionName
+     * @param Feature\FeatureInterface $feature
+     * @throws OutOfBoundsException on non existing action
      */
+    public function addFeature($actionName, Feature\FeatureInterface $feature)
+    {
+        if (empty($this->actions[$actionName])) {
+            throw new OutOfBoundsException($actionName);
+        }
+
+        $this->actions[$actionName]->addFeature($feature);
+    }
+
     protected function attachDefaultListeners()
     {
-        $events = $this->getEventManager();
-        $events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'));
+        parent::attachDefaultListeners();
+
+        foreach ($this->actions as $action) {
+            $action->attachTo($this->getEventManager());
+        }
     }
 
     /**
