@@ -8,6 +8,7 @@
 
 namespace DkplusCrud\Controller;
 
+use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 use OutOfBoundsException;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
@@ -22,7 +23,6 @@ class Controller extends AbstractActionController
 {
     /** @var Action\ActionInterface[] */
     protected $actions = array();
-
 
     public function addAction(Action\ActionInterface $action)
     {
@@ -53,35 +53,19 @@ class Controller extends AbstractActionController
         }
     }
 
-    /**
-     * Execute the request
-     *
-     * @param  MvcEvent $e
-     * @return mixed
-     * @throws Exception\DomainException
-     */
-    public function onDispatch(MvcEvent $e)
+    public function onDispatch(MvcEvent $event)
     {
-        $routeMatch = $e->getRouteMatch();
-        if (!$routeMatch) {
-            /**
-             * @todo Determine requirements for when route match is missing.
-             *       Potentially allow pulling directly from request metadata?
-             */
-            throw new Exception\DomainException('Missing route matches; unsure how to retrieve action');
+        $action = $event->getRouteMatch()->getParam('action');
+
+        $result = empty($this->actions[$action])
+                ? parent::onDispatch($event)
+                : $this->actions[$action]->execute();
+
+        if ($result instanceof Dsl) {
+            $result = $result->execute();
         }
 
-        $action = $routeMatch->getParam('action', 'not-found');
-        $method = static::getMethodFromAction($action);
-
-        if (!method_exists($this, $method)) {
-            $method = 'notFoundAction';
-        }
-
-        $actionResponse = $this->$method();
-
-        $e->setResult($actionResponse);
-
-        return $actionResponse;
+        $event->setResult($result);
+        return $result;
     }
 }

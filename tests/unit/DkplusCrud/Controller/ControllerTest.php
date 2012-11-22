@@ -115,4 +115,110 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->addFeature('paginate', $feature);
     }
 
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function usesParentDispatchingWhenNoActionCouldBeFound()
+    {
+        $event  = $this->getEventWithRouteMatch('index');
+        $result = $this->controller->onDispatch($event);
+
+        $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
+        $this->assertEquals('Placeholder page', $result->getVariable('content'));
+    }
+
+    /**
+     * @param string $action
+     * @return \Zend\Mvc\MvcEvent|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getEventWithRouteMatch($action = null)
+    {
+        $routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+                           ->disableOriginalConstructor()
+                           ->getMock();
+        if ($action !== null) {
+            $routeMatch->expects($this->any())
+                       ->method('getParam')
+                       ->with('action')
+                       ->will($this->returnValue($action));
+        }
+
+        $event = $this->getMock('Zend\Mvc\MvcEvent');
+        $event->expects($this->any())
+              ->method('getRouteMatch')
+              ->will($this->returnValue($routeMatch));
+        return $event;
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function getsTheResultFromAnActionWhenAnActionHasBeenFound()
+    {
+        $expectedResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $action = $this->getNamedAction('index');
+        $action->expects($this->any())
+               ->method('execute')
+               ->will($this->returnValue($expectedResult));
+        $this->controller->addAction($action);
+
+        $event = $this->getEventWithRouteMatch('index');
+        $this->assertSame($expectedResult, $this->controller->onDispatch($event));
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function putsTheResultAsResultIntoTheEvent()
+    {
+        $expectedResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $action = $this->getNamedAction('index');
+        $action->expects($this->any())
+               ->method('execute')
+               ->will($this->returnValue($expectedResult));
+        $this->controller->addAction($action);
+
+        $event = $this->getEventWithRouteMatch('index');
+        $event->expects($this->once())
+              ->method('setResult')
+              ->with($expectedResult);
+
+        $this->controller->onDispatch($event);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function executesDslsBeforeSettingItAsResultWhenAnActionHasReturnedOne()
+    {
+        $expectedResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $dsl = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
+        $dsl->expects($this->once())
+            ->method('execute')
+            ->will($this->returnValue($expectedResult));
+
+        $action = $this->getNamedAction('paginate');
+        $action->expects($this->any())
+               ->method('execute')
+               ->will($this->returnValue($dsl));
+        $this->controller->addAction($action);
+
+        $event = $this->getEventWithRouteMatch('paginate');
+        $event->expects($this->once())
+              ->method('setResult')
+              ->with($expectedResult);
+
+        $this->assertSame($expectedResult, $this->controller->onDispatch($event));
+    }
 }

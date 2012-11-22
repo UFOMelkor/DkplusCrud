@@ -27,4 +27,6 @@ interface ActionInterface
     public function setController(Controller $controller);
 
     public function attachTo(EventManager $events);
+
+    public function execute();
 }
