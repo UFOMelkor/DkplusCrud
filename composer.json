@@ -1,0 +1,21 @@
+{
+    "name": "dkplus/crud",
+    "description": "CRUD Conroller for zf2-modules",
+    "type": "library",
+    "keywords": ["zf2"],
+    "homepage": "https://github.com/UFOMelkor/DkplusCrud",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+        "dkplus/controller-dsl": "dev-master"
+    },
+    "require-dev": {
+        "dkplus/unit-test": "dev-master",
+        "doctrine/orm": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "DkplusCrud": "src/"
+        }
+    }
+}
