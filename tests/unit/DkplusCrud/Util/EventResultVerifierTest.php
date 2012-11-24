@@ -64,4 +64,30 @@ class EventResultVerifierTest extends TestCase
             array($this->getMockForAbstractClass('Zend\View\Model\ModelInterface'), true),
         );
     }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/module
+     * @dataProvider getNullAndNotNullValues
+     */
+    public function canVerifyNotNull($eventResult, $isNotNullResult)
+    {
+        $this->assertSame(
+            (boolean) $isNotNullResult,
+            EventResultVerifier::isNotNull($eventResult)
+        );
+    }
+
+    public function getNullAndNotNullValues()
+    {
+        return array(
+            array('foo', true),
+            array(new \stdClass(), true),
+            array(0, true),
+            array('', true),
+            array(-1, true),
+            array(null, false),
+        );
+    }
 }

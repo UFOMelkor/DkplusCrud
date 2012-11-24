@@ -29,6 +29,9 @@ abstract class AbstractAction implements ActionInterface
     /** @var Feature[] */
     protected $features = array();
 
+    /** @var EventManager */
+    protected $events;
+
     /** @param string $name */
     public function __construct($name)
     {
@@ -48,6 +51,7 @@ abstract class AbstractAction implements ActionInterface
 
     public function attachTo(EventManager $events)
     {
+        $this->events = $events;
         foreach ($this->features as $feature) {
             $feature->setController($this->controller);
             $feature->attachTo($this->getName(), $events);
@@ -57,5 +61,24 @@ abstract class AbstractAction implements ActionInterface
     public function setController(Controller $controller)
     {
         $this->controller = $controller;
+    }
+
+    /**
+     * @param string $prefix Typically an emtpy string, pre, post or notFound
+     * @param array $arguments
+     * @param callback $callback
+     * @return mixed The last result of the event
+     */
+    protected function triggerEvent($prefix, $arguments = array(), $callback = null)
+    {
+        $eventName = $prefix == ''
+                   ? $this->getName()
+                   : $prefix . \ucFirst($this->getName());
+
+        $result = $this->events->trigger($eventName, $this, $arguments, $callback);
+
+        return count($result) > 0 && $result->stopped()
+               ? $result->last()
+               : null;
     }
 }

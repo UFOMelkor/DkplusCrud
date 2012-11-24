@@ -32,4 +32,9 @@ class EventResultVerifier
             || $eventResult instanceof ViewModel
             || $eventResult instanceof Response;
     }
+
+    public static function isNotNull($eventResult)
+    {
+        return $eventResult !== null;
+    }
 }
