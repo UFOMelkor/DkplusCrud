@@ -14,14 +14,34 @@ namespace DkplusCrud\Controller\Action;
  * @subpackage Controller\Action
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class SingleEntityActionTest extends ActionTestCase
+class CreateFormActionTest extends ActionTestCase
 {
-
     protected function setUp()
     {
-        $this->actionName = 'read';
-        $this->action     = new SingleEntityAction($this->actionName);
+        $this->actionName = 'create';
+        $this->action     = new CreateFormAction($this->actionName);
         parent::setUp();
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function isInitiallyStrict()
+    {
+        $this->assertTrue($this->action->isStrict());
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function canAlsoBeNotStrict()
+    {
+        $this->action->setStrict(false);
+        $this->assertFalse($this->action->isStrict());
     }
 
     /**
@@ -33,8 +53,8 @@ class SingleEntityActionTest extends ActionTestCase
     {
         $this->prohibitTheTheMainEventResultsInAnException();
 
-        $entity = $this->getMock('stdClass');
-        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($entity));
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($form));
 
         $this->action->execute();
     }
@@ -50,14 +70,14 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      */
-    public function acceptsAnythingNotNullAsEntity()
+    public function acceptsOnlyFormsByPreEvent()
     {
         $this->prohibitTheTheMainEventResultsInAnException();
 
-        $entity = $this->getMock('stdClass');
+        $form = $this->getMock('Zend\Form\FormInterface');
         $this->preEventReturns(
-            $this->getEventResponseCollectionWithAValidResult($entity),
-            array('DkplusCrud\Util\EventResultVerifier', 'isNotNull')
+            $this->getEventResponseCollectionWithAValidResult($form),
+            array('DkplusCrud\Util\EventResultVerifier', 'isForm')
         );
 
         $this->action->execute();
@@ -67,14 +87,29 @@ class SingleEntityActionTest extends ActionTestCase
      * @test
      * @group unit
      * @group unit/controller
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage preCreate should result in a form
      */
-    public function triggersNotFoundEventWhenNothingHasBeenFound()
+    public function throwsAnExceptionWhenStrictModeNothingHasBeenFoundByPreEvent()
+    {
+        $this->preEventReturns($this->getEventResponseCollectionWithoutResults());
+
+        $this->action->execute();
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
+    public function triggersNotFoundEventWhenNotStrictAndNothingHasBeenFound()
     {
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
         $this->preEventReturns($this->getEventResponseCollectionWithoutResults());
         $this->notFoundEventReturns($this->getEventResponseCollectionWithAValidResult($viewModel));
 
+        $this->action->setStrict(false);
         $this->action->execute();
     }
 
@@ -83,13 +118,14 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      */
-    public function triggersNotFoundEventWhenNoEntityHasBeenFound()
+    public function triggersNotFoundEventWhenNotStrictAndNoFormHasBeenFound()
     {
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
         $this->preEventReturns($this->getEventResponseCollectionWithAnInvalidResult());
         $this->notFoundEventReturns($this->getEventResponseCollectionWithAValidResult($viewModel));
 
+        $this->action->setStrict(false);
         $this->action->execute();
     }
 
@@ -98,13 +134,14 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      */
-    public function returnsTheNotFoundEventResultWhenNoEntityHasBeenFound()
+    public function returnsTheNotFoundEventResultWhenNotStrictAndNoEntityHasBeenFound()
     {
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
         $this->preEventReturns($this->getEventResponseCollectionWithAnInvalidResult());
         $this->notFoundEventReturns($this->getEventResponseCollectionWithAValidResult($viewModel));
 
+        $this->action->setStrict(false);
         $this->assertSame($viewModel, $this->action->execute());
     }
 
@@ -113,13 +150,14 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      * @expectedException RuntimeException
-     * @expectedExceptionMessage notFoundRead should result in a valid controller response
+     * @expectedExceptionMessage notFoundCreate should result in a valid controller response
      */
-    public function throwsAnExceptionWhenTheNotFoundEventReturnsCrap()
+    public function throwsAnExceptionWhenNotStrictAndTheNotFoundEventReturnsCrap()
     {
         $this->preEventReturns($this->getEventResponseCollectionWithAnInvalidResult());
         $this->notFoundEventReturns($this->getEventResponseCollectionWithAnInvalidResult());
 
+        $this->action->setStrict(false);
         $this->action->execute();
     }
 
@@ -130,10 +168,10 @@ class SingleEntityActionTest extends ActionTestCase
      */
     public function triggersMainEventToGetTheOutput()
     {
-        $entity = $this->getMock('stdClass');
+        $form      = $this->getMockForAbstractClass('Zend\Form\FormInterface');
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
-        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($entity));
+        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($form));
         $this->mainEventReturns($this->getEventResponseCollectionWithAValidResult($viewModel));
 
         $this->action->execute();
@@ -144,12 +182,12 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      */
-    public function returnsTheResultOfTheMainEventWhenAnEntityHasBeenFound()
+    public function returnsTheResultOfTheMainEventWhenAFormHasBeenGotten()
     {
-        $entity = $this->getMock('stdClass');
+        $form      = $this->getMockForAbstractClass('Zend\Form\FormInterface');
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
-        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($entity));
+        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($form));
         $this->mainEventReturns($this->getEventResponseCollectionWithAValidResult($viewModel));
 
         $this->assertSame($viewModel, $this->action->execute());
@@ -160,15 +198,15 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      */
-    public function passesTheEntityAsParameterToTheMainEvent()
+    public function passesTheFormAsParameterToTheMainEvent()
     {
-        $entity = $this->getMock('stdClass');
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
-        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($entity));
+        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($form));
         $this->mainEventReturns(
             $this->getEventResponseCollectionWithAValidResult($viewModel),
-            array('entity' => $entity)
+            array('form' => $form)
         );
 
         $this->action->execute();
@@ -179,13 +217,13 @@ class SingleEntityActionTest extends ActionTestCase
      * @group unit
      * @group unit/controller
      * @expectedException RuntimeException
-     * @expectedExceptionMessage read should result in a valid controller response
+     * @expectedExceptionMessage create should result in a valid controller response
      */
     public function throwsAnExceptionWhenTheMainEventReturnsCrap()
     {
-        $entity = $this->getMock('stdClass');
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
-        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($entity));
+        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($form));
         $this->mainEventReturns($this->getEventResponseCollectionWithAnInvalidResult());
 
         $this->action->execute();
@@ -198,12 +236,12 @@ class SingleEntityActionTest extends ActionTestCase
      */
     public function triggersPostEventWithTheMainAndPreEventResults()
     {
-        $entity    = $this->getMock('stdClass');
+        $form      = $this->getMockForAbstractClass('Zend\Form\FormInterface');
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
-        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($entity));
+        $this->preEventReturns($this->getEventResponseCollectionWithAValidResult($form));
         $this->mainEventReturns($this->getEventResponseCollectionWithAValidResult($viewModel));
-        $this->postEventIsTriggeredWith(array('entity' => $entity, 'result' => $viewModel));
+        $this->postEventIsTriggeredWith(array('form' => $form, 'result' => $viewModel));
 
         $this->action->execute();
     }

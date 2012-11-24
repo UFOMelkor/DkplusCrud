@@ -3,7 +3,9 @@
 return array(
     'DkplusCrud\Controller\Action\AbstractAction'     => __DIR__ . '/src/DkplusCrud/Controller/Action/AbstractAction.php',
     'DkplusCrud\Controller\Action\ActionInterface'    => __DIR__ . '/src/DkplusCrud/Controller/Action/ActionInterface.php',
+    'DkplusCrud\Controller\Action\CreateFormAction'   => __DIR__ . '/src/DkplusCrud/Controller/Action/CreateFormAction.php',
     'DkplusCrud\Controller\Action\SingleEntityAction' => __DIR__ . '/src/DkplusCrud/Controller/Action/SingleEntityAction.php',
+    'DkplusCrud\Controller\Action\UpdateFormAction'   => __DIR__ . '/src/DkplusCrud/Controller/Action/UpdateFormAction.php',
     'DkplusCrud\Controller\Controller'                => __DIR__ . '/src/DkplusCrud/Controller/Controller.php',
     'DkplusCrud\Controller\Feature\AbstractFeature'   => __DIR__ . '/src/DkplusCrud/Controller/Feature/AbstractFeature.php',
     'DkplusCrud\Controller\Feature\FeatureInterface'  => __DIR__ . '/src/DkplusCrud/Controller/Feature/FeatureInterface.php',

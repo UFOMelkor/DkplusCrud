@@ -9,6 +9,7 @@
 namespace DkplusCrud\Controller\Action;
 
 use RuntimeException;
+use Zend\Form\FormInterface as Form;
 
 /**
  * @category   Dkplus
@@ -16,20 +17,44 @@ use RuntimeException;
  * @subpackage Controller\Action
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class SingleEntityAction extends AbstractAction
+class CreateFormAction extends AbstractAction
 {
+    /**
+     *
+     * If the action is strict, it throws an exception when no form has been get.
+     *
+     * Otherwise a notFound-Event will be thrown.
+     *
+     * @var boolean
+     */
+    protected $strict = true;
+
+    /** @return boolean */
+    public function isStrict()
+    {
+        return $this->strict;
+    }
+
+    /** @param boolean $strict */
+    public function setStrict($strict)
+    {
+        $this->strict = (boolean) $strict;
+    }
+
     /** @throws RuntimeException when not getting a valid controller response */
     public function execute()
     {
-        $entity = $this->getPreEventResult();
+        $form = $this->getPreEventResult();
 
-        if ($entity === null) {
+        if ($form === null && $this->strict) {
+            throw new RuntimeException('pre' . \ucFirst($this->getName()) . ' should result in a form');
+        } elseif ($form === null) {
             return $this->getNotFoundEventResult();
         }
 
-        $result = $this->getMainEventResult($entity);
+        $result = $this->getMainEventResult($form);
 
-        $this->triggerPostEvent($entity, $result);
+        $this->triggerPostEvent($form, $result);
 
         return $result;
     }
@@ -39,7 +64,7 @@ class SingleEntityAction extends AbstractAction
         return $this->triggerEvent(
             'pre',
             array(),
-            array('DkplusCrud\Util\EventResultVerifier', 'isNotNull')
+            array('DkplusCrud\Util\EventResultVerifier', 'isForm')
         );
     }
 
@@ -61,11 +86,11 @@ class SingleEntityAction extends AbstractAction
     }
 
     /** @throws \RuntimeException when not getting a valid controller response */
-    protected function getMainEventResult($entity)
+    protected function getMainEventResult(Form $form)
     {
         $result = $this->triggerEvent(
             '',
-            array('entity' => $entity),
+            array('form' => $form),
             array('DkplusCrud\Util\EventResultVerifier', 'isControllerResponse')
         );
 
@@ -78,8 +103,8 @@ class SingleEntityAction extends AbstractAction
         return $result;
     }
 
-    protected function triggerPostEvent($entity, $result)
+    protected function triggerPostEvent($form, $result)
     {
-        $this->triggerEvent('post', array('entity' => $entity, 'result' => $result));
+        $this->triggerEvent('post', array('form' => $form, 'result' => $result));
     }
 }
