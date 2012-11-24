@@ -9,7 +9,6 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Controller\Controller;
-use Zend\EventManager\EventInterface as Event;
 use Zend\EventManager\EventManagerInterface as EventManager;
 
 /**
