@@ -1,0 +1,50 @@
+<?php
+/**
+ * @category   Dkplus
+ * @package    Crud
+ * @subpackage Controller\Feature
+ * @author     Oskar Bley <oskar@programming-php.net>
+ */
+
+namespace DkplusCrud\Controller\Feature;
+
+use DkplusCrud\Service\ServiceInterface as Service;
+use RuntimeException;
+use Zend\EventManager\EventInterface as Event;
+
+/**
+ * @category   Dkplus
+ * @package    Crud
+ * @subpackage Controller\Feature
+ * @author     Oskar Bley <oskar@programming-php.net>
+ */
+class PaginationRetrieval extends AbstractFeature
+{
+    /** @var string */
+    protected $eventType = self::EVENT_TYPE_PRE;
+
+    /** @var Service */
+    protected $service;
+
+    /** @var string */
+    protected $pageParameter;
+
+    /**
+     * @param Service $service
+     * @param string $pageParameter
+     */
+    public function __construct(Service $service, $pageParameter = 'page')
+    {
+        $this->service       = $service;
+        $this->pageParameter = (string) $pageParameter;
+    }
+
+    public function execute(Event $event)
+    {
+        $pageNumber = $this->getController()
+                           ->getEvent()
+                           ->getRouteMatch()
+                           ->getParam($this->pageParameter);
+        return $this->service->getPaginator($pageNumber);
+    }
+}

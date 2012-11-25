@@ -8,7 +8,6 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
 use \PHPUnit_Framework_TestCase as TestCase;
 
 /**

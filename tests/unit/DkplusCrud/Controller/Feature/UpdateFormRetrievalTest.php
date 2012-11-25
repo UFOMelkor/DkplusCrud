@@ -8,7 +8,6 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
 use \PHPUnit_Framework_TestCase as TestCase;
 
 /**
@@ -19,7 +18,7 @@ use \PHPUnit_Framework_TestCase as TestCase;
  */
 class UpdateFormRetrievalTest extends TestCase
 {
-    /** @var CreationForm */
+    /** @var UpdateForm */
     protected $feature;
 
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */

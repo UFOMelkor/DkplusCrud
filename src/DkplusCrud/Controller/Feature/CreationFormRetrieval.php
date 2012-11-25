@@ -9,7 +9,6 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Service\ServiceInterface as Service;
-use RuntimeException;
 use Zend\EventManager\EventInterface as Event;
 
 /**
