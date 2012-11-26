@@ -12,6 +12,7 @@ return array(
     'DkplusCrud\Controller\Feature\AjaxFormSupport'       => __DIR__ . '/src/DkplusCrud/Controller/Feature/AjaxFormSupport.php',
     'DkplusCrud\Controller\Feature\CreationFormRetrieval' => __DIR__ . '/src/DkplusCrud/Controller/Feature/CreationFormRetrieval.php',
     'DkplusCrud\Controller\Feature\FeatureInterface'      => __DIR__ . '/src/DkplusCrud/Controller/Feature/FeatureInterface.php',
+    'DkplusCrud\Controller\Feature\PaginationRetrieval'   => __DIR__ . '/src/DkplusCrud/Controller/Feature/PaginationRetrieval.php',
     'DkplusCrud\Controller\Feature\UpdateFormRetrieval'   => __DIR__ . '/src/DkplusCrud/Controller/Feature/UpdateFormRetrieval.php',
     'DkplusCrud\FormHandler\BindFormHandler'              => __DIR__ . '/src/DkplusCrud/FormHandler/BindFormHandler.php',
     'DkplusCrud\FormHandler\FactoryFormHandler'           => __DIR__ . '/src/DkplusCrud/FormHandler/FactoryFormHandler.php',

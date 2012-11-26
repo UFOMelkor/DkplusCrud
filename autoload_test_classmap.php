@@ -11,6 +11,7 @@ return array(
     'DkplusCrud\Controller\Feature\AbstractFeatureTest'       => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/AbstractFeatureTest.php',
     'DkplusCrud\Controller\Feature\AjaxFormSupportTest'       => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/AjaxFormSupportTest.php',
     'DkplusCrud\Controller\Feature\CreationFormRetrievalTest' => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/CreationFormRetrievalTest.php',
+    'DkplusCrud\Controller\Feature\PaginationRetrievalTest'   => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/PaginationRetrievalTest.php',
     'DkplusCrud\Controller\Feature\UpdateFormRetrievalTest'   => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/UpdateFormRetrievalTest.php',
     'DkplusCrud\FormHandler\BindFormHandlerTest'              => __DIR__ . '/tests/unit/DkplusCrud/FormHandler/BindFormHandlerTest.php',
     'DkplusCrud\FormHandler\FactoryFormHandlerTest'           => __DIR__ . '/tests/unit/DkplusCrud/FormHandler/FactoryFormHandlerTest.php',
