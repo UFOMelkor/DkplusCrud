@@ -16,9 +16,9 @@ use \PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class CreationFormRetrievalTest extends TestCase
+class CreationFormProviderTest extends TestCase
 {
-    /** @var CreationForm */
+    /** @var CreationFormProvider */
     protected $feature;
 
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -32,7 +32,7 @@ class CreationFormRetrievalTest extends TestCase
         $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
 
-        $this->feature = new CreationFormRetrieval($this->service);
+        $this->feature = new CreationFormProvider($this->service);
     }
 
     /**

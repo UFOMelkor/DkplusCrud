@@ -9,7 +9,6 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Service\ServiceInterface as Service;
-use RuntimeException;
 use Zend\EventManager\EventInterface as Event;
 
 /**
@@ -18,7 +17,7 @@ use Zend\EventManager\EventInterface as Event;
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class PaginationRetrieval extends AbstractFeature
+class PaginationProvider extends AbstractFeature
 {
     /** @var string */
     protected $eventType = self::EVENT_TYPE_PRE;

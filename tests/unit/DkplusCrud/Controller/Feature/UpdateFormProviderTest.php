@@ -16,9 +16,9 @@ use \PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class UpdateFormRetrievalTest extends TestCase
+class UpdateFormProviderTest extends TestCase
 {
-    /** @var UpdateForm */
+    /** @var UpdateFormProvider */
     protected $feature;
 
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -32,7 +32,7 @@ class UpdateFormRetrievalTest extends TestCase
         $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
 
-        $this->feature = new UpdateFormRetrieval($this->service);
+        $this->feature = new UpdateFormProvider($this->service);
     }
 
     /**

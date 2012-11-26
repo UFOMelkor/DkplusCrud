@@ -16,7 +16,7 @@ use \PHPUnit_Framework_TestCase as TestCase;
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class PaginationRetrievalTest extends TestCase
+class PaginationProviderTest extends TestCase
 {
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
@@ -59,7 +59,7 @@ class PaginationRetrievalTest extends TestCase
     {
         $this->assertInstanceOf(
             'DkplusCrud\Controller\Feature\FeatureInterface',
-            new PaginationRetrieval($this->service)
+            new PaginationProvider($this->service)
         );
     }
 
@@ -75,7 +75,7 @@ class PaginationRetrievalTest extends TestCase
                ->method('attach')
                ->with('prePaginate');
 
-        $feature = new PaginationRetrieval($this->service);
+        $feature = new PaginationProvider($this->service);
         $feature->attachTo('paginate', $events);
     }
 
@@ -94,7 +94,7 @@ class PaginationRetrievalTest extends TestCase
                       ->method('getPaginator')
                       ->will($this->returnValue($paginator));
 
-        $feature = new PaginationRetrieval($this->service);
+        $feature = new PaginationProvider($this->service);
         $feature->setController($this->controller);
 
         $this->assertSame($paginator, $feature->execute($this->event));
@@ -116,7 +116,7 @@ class PaginationRetrievalTest extends TestCase
                       ->method('getPaginator')
                       ->with(5);
 
-        $feature = new PaginationRetrieval($this->service);
+        $feature = new PaginationProvider($this->service);
         $feature->setController($this->controller);
 
         $feature->execute($this->event);
@@ -138,7 +138,7 @@ class PaginationRetrievalTest extends TestCase
                       ->method('getPaginator')
                       ->with(7);
 
-        $feature = new PaginationRetrieval($this->service, 'my-page');
+        $feature = new PaginationProvider($this->service, 'my-page');
         $feature->setController($this->controller);
 
         $feature->execute($this->event);

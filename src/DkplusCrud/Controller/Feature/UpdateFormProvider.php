@@ -17,7 +17,7 @@ use Zend\EventManager\EventInterface as Event;
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class UpdateFormRetrieval extends AbstractFeature
+class UpdateFormProvider extends AbstractFeature
 {
     /** @var string */
     protected $eventType = self::EVENT_TYPE_PRE;
