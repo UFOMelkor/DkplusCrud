@@ -21,7 +21,7 @@ class EntitiesProvider extends AbstractFeature
 {
     /** @var string */
     protected $eventType = self::EVENT_TYPE_PRE;
-    
+
     /** @var Service */
     protected $service;
 
