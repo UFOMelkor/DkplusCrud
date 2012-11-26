@@ -9,7 +9,7 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Service\ServiceInterface as Service;
-use Zend\EventManager\EventInterface;
+use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus
@@ -17,26 +17,22 @@ use Zend\EventManager\EventInterface;
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class EntityProvider extends AbstractFeature
+class EntitiesProvider extends AbstractFeature
 {
     /** @var string */
     protected $eventType = self::EVENT_TYPE_PRE;
-
+    
     /** @var Service */
     protected $service;
 
-    /**
-     * @param Service $service
-     * @param string $routeMatchParam
-     */
+    /** @param Service $service */
     public function __construct(Service $service)
     {
         $this->service = $service;
     }
 
-    public function execute(EventInterface $event)
+    public function execute(Event $event)
     {
-        $identifier = $event->getParam('identifier');
-        return $this->service->get($identifier);
+        return $this->service->getAll();
     }
 }
