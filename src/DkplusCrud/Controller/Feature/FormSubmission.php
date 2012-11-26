@@ -22,15 +22,20 @@ class FormSubmission extends AbstractFeature
     /** @var Options\SuccessOptions */
     protected $options;
 
-    /** @var Service */
-    protected $service;
+    /** @var callable */
+    protected $storage;
 
     /** @var string */
     protected $template;
 
-    public function __construct(Service $service, Options\SuccessOptions $options, $template)
+    /**
+     * @param callable $storage
+     * @param Options\SuccessOptions $options
+     * @param string $template
+     */
+    public function __construct($storage, Options\SuccessOptions $options, $template)
     {
-        $this->service  = $service;
+        $this->storage   = $storage;
         $this->options  = $options;
         $this->template = $template;
     }
@@ -41,9 +46,6 @@ class FormSubmission extends AbstractFeature
         $ctrl       = $this->getController();
         $form       = $event->getParam('form');
         $identifier = $event->getParam('identifier');
-        $storage    = $identifier === null
-                    ? array($this->service, 'create')
-                    : array($this->service, 'update');
 
         return $ctrl->dsl()
                     ->render($this->template)
@@ -51,7 +53,7 @@ class FormSubmission extends AbstractFeature
                     ->and()->validate()->against('postredirectget')
                     ->and()->onSuccess(
                         $ctrl->dsl()
-                             ->store()->formData()->into($storage)->with($identifier)
+                             ->store()->formData()->into($this->storage)->with($identifier)
                              ->and()->redirect()
                              ->to()->route(
                                  $opt->getRedirectRoute(),

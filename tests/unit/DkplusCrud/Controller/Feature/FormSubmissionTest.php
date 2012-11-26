@@ -42,7 +42,7 @@ class FormSubmissionTest extends TestCase
         $this->options    = $this->getMockIgnoringConstructor('DkplusCrud\Controller\Feature\Options\SuccessOptions');
         $this->controller = new Controller();
         $this->service    = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
-        $this->feature    = new FormSubmission($this->service, $this->options, 'user/edit');
+        $this->feature    = new FormSubmission(array($this->service, 'create'), $this->options, 'user/edit');
         $this->feature->setController($this->controller);
 
         $this->setUpController($this->controller);
@@ -133,7 +133,7 @@ class FormSubmissionTest extends TestCase
      * @group unit
      * @group unit/controller
      */
-    public function storesDataOnSuccessIntoServiceCreateIfNoIdentifierHasBeenProvided()
+    public function storesDataOnSuccessIntoTarget()
     {
         $dsl = $this->getDslMockBuilder()
                     ->withMockedPhrases(array('onSuccess'))
@@ -145,32 +145,6 @@ class FormSubmissionTest extends TestCase
             ->method('onSuccess')
             ->with($successDsl)
             ->will($this->returnSelf());
-
-        $this->feature->execute($this->event);
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function storesDataOnSuccessIntoServiceUpdateIfAnIdentifierHasBeenProvided()
-    {
-        $dsl = $this->getDslMockBuilder()
-                    ->withMockedPhrases(array('onSuccess'))
-                    ->getMock();
-
-        $successDsl = $this->expectsDslToStoreDataIntoMethod('update', 5);
-
-        $dsl->expects($this->once())
-            ->method('onSuccess')
-            ->with($successDsl)
-            ->will($this->returnSelf());
-
-        $this->event->expects($this->at(1))
-                    ->method('getParam')
-                    ->with('identifier')
-                    ->will($this->returnValue(5));
 
         $this->feature->execute($this->event);
     }
