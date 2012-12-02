@@ -20,8 +20,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 {
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function isAnOptionsInstance()
     {
@@ -30,8 +30,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesContentReplaceController()
     {
@@ -43,8 +43,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesApplicationControllerAsInitialContentReplaceController()
     {
@@ -55,8 +55,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesContentReplaceAction()
     {
@@ -68,8 +68,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesIndexAsInitialContentReplaceAction()
     {
@@ -80,8 +80,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesContentReplaceRoute()
     {
@@ -93,8 +93,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesHomeAsInitialContentReplaceRoute()
     {
@@ -105,8 +105,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesContentReplaceRouteParams()
     {
@@ -118,8 +118,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesAnEmptyArrayAsInitialContentReplaceRouteParams()
     {
@@ -130,8 +130,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesAnErrorMessage()
     {
@@ -143,8 +143,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesInitallyNoErrorMessage()
     {
@@ -155,8 +155,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function canDetectAnExistingErrorMessage()
     {
@@ -168,8 +168,8 @@ class NotFoundReplaceOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function canDetectNotExistingErrorMessage()
     {

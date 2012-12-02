@@ -20,8 +20,8 @@ class SuccessOptionsTest extends TestCase
 {
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function isAnOptionsInstance()
     {
@@ -30,8 +30,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesRedirectRoute()
     {
@@ -43,8 +43,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesHomeAsInitialRedirectRoute()
     {
@@ -55,8 +55,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesRedirectRouteParams()
     {
@@ -68,8 +68,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesAnEmptyArrayAsInitialRedirectRouteParams()
     {
@@ -80,8 +80,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function canUseAnCallbackAsRedirectRouteParams()
     {
@@ -98,8 +98,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function canUseTheGivenEntityWithinTheRedirectRouteParamsCallback()
     {
@@ -118,8 +118,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesMessage()
     {
@@ -131,8 +131,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function providesAnEmptyStringAsInitialMessage()
     {
@@ -143,8 +143,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function canUseAnCallbackAsMessage()
     {
@@ -161,8 +161,8 @@ class SuccessOptionsTest extends TestCase
 
     /**
      * @test
-     * @group Component/Listener
      * @group unit
+     * @group unit/controller
      */
     public function canUseTheGivenEntityWithinTheMessageCallback()
     {
