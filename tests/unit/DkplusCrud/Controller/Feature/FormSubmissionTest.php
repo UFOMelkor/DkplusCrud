@@ -41,10 +41,12 @@ class FormSubmissionTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+        $identifierElem   = $this->getMockForAbstractClass('Zend\Form\ElementInterface');
         $this->form       = $this->getMockForAbstractClass('Zend\Form\FormInterface');
         $this->form->expects($this->any())
-                   ->method('getData')
-                   ->will($this->returnValue(array('id' => 5)));
+                   ->method('get')
+                   ->with('id')
+                   ->will($this->returnValue($identifierElem));
         $this->event      = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
         $this->event->expects($this->any())
                     ->method('getParam')

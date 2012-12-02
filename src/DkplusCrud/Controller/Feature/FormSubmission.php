@@ -47,8 +47,7 @@ class FormSubmission extends AbstractFeature
         $opt        = $this->options;
         $ctrl       = $this->getController();
         $form       = $event->getParam('form'); /* @var $form \Zend\Form\FormInterface */
-        $formData   = $form->getData();
-        $identifier = $formData[$this->identifier];
+        $identifier = $form->get($this->identifier)->getValue();
 
         return $ctrl->dsl()
                     ->render($this->template)
