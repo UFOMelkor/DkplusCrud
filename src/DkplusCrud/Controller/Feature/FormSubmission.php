@@ -8,7 +8,6 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Service\ServiceInterface as Service;
 use Zend\EventManager\EventInterface;
 
 /**
@@ -28,6 +27,9 @@ class FormSubmission extends AbstractFeature
     /** @var string */
     protected $template;
 
+    /** @var string */
+    protected $identifier = 'id';
+
     /**
      * @param callable $storage
      * @param Options\SuccessOptions $options
@@ -44,8 +46,9 @@ class FormSubmission extends AbstractFeature
     {
         $opt        = $this->options;
         $ctrl       = $this->getController();
-        $form       = $event->getParam('form');
-        $identifier = $event->getParam('identifier');
+        $form       = $event->getParam('form'); /* @var $form \Zend\Form\FormInterface */
+        $formData   = $form->getData();
+        $identifier = $formData[$this->identifier];
 
         return $ctrl->dsl()
                     ->render($this->template)

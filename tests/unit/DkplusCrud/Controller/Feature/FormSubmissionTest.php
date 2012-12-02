@@ -35,10 +35,21 @@ class FormSubmissionTest extends TestCase
     /** @var FormSubmission */
     protected $feature;
 
+    /** @var \Zend\Form\FormInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $form;
+
     protected function setUp()
     {
         parent::setUp();
+        $this->form       = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $this->form->expects($this->any())
+                   ->method('getData')
+                   ->will($this->returnValue(array('id' => 5)));
         $this->event      = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->event->expects($this->any())
+                    ->method('getParam')
+                    ->with('form')
+                    ->will($this->returnValue($this->form));
         $this->options    = $this->getMockIgnoringConstructor('DkplusCrud\Controller\Feature\Options\SuccessOptions');
         $this->controller = new Controller();
         $this->service    = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
@@ -78,14 +89,7 @@ class FormSubmissionTest extends TestCase
      */
     public function usesTheProvidedForm()
     {
-        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
-
-        $this->event->expects($this->at(0))
-                    ->method('getParam')
-                    ->with('form')
-                    ->will($this->returnValue($form));
-
-        $this->expectsDslToUseForm($form);
+        $this->expectsDslToUseForm($this->form);
         $this->feature->execute($this->event);
     }
 
