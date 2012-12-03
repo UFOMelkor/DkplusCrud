@@ -37,6 +37,6 @@ class Order extends AbstractFeature
     {
         $queryBuilder = $event->getParam('queryBuilder');
         /* @var $queryBuilder \Doctrine\ORM\QueryBuilder */
-        $queryBuilder->orderBy('e.' . $this->orderBy, $this->order);
+        $queryBuilder->addOrderBy('e.' . $this->orderBy, $this->order);
     }
 }
