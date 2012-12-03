@@ -19,7 +19,7 @@ use Zend\EventManager\EventManagerInterface as EventManager;
 abstract class AbstractFeature implements FeatureInterface
 {
     /** @var string */
-    protected $event;
+    protected $eventName;
 
     /** @var int */
     protected $priority = 1;
@@ -33,6 +33,6 @@ abstract class AbstractFeature implements FeatureInterface
     /** @param EventManager $events */
     public function attachTo(EventManager $events)
     {
-        $events->attach($this->event, array($this, 'execute'), $this->priority);
+        $events->attach($this->eventName, array($this, 'execute'), $this->priority);
     }
 }
