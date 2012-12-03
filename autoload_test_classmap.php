@@ -28,6 +28,9 @@ return array(
     'DkplusCrud\Mapper\DoctrineMapperTest'                             => __DIR__ . '/tests/unit/DkplusCrud/Mapper/DoctrineMapperTest.php',
     'DkplusCrud\ModuleTest'                                            => __DIR__ . '/tests/unit/DkplusCrud/ModuleTest.php',
     'DkplusCrud\Service\Feature\AbstractFeatureTest'                   => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/AbstractFeatureTest.php',
+    'DkplusCrud\Service\Feature\IntersectionFilterTest'                => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/IntersectionFilterTest.php',
+    'DkplusCrud\Service\Feature\OrderTest'                             => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/OrderTest.php',
+    'DkplusCrud\Service\Feature\UnionFilterTest'                       => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/UnionFilterTest.php',
     'DkplusCrud\Service\ServiceTest'                                   => __DIR__ . '/tests/unit/DkplusCrud/Service/ServiceTest.php',
     'DkplusCrud\Util\EventResultVerifierTest'                          => __DIR__ . '/tests/unit/DkplusCrud/Util/EventResultVerifierTest.php',
 );

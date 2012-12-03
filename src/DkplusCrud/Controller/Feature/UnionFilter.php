@@ -9,7 +9,7 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Service\Service;
-use DkplusCrud\Service\Service\Feature;
+use DkplusCrud\Service\Service\Feature as ServiceFeature;
 use RuntimeException;
 use Zend\EventManager\EventInterface as Event;
 
@@ -69,7 +69,7 @@ class UnionFilter extends AbstractFeature
         }
 
         foreach ($this->properties as $property) {
-            $this->service->addFeature(new Feature\UnionFilter('like', $property, $values[$property]));
+            $this->service->addFeature(new ServiceFeature\UnionFilter('like', $property, $values[$property]));
         }
     }
 }
