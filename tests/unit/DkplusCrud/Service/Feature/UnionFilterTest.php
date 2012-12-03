@@ -90,26 +90,4 @@ class UnionFilterTest extends TestCase
         $feature = new UnionFilter('eq', 'attr', 5);
         $feature->execute($this->event);
     }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     * @dataProvider singleValueConditions
-     */
-    public function canAddDifferentTypesOfConditionWithOneValue($conditionType, $value)
-    {
-        $attribute = 'foo';
-        $this->expressions->expects($this->once())
-                          ->method($conditionType)
-                          ->with('e.' . $attribute, $value)
-                          ->will($this->returnValue($this->expression));
-
-        $this->queryBuilder->expects($this->once())
-                           ->method('andWhere')
-                           ->with($this->isInstanceOf('Doctrine\ORM\Query\Expr\Base'));
-
-        $feature = new IntersectionFilter($conditionType, $attribute, $value);
-        $feature->execute($this->event);
-    }
 }
