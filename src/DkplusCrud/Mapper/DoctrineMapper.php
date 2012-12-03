@@ -12,6 +12,7 @@ use DkplusBase\Service\Exception\EntityNotFound as EntityNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginationAdapter;
+use ZfcBase\EventManager\EventProvider;
 
 /**
  * @category   Dkplus
@@ -19,7 +20,7 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginationAdapter;
  * @subpackage Mapper
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class DoctrineMapper implements MapperInterface
+class DoctrineMapper extends EventProvider implements MapperInterface
 {
     /** @var EntityManager */
     protected $entityManager;
@@ -65,6 +66,8 @@ class DoctrineMapper implements MapperInterface
         $queryBuilder = $this->entityManager->createQueryBuilder();
         $queryBuilder->select('e');
         $queryBuilder->from($this->modelClass, 'e');
+
+        $this->getEventManager()->trigger('queryBuilder', $this, array('queryBuilder' => $queryBuilder));
 
         return $queryBuilder->getQuery();
     }

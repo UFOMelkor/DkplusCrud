@@ -47,6 +47,16 @@ class DoctrineMapperTest extends TestCase
      * @group unit
      * @group unit/service
      */
+    public function needsAnEventManager()
+    {
+        $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $this->mapper);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function savesEntitiesByPuttingThemIntoTheEntityManager()
     {
         $entity = $this->getMock('stdClass');
@@ -176,5 +186,34 @@ class DoctrineMapperTest extends TestCase
                             ->will($this->returnValue($queryBuilder));
 
         $this->assertSame($executionResult, $this->mapper->findAll());
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
+    public function triggersAnEventWhenBuildingAQuery()
+    {
+        $query = $this->getMock('stdClass', array('execute'));
+
+        $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+                             ->disableOriginalConstructor()
+                             ->getMock();
+        $queryBuilder->expects($this->any())
+                     ->method('getQuery')
+                     ->will($this->returnValue($query));
+
+        $this->entityManager->expects($this->any())
+                            ->method('createQueryBuilder')
+                            ->will($this->returnValue($queryBuilder));
+
+        $eventManager = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $eventManager->expects($this->once())
+                     ->method('trigger')
+                     ->with('queryBuilder', $this->mapper, array('queryBuilder' => $queryBuilder));
+
+        $this->mapper->setEventManager($eventManager);
+        $this->mapper->findAll();
     }
 }

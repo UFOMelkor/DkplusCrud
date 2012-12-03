@@ -27,6 +27,7 @@ return array(
     'DkplusCrud\FormHandler\FactoryFormHandlerTest'                    => __DIR__ . '/tests/unit/DkplusCrud/FormHandler/FactoryFormHandlerTest.php',
     'DkplusCrud\Mapper\DoctrineMapperTest'                             => __DIR__ . '/tests/unit/DkplusCrud/Mapper/DoctrineMapperTest.php',
     'DkplusCrud\ModuleTest'                                            => __DIR__ . '/tests/unit/DkplusCrud/ModuleTest.php',
+    'DkplusCrud\Service\Feature\AbstractFeatureTest'                   => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/AbstractFeatureTest.php',
     'DkplusCrud\Service\ServiceTest'                                   => __DIR__ . '/tests/unit/DkplusCrud/Service/ServiceTest.php',
     'DkplusCrud\Util\EventResultVerifierTest'                          => __DIR__ . '/tests/unit/DkplusCrud/Util/EventResultVerifierTest.php',
 );

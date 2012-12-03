@@ -15,6 +15,7 @@ use DkplusUnitTest\TestCase;
  * @package    Crud
  * @subpackage Service
  * @author     Oskar Bley <oskar@programming-php.net>
+ * @covers     DkplusCrud\Service\Service
  */
 class ServiceTest extends TestCase
 {
@@ -38,7 +39,6 @@ class ServiceTest extends TestCase
         $this->formHandler  = $this->getMockForAbstractClass('DkplusCrud\FormHandler\FormHandlerInterface');
         $this->eventManager = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $this->service      = new Service($this->mapper, $this->formHandler);
-        $this->service->setEventManager($this->eventManager);
     }
 
     /**
@@ -60,16 +60,6 @@ class ServiceTest extends TestCase
     public function needsAnEventManager()
     {
         $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $this->service);
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
-    public function providesAnEventManager()
-    {
-        $this->assertSame($this->eventManager, $this->service->getEventManager());
     }
 
     /**
@@ -385,11 +375,74 @@ class ServiceTest extends TestCase
      * @group unit
      * @group unit/service
      */
-    public function triggersAnEventBeforeCreatingAnNewEntity()
+    public function doesAlwaysHaveAnEventManager()
+    {
+        $this->assertInstanceOf('Zend\EventManager\EventManagerInterface', $this->service->getEventManager());
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
+    public function addsAnIdentifierToTheEventManager()
     {
         $this->eventManager->expects($this->once())
-                           ->method('trigger')
-                           ->with('crud.preCreate', $this->service);
-        $this->service->create(array());
+                           ->method('addIdentifiers')
+                           ->with('DkplusCrud\Service\Service');
+
+        $this->service->setEventManager($this->eventManager);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
+    public function putsTheAddedEventManagerIntoTheMapperWhenImplementingEventManagerAware()
+    {
+        $mapper = $this->getMockBuilder('DkplusCrud\Mapper\DoctrineMapper')
+                       ->disableOriginalConstructor()
+                       ->getMock();
+
+        $mapper->expects($this->once())
+               ->method('setEventManager')
+               ->with($this->eventManager);
+
+        $service = new Service($mapper, $this->formHandler);
+        $service->setEventManager($this->eventManager);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
+    public function attachesFeaturesToExistingEventManager()
+    {
+        $this->service->setEventManager($this->eventManager);
+
+        $feature = $this->getMockForAbstractClass('DkplusCrud\Service\Feature\FeatureInterface');
+        $feature->expects($this->once())
+                ->method('attachTo')
+                ->with($this->eventManager);
+
+        $this->service->addFeature($feature);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
+    public function attachesFeaturesToLaterAddedEventManager()
+    {
+        $feature = $this->getMockForAbstractClass('DkplusCrud\Service\Feature\FeatureInterface');
+        $feature->expects($this->at(1))
+                ->method('attachTo')
+                ->with($this->eventManager);
+        $this->service->addFeature($feature);
+
+        $this->service->setEventManager($this->eventManager);
     }
 }

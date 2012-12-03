@@ -8,7 +8,8 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.*",
         "dkplus/base": "dev-master",
-        "dkplus/controller-dsl": "dev-master"
+        "dkplus/controller-dsl": "dev-master",
+        "zf-commons/zfc-base": "dev-master"
     },
     "require-dev": {
         "dkplus/unit-test": "dev-master",

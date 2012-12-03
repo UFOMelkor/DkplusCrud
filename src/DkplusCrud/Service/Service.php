@@ -11,7 +11,8 @@ namespace DkplusCrud\Service;
 use DkplusCrud\FormHandler\FormHandlerInterface;
 use DkplusCrud\Mapper\MapperInterface;
 use Zend\EventManager\EventManagerAwareInterface;
-use Zend\EventManager\EventManagerInterface as EventManager;
+use Zend\EventManager\EventManagerInterface as EventManagerInterface;
+use Zend\EventManager\EventManager;
 
 /**
  * @category   Dkplus
@@ -33,15 +34,17 @@ class Service implements ServiceInterface, EventManagerAwareInterface
     /** @var int */
     protected $itemCountPerPage = 10;
 
+    /** @var Feature\FeatureInterface[] */
+    protected $features = array();
+
     public function __construct(MapperInterface $mapper, FormHandlerInterface $formHandler)
     {
-        $this->mapper       = $mapper;
+        $this->mapper      = $mapper;
         $this->formHandler = $formHandler;
     }
 
     public function create($data)
     {
-        $this->eventManager->trigger('crud.preCreate', $this);
         $item = $this->formHandler->createEntity($data);
         return $this->mapper->save($item);
     }
@@ -97,20 +100,38 @@ class Service implements ServiceInterface, EventManagerAwareInterface
         return $paginator;
     }
 
-    /** @return EventManager */
-    public function getEventManager()
-    {
-        return $this->eventManager;
-    }
-
-    public function setEventManager(EventManager $eventManager)
-    {
-        $this->eventManager = $eventManager;
-    }
-
     /** @param int $itemCountPerPage */
     public function setItemCountPerPage($itemCountPerPage)
     {
         $this->itemCountPerPage = $itemCountPerPage;
+    }
+
+    /** @return \EventManagerInterface */
+    public function getEventManager()
+    {
+        if ($this->eventManager === null) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->eventManager;
+    }
+
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+        $eventManager->addIdentifiers('DkplusCrud\Service\Service');
+        $this->eventManager = $eventManager;
+
+        if ($this->mapper instanceof EventManagerAwareInterface) {
+            $this->mapper->setEventManager($this->eventManager);
+        }
+
+        foreach ($this->features as $feature) {
+            $feature->attachTo($this->eventManager);
+        }
+    }
+
+    public function addFeature(Feature\FeatureInterface $feature)
+    {
+        $feature->attachTo($this->getEventManager());
+        $this->features[] = $feature;
     }
 }

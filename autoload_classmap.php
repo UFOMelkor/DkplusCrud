@@ -30,6 +30,8 @@ return array(
     'DkplusCrud\Mapper\DoctrineMapper'                             => __DIR__ . '/src/DkplusCrud/Mapper/DoctrineMapper.php',
     'DkplusCrud\Mapper\MapperInterface'                            => __DIR__ . '/src/DkplusCrud/Mapper/MapperInterface.php',
     'DkplusCrud\Module'                                            => __DIR__ . '/src/DkplusCrud/Module.php',
+    'DkplusCrud\Service\Feature\AbstractFeature'                   => __DIR__ . '/src/DkplusCrud/Service/Feature/AbstractFeature.php',
+    'DkplusCrud\Service\Feature\FeatureInterface'                  => __DIR__ . '/src/DkplusCrud/Service/Feature/FeatureInterface.php',
     'DkplusCrud\Service\Service'                                   => __DIR__ . '/src/DkplusCrud/Service/Service.php',
     'DkplusCrud\Service\ServiceInterface'                          => __DIR__ . '/src/DkplusCrud/Service/ServiceInterface.php',
     'DkplusCrud\Util\EventResultVerifier'                          => __DIR__ . '/src/DkplusCrud/Util/EventResultVerifier.php',
