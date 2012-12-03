@@ -39,7 +39,7 @@ class AbstractFeatureTest extends TestCase
     {
         $this->events->expects($this->once())
                      ->method('attach')
-                     ->with($this->isType('string'), array($this->feature, 'execute'));
+                     ->with($this->isNull(), array($this->feature, 'execute'));
 
         $this->feature->attachTo($this->events);
     }
@@ -53,7 +53,7 @@ class AbstractFeatureTest extends TestCase
     {
         $this->events->expects($this->once())
                      ->method('attach')
-                     ->with($this->isType('string'), $this->isType('array'), 1);
+                     ->with($this->isNull(), $this->isType('array'), 1);
 
         $this->feature->attachTo($this->events);
     }
@@ -67,7 +67,7 @@ class AbstractFeatureTest extends TestCase
     {
         $this->events->expects($this->once())
                      ->method('attach')
-                     ->with($this->isType('string'), $this->isType('array'), 10);
+                     ->with($this->isNull(), $this->isType('array'), 10);
 
         $this->feature->setPriority(10);
         $this->feature->attachTo($this->events);
