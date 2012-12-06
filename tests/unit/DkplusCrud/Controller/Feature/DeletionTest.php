@@ -53,7 +53,7 @@ class DeletionTest extends TestCase
      * @group unit
      * @group unit/controller
      */
-    public function isCrudListener()
+    public function isAFeature()
     {
         $this->assertInstanceOf(
             'DkplusCrud\Controller\Feature\FeatureInterface',
