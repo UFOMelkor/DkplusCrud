@@ -63,7 +63,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $values;
 
         $this->expressions[] = $this->queryBuilder->expr()->in(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }
@@ -84,7 +84,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $value;
 
         $this->expressions[] = $this->queryBuilder->expr()->like(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }
@@ -105,7 +105,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $value;
 
         $this->expressions[] = $this->queryBuilder->expr()->eq(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }
@@ -127,7 +127,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . ($parameterOffset + 1)] = $end;
 
         $this->expressions[] = $this->queryBuilder->expr()->between(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset,
             ':' .$attribute . ($parameterOffset + 1)
         );
@@ -149,7 +149,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $value;
 
         $this->expressions[] = $this->queryBuilder->expr()->lte(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }
@@ -171,7 +171,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $value;
 
         $this->expressions[] = $this->queryBuilder->expr()->lt(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }
@@ -193,7 +193,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $value;
 
         $this->expressions[] = $this->queryBuilder->expr()->gte(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }
@@ -214,7 +214,7 @@ class Filter extends AbstractFeature
         $this->parameters[$attribute . $parameterOffset] = $value;
 
         $this->expressions[] = $this->queryBuilder->expr()->gt(
-            $attribute,
+            'e.' . $attribute,
             ':' .$attribute . $parameterOffset
         );
     }

@@ -136,7 +136,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('eq')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -161,7 +161,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('between')
-                          ->with('foo', ':foo0', ':foo1')
+                          ->with('e.foo', ':foo0', ':foo1')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->at(3))
@@ -189,7 +189,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('like')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -214,7 +214,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('in')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -239,7 +239,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('gte')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -264,7 +264,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('gt')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -289,7 +289,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('lte')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -314,7 +314,7 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->any())
                           ->method('lt')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expression));
 
         $this->queryBuilder->expects($this->once())
@@ -340,11 +340,11 @@ class FilterTest extends TestCase
 
         $this->expressions->expects($this->at(0))
                           ->method('eq')
-                          ->with('foo', ':foo0')
+                          ->with('e.foo', ':foo0')
                           ->will($this->returnValue($expressionA));
         $this->expressions->expects($this->at(1))
                           ->method('like')
-                          ->with('bar', ':bar1')
+                          ->with('e.bar', ':bar1')
                           ->will($this->returnValue($expressionB));
 
         $this->queryBuilder->expects($this->at(6))

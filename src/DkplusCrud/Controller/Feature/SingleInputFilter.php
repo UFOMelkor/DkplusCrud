@@ -113,35 +113,16 @@ class SingleInputFilter extends AbstractFeature
 
     public function refineResults()
     {
-        $this->filter->refineResults();
+        $this->getFilter()->refineResults();
     }
 
     public function enlargeResults()
     {
-        $this->filter->enlargeResults();
+        $this->getFilter()->enlargeResults();
     }
 
     public function execute(Event $event)
     {
-        /*$values = array();
-        if (\strToLower($this->source) == 'query') {
-            foreach ($this->properties as $property) {
-                $values[$property] = $this->getController()->params()->fromQuery($this->values[$property]);
-            }
-        } elseif (\strToLower($this->source) == 'post') {
-            foreach ($this->properties as $property) {
-                $values[$property] = $this->getController()->params()->fromPost($this->values[$property]);
-            }
-        } elseif (\strToLower($this->source) == 'route') {
-            foreach ($this->properties as $property) {
-                $values[$property] = $this->getController()->params()->fromRoute($this->values[$property]);
-            }
-        } else {
-            foreach ($this->properties as $property) {
-                $values[$property] = $this->values[$property];
-            }
-        }*/
-
         if ($this->source == self::SOURCE_POST) {
             $value = $this->getController()->params()->fromPost($this->input);
         } elseif ($this->source == self::SOURCE_QUERY) {
