@@ -76,9 +76,9 @@ class EntityFilterTest extends TestCase
     public function mayAlsoEnlargeTheResult()
     {
         $this->queryBuilder->expects($this->once())
-                           ->method('andWhere');
+                           ->method('orWhere');
 
-        $this->filter->refineResults();
+        $this->filter->enlargeResults();
         $this->filter->execute($this->event);
     }
 
