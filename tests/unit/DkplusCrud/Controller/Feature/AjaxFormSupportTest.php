@@ -143,6 +143,31 @@ class AjaxFormSupportTest extends TestCase
      * @test
      * @group unit
      * @group unit/controller
+     */
+    public function validatesTheFormWhenAnAjaxRequestIsDetected()
+    {
+        $this->feature->setController($this->getController());
+        $this->setXmlHttpRequest(true);
+
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $form->expects($this->once())
+             ->method('isValid');
+
+        $map = array(
+            array('form', null, $form),
+            array('result', null, $this->getController()->dsl())
+        );
+        $this->event->expects($this->any())
+                    ->method('getParam')
+                    ->will($this->returnValueMap($map));
+
+        $this->feature->execute($this->event);
+    }
+
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
      * @expectedException RuntimeException
      */
     public function throwsAnExceptionIfNoDslIsStoredAsResultParameter()
