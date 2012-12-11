@@ -25,19 +25,18 @@ class Assigning extends AbstractFeature
     protected $eventParameter;
 
     /** @var string */
-    protected $template;
+    protected $eventType = self::EVENT_TYPE_POST;
 
-    public function __construct($assignAlias, $eventParameter, $template)
+    public function __construct($eventParameter, $assignAlias)
     {
-        $this->assignAlias    = $assignAlias;
         $this->eventParameter = $eventParameter;
-        $this->template       = $template;
+        $this->assignAlias    = $assignAlias;
     }
 
     public function execute(Event $event)
     {
-        $controller = $this->getController();
         $assignable = $event->getParam($this->eventParameter);
-        return $controller->dsl()->assign($assignable)->as($this->assignAlias)->and()->render($this->template);
+        $dsl        = $event->getParam('result');
+        return $dsl->assign($assignable)->as($this->assignAlias);
     }
 }

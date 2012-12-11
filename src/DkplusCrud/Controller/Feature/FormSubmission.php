@@ -37,7 +37,7 @@ class FormSubmission extends AbstractFeature
      */
     public function __construct($storage, Options\SuccessOptions $options, $template)
     {
-        $this->storage   = $storage;
+        $this->storage  = $storage;
         $this->options  = $options;
         $this->template = $template;
     }

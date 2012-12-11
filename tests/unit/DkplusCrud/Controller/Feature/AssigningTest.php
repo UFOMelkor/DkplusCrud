@@ -30,7 +30,7 @@ class AssigningTest extends TestCase
     {
         parent::setUp();
         $this->controller = new Controller();
-        $this->feature    = new Assigning('data', 'paginator', 'crud/controller/read');
+        $this->feature    = new Assigning('data', 'paginator');
         $this->feature->setController($this->controller);
     }
 
@@ -49,12 +49,14 @@ class AssigningTest extends TestCase
      * @group unit
      * @group unit/controller
      */
-    public function returnsADsl()
+    public function attachesItselfAsPostEvent()
     {
-        $this->setUpController($this->controller);
+        $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $events->expects($this->once())
+               ->method('attach')
+               ->with('postList');
 
-        $event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $this->assertDsl($this->feature->execute($event));
+        $this->feature->attachTo('list', $events);
     }
 
     /**
@@ -68,12 +70,6 @@ class AssigningTest extends TestCase
 
         $paginator = $this->getMockIgnoringConstructor('Zend\Paginator\Paginator');
 
-        $event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $event->expects($this->any())
-              ->method('getParam')
-              ->with('paginator')
-              ->will($this->returnValue($paginator));
-
         $dsl = $this->getDslMockBuilder()
                     ->withMockedPhrases(array('assign'))
                     ->getMock();
@@ -83,24 +79,21 @@ class AssigningTest extends TestCase
             ->will($this->returnSelf());
         $dsl->expects($this->at(1))
             ->method('__call')
-            ->with('as', array('data'))
+            ->with('as', array('paginator'))
             ->will($this->returnSelf());
 
-        $this->feature->execute($event);
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function rendersTheTemplate()
-    {
-        $this->setUpController($this->controller);
-
+        $map = array(
+            array('result', null, $dsl),
+            array('data', null, $paginator)
+        );
         $event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $event->expects($this->any())
+              ->method('getParam')
+              ->will($this->returnValueMap($map));
 
-        $this->expectsDsl()->toRender('crud/controller/read');
+        $this->assertSame($dsl, $event->getParam('result'));
+        $this->assertSame($paginator, $event->getParam('data'));
+
         $this->feature->execute($event);
     }
 }
