@@ -70,7 +70,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $action = $this->getMockForAbstractClass('DkplusCrud\Controller\Action\ActionInterface');
         $action->expects($this->once())
                ->method('setController')
-               ->with($this->identicalTo($this->controller));
+               ->with($this->controller);
 
         $this->controller->addAction($action);
     }
