@@ -31,10 +31,6 @@ class AjaxFormSupport extends AbstractFeature
             throw new RuntimeException('missing dsl');
         }
 
-        if ($this->getController()->getRequest()->isXmlHttpRequest()) {
-            $event->getParam('form')->isValid();
-        }
-
         return $dsl->onAjaxRequest($ctrl->dsl()->assign()->formMessages()->asJson());
     }
 }
