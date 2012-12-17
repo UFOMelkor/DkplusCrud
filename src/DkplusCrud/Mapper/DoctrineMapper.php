@@ -36,8 +36,10 @@ class DoctrineMapper extends EventProvider implements MapperInterface
 
     public function save($entity)
     {
+        $this->getEventManager()->trigger('prePersist', $this, array('entity' => $entity));
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
+        $this->getEventManager()->trigger('postPersist', $this, array('entity' => $entity));
         return $entity;
     }
 
