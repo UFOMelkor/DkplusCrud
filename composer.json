@@ -1,15 +1,18 @@
 {
     "name": "dkplus/crud",
-    "description": "CRUD Conroller for zf2-modules",
+    "description": "CRUD Controller for zf2-modules",
     "type": "library",
     "keywords": ["zf2"],
     "homepage": "https://github.com/UFOMelkor/DkplusCrud",
     "require": {
-        "php": ">=5.3.3",
-        "zendframework/zendframework": "2.*",
+        "zendframework/zend-eventmanager": "2.*",
+        "zendframework/zend-form": "2.*",
+        "zendframework/zend-modulemanager": "2.*",
+        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-stdlib": "2.*",
+        "zendframework/zend-view": "2.*",
         "dkplus/base": "dev-master",
-        "dkplus/controller-dsl": "dev-master",
-        "zf-commons/zfc-base": "dev-master"
+        "zf-commons/zfc-base": "~0.1"
     },
     "require-dev": {
         "dkplus/unit-test": "dev-master",
