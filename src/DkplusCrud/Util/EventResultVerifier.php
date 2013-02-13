@@ -8,7 +8,6 @@
 
 namespace DkplusCrud\Util;
 
-use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 use Zend\Form\FormInterface as Form;
 use Zend\View\Model\ModelInterface as ViewModel;
 use Zend\Stdlib\ResponseInterface as Response;
@@ -28,8 +27,7 @@ class EventResultVerifier
 
     public static function isControllerResponse($eventResult)
     {
-        return $eventResult instanceof Dsl
-            || $eventResult instanceof ViewModel
+        return $eventResult instanceof ViewModel
             || $eventResult instanceof Response;
     }
 
