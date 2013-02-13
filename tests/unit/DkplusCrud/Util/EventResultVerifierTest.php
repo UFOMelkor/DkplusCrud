@@ -59,7 +59,6 @@ class EventResultVerifierTest extends TestCase
             array('foo', false),
             array(new \stdClass(), false),
             array($this->getMockForAbstractClass('Zend\Form\FormInterface'), false),
-            array($this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface'), true),
             array($this->getMockForAbstractClass('Zend\Stdlib\ResponseInterface'), true),
             array($this->getMockForAbstractClass('Zend\View\Model\ModelInterface'), true),
         );
