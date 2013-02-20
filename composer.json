@@ -4,14 +4,13 @@
     "type": "library",
     "keywords": ["zf2"],
     "homepage": "https://github.com/UFOMelkor/DkplusCrud",
-    "minimum-stability": "dev",
     "require": {
 
         "zendframework/zend-eventmanager": ">=2.1",
         "zendframework/zend-form": ">=2.1",
         "zendframework/zend-modulemanager": ">=2.1",
         "zendframework/zend-mvc": ">=2.1",
-        "zendframework/zend-stdlib": ">=2.1",
+        "zendframework/zend-stdlib": ">=2.1.2",
         "zendframework/zend-view": ">=2.1",
 
         "dkplus/base": "dev-master",
