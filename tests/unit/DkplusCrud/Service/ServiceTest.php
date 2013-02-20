@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Service;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -226,7 +226,9 @@ class ServiceTest extends TestCase
      */
     public function doesNotCatchExceptionsWhenFinding()
     {
-        $exception = $this->getMockIgnoringConstructor('DkplusBase\Service\Exception\EntityNotFound');
+        $exception = $this->getMockBuilder('DkplusBase\Service\Exception\EntityNotFound')
+                          ->disableOriginalConstructor()
+                          ->getMock();
 
         $this->mapper->expects($this->once())
                      ->method('find')
@@ -309,7 +311,9 @@ class ServiceTest extends TestCase
      */
     public function doesNotCatchExceptionsWhenGettingUpdateForm()
     {
-        $exception = $this->getMockIgnoringConstructor('DkplusBase\Service\Exception\EntityNotFound');
+        $exception = $this->getMockBuilder('DkplusBase\Service\Exception\EntityNotFound')
+                          ->disableOriginalConstructor()
+                          ->getMock();
 
         $this->mapper->expects($this->once())
                      ->method('find')

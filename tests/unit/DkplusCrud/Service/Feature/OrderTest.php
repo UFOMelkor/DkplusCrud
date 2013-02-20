@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Service\Feature;
 
-use DkplusUnitTest\TestCase as TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -26,8 +26,11 @@ class OrderTest extends TestCase
 
     protected function setUp()
     {
-        $this->queryBuilder = $this->getMockIgnoringConstructor('Doctrine\ORM\QueryBuilder');
-        $this->event        = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+                                   ->disableOriginalConstructor()
+                                   ->getMock();
+
+        $this->event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
         $this->event->expects($this->any())
                     ->method('getParam')
                     ->with('queryBuilder')

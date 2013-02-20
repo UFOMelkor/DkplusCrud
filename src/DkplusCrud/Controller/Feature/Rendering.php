@@ -29,5 +29,6 @@ class Rendering extends AbstractFeature
     public function execute(Event $event)
     {
         return $this->getController()->dsl()->render($this->template);
+        $event->getViewModel()->setTemplate($this->template);
     }
 }

@@ -10,6 +10,7 @@ namespace DkplusCrud\Controller\Feature;
 
 use RuntimeException;
 use Zend\EventManager\EventInterface as Event;
+use Zend\View\Model\JsonModel;
 
 /**
  * @category   Dkplus
@@ -32,5 +33,15 @@ class AjaxFormSupport extends AbstractFeature
         }
 
         return $dsl->onAjaxRequest($ctrl->dsl()->assign()->formMessages()->asJson());
+
+        if ($event->getRequest()->isXmlHttpRequest()) {
+            $event->getForm()->isValid();
+
+            if (!$event->getViewModel() instanceof JsonModel) {
+                $event->setViewModel(new JsonModel());
+            }
+
+            $event->getViewModel()->setVariables($event->getForm()->getMessages());
+        }
     }
 }

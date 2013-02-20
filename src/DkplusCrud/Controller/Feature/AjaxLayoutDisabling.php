@@ -33,5 +33,9 @@ class AjaxLayoutDisabling extends AbstractFeature
         }
 
         return $dsl->onAjaxRequest($ctrl->dsl()->disableLayout());
+
+        if ($event->getRequest()->isXmlHttpRequest()) {
+            $event->getViewModel()->setTermial(true);
+        }
     }
 }

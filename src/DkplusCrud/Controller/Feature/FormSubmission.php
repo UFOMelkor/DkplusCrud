@@ -9,6 +9,7 @@
 namespace DkplusCrud\Controller\Feature;
 
 use Zend\EventManager\EventInterface;
+use Zend\Stdlib\ResponseInterface as Response;
 
 /**
  * @category   Dkplus
@@ -63,5 +64,22 @@ class FormSubmission extends AbstractFeature
                              )
                              ->with()->success()->message(array($opt, 'getComputatedMessage'))
                     );
+
+        $event->getViewModel()->setTemplate($this->template);
+        $event->getViewModel()->setVariable('form', $event->getForm());
+
+        if (!$this->isXmlHttpRequest()) {
+            $result = $event->getController()->postRedirectGet();
+
+            if ($result instanceof Response) {
+                $event->useResponseAsResult();
+                $event->setResponse($result);
+                return;
+            }
+
+            $data = 'getdata'; /* todo */
+
+            $form->setData($data);
+        }
     }
 }

@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Service\Feature;
 
-use DkplusUnitTest\TestCase as TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -32,12 +32,16 @@ class FilterTest extends TestCase
 
     protected function setUp()
     {
-        $this->expressions  = $this->getMockIgnoringConstructor('Doctrine\ORM\Query\Expr');
-        $this->queryBuilder = $this->getMockIgnoringConstructor('Doctrine\ORM\QueryBuilder');
+        $this->expressions = $this->getMock('Doctrine\ORM\Query\Expr');
+
+        $this->queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+                                   ->disableOriginalConstructor()
+                                   ->getMock();
         $this->queryBuilder->expects($this->any())
                            ->method('expr')
                            ->will($this->returnValue($this->expressions));
-        $this->event        = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+
+        $this->event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
         $this->event->expects($this->any())
                     ->method('getParam')
                     ->with('queryBuilder')

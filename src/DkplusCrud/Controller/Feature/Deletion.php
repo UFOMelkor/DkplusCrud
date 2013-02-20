@@ -43,5 +43,9 @@ class Deletion extends AbstractFeature
 
         return $ctrl->dsl()->redirect()->to()->route($route, $routeParams)
                            ->with()->success()->message($message);
+
+        $event->useResponseAsResult();
+        $event->setResponse($event->getController()->redirect()->toRoute($route, $routeParams));
+        $event->getController()->setNamespace('success')->addMessage($message);
     }
 }

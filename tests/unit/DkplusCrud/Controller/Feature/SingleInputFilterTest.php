@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -29,7 +29,9 @@ class SingleInputFilterTest extends TestCase
     {
         parent::setUp();
         $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $this->service = $this->getMockIgnoringConstructor('DkplusCrud\Service\Service');
+        $this->service = $this->getMockBuilder('DkplusCrud\Service\Service')
+                              ->disableOriginalConstructor()
+                              ->getMock();
     }
 
     /**

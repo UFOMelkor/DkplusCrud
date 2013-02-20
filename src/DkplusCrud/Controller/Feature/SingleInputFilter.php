@@ -9,8 +9,6 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Service\Service;
-use DkplusCrud\Service\Feature\Filter as ServiceFilter;
-use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus

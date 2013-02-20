@@ -8,6 +8,7 @@ return array(
     'DkplusCrud\Controller\Action\SingleEntityAction'              => __DIR__ . '/src/DkplusCrud/Controller/Action/SingleEntityAction.php',
     'DkplusCrud\Controller\Action\UpdateFormAction'                => __DIR__ . '/src/DkplusCrud/Controller/Action/UpdateFormAction.php',
     'DkplusCrud\Controller\Controller'                             => __DIR__ . '/src/DkplusCrud/Controller/Controller.php',
+    'DkplusCrud\Controller\Event\Event'                            => __DIR__ . '/src/DkplusCrud/Controller/Event/Event.php',
     'DkplusCrud\Controller\Feature\AbstractFeature'                => __DIR__ . '/src/DkplusCrud/Controller/Feature/AbstractFeature.php',
     'DkplusCrud\Controller\Feature\AjaxFormSupport'                => __DIR__ . '/src/DkplusCrud/Controller/Feature/AjaxFormSupport.php',
     'DkplusCrud\Controller\Feature\AjaxLayoutDisabling'            => __DIR__ . '/src/DkplusCrud/Controller/Feature/AjaxLayoutDisabling.php',
