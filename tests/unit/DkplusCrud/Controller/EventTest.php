@@ -113,4 +113,118 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->event->setViewModel($newViewModel);
         $this->assertSame($newViewModel, $this->event->getParam('viewModel'));
     }
+
+    /**
+     * @test
+     * @expectedException DkplusCrud\Controller\ConfigurationError
+     * @expectedExceptionMessage On “preCreate” there should be a parameter “identifier”
+     */
+    public function throwsAnExceptionOnRequestedButMissingIdentifier()
+    {
+        $this->event->setName('preCreate');
+        $this->event->getIdentifier();
+    }
+
+    /** @test */
+    public function mayProvideIdentifierAccess()
+    {
+        $this->event->setIdentifier(7);
+
+        $this->assertSame(7, $this->event->getIdentifier());
+    }
+
+    /** @test */
+    public function mayProvideAnIdentifierAlsoAsParam()
+    {
+        $this->event->setIdentifier(10);
+
+        $this->assertSame(10, $this->event->getParam('identifier'));
+    }
+
+    /**
+     * @test
+     * @expectedException DkplusCrud\Controller\ConfigurationError
+     * @expectedExceptionMessage On “preCreate” there should be a parameter “entity”
+     */
+    public function throwsAnExceptionOnRequestedButMissingEntity()
+    {
+        $this->event->setName('preCreate');
+        $this->event->getEntity();
+    }
+
+    /** @test */
+    public function mayProvideEntityAccess()
+    {
+        $entity = new \stdClass();
+        $this->event->setEntity($entity);
+
+        $this->assertSame($entity, $this->event->getEntity());
+    }
+
+    /** @test */
+    public function mayProvideAnEntityAlsoAsParam()
+    {
+        $entity = new \stdClass();
+        $this->event->setEntity($entity);
+
+        $this->assertSame($entity, $this->event->getParam('entity'));
+    }
+
+    /**
+     * @test
+     * @expectedException DkplusCrud\Controller\ConfigurationError
+     * @expectedExceptionMessage On “preCreate” there should be a parameter “entities”
+     */
+    public function throwsAnExceptionOnRequestedButMissingEntities()
+    {
+        $this->event->setName('preCreate');
+        $this->event->getEntities();
+    }
+
+    /** @test */
+    public function mayProvideEntitiesAccess()
+    {
+        $entities = array(new \stdClass(), new \stdClass());
+        $this->event->setEntities($entities);
+
+        $this->assertSame($entities, $this->event->getEntities());
+    }
+
+    /** @test */
+    public function mayProvideEntitiesAlsoAsParam()
+    {
+        $entities = array(new \stdClass(), new \stdClass());
+        $this->event->setEntities($entities);
+
+        $this->assertSame($entities, $this->event->getParam('entities'));
+    }
+
+    /**
+     * @test
+     * @expectedException DkplusCrud\Controller\ConfigurationError
+     * @expectedExceptionMessage On “preCreate” there should be a parameter “form”
+     */
+    public function throwsAnExceptionOnRequestedButMissingForm()
+    {
+        $this->event->setName('preCreate');
+        $this->event->getForm();
+    }
+
+    /** @test */
+    public function mayProvideFormAccess()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $this->event->setForm($form);
+
+        $this->assertSame($form, $this->event->getForm());
+    }
+
+    /** @test */
+    public function mayProvideAFormAlsoAsParam()
+    {
+        $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
+        $this->event->setForm($form);
+
+        $this->assertSame($form, $this->event->getParam('form'));
+    }
 }
