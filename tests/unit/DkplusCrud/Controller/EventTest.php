@@ -65,6 +65,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function providesTheRequestAlsoAsParam()
     {
+        $this->event->getRequest();
         $this->assertSame($this->request, $this->event->getParam('request'));
     }
 
@@ -85,6 +86,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function providesTheResponseAlsoAsParam()
     {
+        $this->event->getResponse();
         $this->assertSame($this->response, $this->event->getParam('response'));
 
         $newResponse = $this->getMock('Zend\Http\Response');

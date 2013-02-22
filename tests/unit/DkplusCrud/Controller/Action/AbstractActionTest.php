@@ -32,21 +32,13 @@ class AbstractActionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesAName()
     {
         $this->assertEquals(self::ACTION_NAME, $this->action->getName());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function putsTheControllerIntoEachFeature()
     {
         $controller = $this->getMock('DkplusCrud\Controller\Controller');
@@ -62,11 +54,7 @@ class AbstractActionTest extends TestCase
         $this->action->attachTo($events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesTheEventsToEachFeature()
     {
         $controller = $this->getMock('DkplusCrud\Controller\Controller');
@@ -83,11 +71,7 @@ class AbstractActionTest extends TestCase
         $this->action->attachTo($events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesTheActionNameAsEventNameToEachFeature()
     {
         $controller = $this->getMock('DkplusCrud\Controller\Controller');
@@ -102,5 +86,34 @@ class AbstractActionTest extends TestCase
 
         $this->action->addFeature($feature);
         $this->action->attachTo($events);
+    }
+
+    /** @test */
+    public function providesADefaultEvent()
+    {
+        $this->action->setController($this->getMock('DkplusCrud\Controller\Controller'));
+        $this->assertInstanceOf('DkplusCrud\Controller\Event', $this->action->getEvent());
+    }
+
+    /** @test */
+    public function mayGetACustomEvent()
+    {
+        $event = $this->getMockBuilder('DkplusCrud\Controller\Event')
+                      ->disableOriginalConstructor()
+                      ->getMock();
+
+        $this->action->setEvent($event);
+
+        $this->assertInstanceOf('DkplusCrud\Controller\Event', $this->action->getEvent());
+    }
+
+    /**
+     * @test
+     * @expectedException DkplusCrud\Controller\Action\Exception\RuntimeException
+     * @expectedExceptionMessage Could not provide a default event because no controller has been injected
+     */
+    public function cannotProvideADefaultEventWhenNoControllerHasBeenInjected()
+    {
+        $this->action->getEvent();
     }
 }

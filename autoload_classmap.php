@@ -3,7 +3,8 @@
 return array(
     'DkplusCrud\Controller\Action\AbstractAction'                  => __DIR__ . '/src/DkplusCrud/Controller/Action/AbstractAction.php',
     'DkplusCrud\Controller\Action\ActionInterface'                 => __DIR__ . '/src/DkplusCrud/Controller/Action/ActionInterface.php',
-    'DkplusCrud\Controller\Action\CreateFormAction'                => __DIR__ . '/src/DkplusCrud/Controller/Action/CreateFormAction.php',
+    'DkplusCrud\Controller\Action\CreationFormAction'              => __DIR__ . '/src/DkplusCrud/Controller/Action/CreationFormAction.php',
+    'DkplusCrud\Controller\Action\Exception\RuntimeException'      => __DIR__ . '/src/DkplusCrud/Controller/Action/Exception/RuntimeException.php',
     'DkplusCrud\Controller\Action\MultipleEntitiesAction'          => __DIR__ . '/src/DkplusCrud/Controller/Action/MultipleEntitiesAction.php',
     'DkplusCrud\Controller\Action\SingleEntityAction'              => __DIR__ . '/src/DkplusCrud/Controller/Action/SingleEntityAction.php',
     'DkplusCrud\Controller\Action\UpdateFormAction'                => __DIR__ . '/src/DkplusCrud/Controller/Action/UpdateFormAction.php',
@@ -42,5 +43,4 @@ return array(
     'DkplusCrud\Service\Feature\Order'                             => __DIR__ . '/src/DkplusCrud/Service/Feature/Order.php',
     'DkplusCrud\Service\Service'                                   => __DIR__ . '/src/DkplusCrud/Service/Service.php',
     'DkplusCrud\Service\ServiceInterface'                          => __DIR__ . '/src/DkplusCrud/Service/ServiceInterface.php',
-    'DkplusCrud\Util\EventResultVerifier'                          => __DIR__ . '/src/DkplusCrud/Util/EventResultVerifier.php',
 );

@@ -14,7 +14,7 @@ namespace DkplusCrud\Controller\Action;
  * @subpackage Controller\Action
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class MultipleEntitiesAction extends AbstractAction
+class CreationFormAction extends AbstractAction
 {
     public function execute()
     {

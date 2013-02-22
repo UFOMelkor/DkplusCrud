@@ -49,9 +49,6 @@ class Event extends BaseEvent
     public function __construct(Controller $controller)
     {
         parent::__construct(null, $controller);
-
-        $this->setRequest($controller->getRequest());
-        $this->setResponse($controller->getResponse());
     }
 
     /** @return Controller */
@@ -63,6 +60,9 @@ class Event extends BaseEvent
     /** @return Request */
     public function getRequest()
     {
+        if (!$this->request) {
+            $this->setRequest($this->getController()->getRequest());
+        }
         return $this->request;
     }
 
@@ -75,6 +75,9 @@ class Event extends BaseEvent
     /** @return Response */
     public function getResponse()
     {
+        if (!$this->response) {
+            $this->setResponse($this->getController()->getResponse());
+        }
         return $this->response;
     }
 

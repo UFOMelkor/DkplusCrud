@@ -6,7 +6,7 @@ return array(
     'DkplusCrud\Integration\SetUp\ControllerSetUp'                     => __DIR__ . '/tests/integration/SetUp/ControllerSetUp.php',
     'DkplusCrud\Controller\Action\AbstractActionTest'                  => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/AbstractActionTest.php',
     'DkplusCrud\Controller\Action\ActionTestCase'                      => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/ActionTestCase.php',
-    'DkplusCrud\Controller\Action\CreateFormActionTest'                => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/CreateFormActionTest.php',
+    'DkplusCrud\Controller\Action\CreateFormActionTest'                => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/CreationFormActionTest.php',
     'DkplusCrud\Controller\Action\MultipleEntitiesActionTest'          => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/MultipleEntitiesActionTest.php',
     'DkplusCrud\Controller\Action\SingleEntityActionTest'              => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/SingleEntityActionTest.php',
     'DkplusCrud\Controller\Action\UpdateFormActionTest'                => __DIR__ . '/tests/unit/DkplusCrud/Controller/Action/UpdateFormActionTest.php',
@@ -40,5 +40,4 @@ return array(
     'DkplusCrud\Service\Feature\FilterTest'                            => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/FilterTest.php',
     'DkplusCrud\Service\Feature\OrderTest'                             => __DIR__ . '/tests/unit/DkplusCrud/Service/Feature/OrderTest.php',
     'DkplusCrud\Service\ServiceTest'                                   => __DIR__ . '/tests/unit/DkplusCrud/Service/ServiceTest.php',
-    'DkplusCrud\Util\EventResultVerifierTest'                          => __DIR__ . '/tests/unit/DkplusCrud/Util/EventResultVerifierTest.php',
 );

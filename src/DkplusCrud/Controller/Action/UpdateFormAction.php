@@ -16,13 +16,18 @@ namespace DkplusCrud\Controller\Action;
  */
 class UpdateFormAction extends CreateFormAction
 {
-    /**
-     *
-     * If the action is strict, it throws an exception when no form has been get.
-     *
-     * Otherwise a notFound-Event will be thrown.
-     *
-     * @var boolean
-     */
-    protected $strict = false;
+    public function execute()
+    {
+        $this->triggerEvent('pre');
+
+        if (!$this->getEvent()->hasForm()) {
+            $this->triggerEvent('notFound');
+            return $this->getEvent()->getResult();
+        }
+
+        $this->triggerEvent('');
+        $this->triggerEvent('post');
+
+        return $this->getEvent()->getResult();
+    }
 }

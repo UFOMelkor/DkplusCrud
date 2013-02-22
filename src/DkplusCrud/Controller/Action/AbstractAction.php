@@ -10,6 +10,7 @@ namespace DkplusCrud\Controller\Action;
 
 use DkplusCrud\Controller\Feature\FeatureInterface as Feature;
 use DkplusCrud\Controller\Controller;
+use DkplusCrud\Controller\Event;
 use Zend\EventManager\EventManagerInterface as EventManager;
 
 /**
@@ -31,6 +32,9 @@ abstract class AbstractAction implements ActionInterface
 
     /** @var EventManager */
     protected $events;
+
+    /** @var Event */
+    private $event;
 
     /** @param string $name */
     public function __construct($name)
@@ -65,20 +69,39 @@ abstract class AbstractAction implements ActionInterface
 
     /**
      * @param string $prefix Typically an emtpy string, pre, post or notFound
-     * @param array $arguments
-     * @param callback $callback
-     * @return mixed The last result of the event
      */
-    protected function triggerEvent($prefix, $arguments = array(), $callback = null)
+    protected function triggerEvent($prefix)
     {
         $eventName = $prefix == ''
                    ? $this->getName()
                    : $prefix . \ucFirst($this->getName());
 
-        $result = $this->events->trigger($eventName, $this, $arguments, $callback);
+        $this->events->trigger($eventName, $this->getEvent());
+    }
 
-        return count($result) > 0 && $result->stopped()
-               ? $result->last()
-               : null;
+    /**
+     *
+     * @return DkplusCrud\Controller\Event
+     * @throws Exception
+     */
+    public function getEvent()
+    {
+        if (!$this->event) {
+
+            if (!$this->controller) {
+                throw new Exception\RuntimeException(
+                    'Could not provide a default event because no controller has been injected'
+                );
+            }
+
+            $this->event = new Event($this->controller);
+        }
+
+        return $this->event;
+    }
+
+    public function setEvent(Event $event)
+    {
+        $this->event = $event;
     }
 }
