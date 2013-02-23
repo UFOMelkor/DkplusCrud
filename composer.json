@@ -4,6 +4,7 @@
     "type": "library",
     "keywords": ["zf2"],
     "homepage": "https://github.com/UFOMelkor/DkplusCrud",
+    "license": "MIT",
     "require": {
 
         "zendframework/zend-eventmanager": ">=2.1",

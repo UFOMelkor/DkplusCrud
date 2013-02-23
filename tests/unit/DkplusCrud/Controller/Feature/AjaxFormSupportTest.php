@@ -27,7 +27,7 @@ class AjaxFormSupportTest extends TestCase
 
     /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
-    
+
     protected function setUp()
     {
         $this->event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
