@@ -46,6 +46,9 @@ class Event extends BaseEvent
     /** @var Form */
     protected $form;
 
+    /** @var ViewModelInterface|Response */
+    protected $result;
+
     public function __construct(Controller $controller)
     {
         parent::__construct(null, $controller);
@@ -60,10 +63,29 @@ class Event extends BaseEvent
     /** @return Request */
     public function getRequest()
     {
+        $this->init();
+        return $this->request;
+    }
+
+    private function init()
+    {
         if (!$this->request) {
             $this->setRequest($this->getController()->getRequest());
         }
-        return $this->request;
+
+        if (!$this->response) {
+            $this->response = $this->getController()->getResponse();
+            $this->setParam('response', $this->response);
+        }
+
+        if (!$this->viewModel) {
+            $this->viewModel = new ViewModel();
+            $this->setParam('viewModel', $this->viewModel);
+        }
+
+        if (!$this->result) {
+            $this->setResult($this->viewModel);
+        }
     }
 
     private function setRequest(Request $request)
@@ -75,9 +97,7 @@ class Event extends BaseEvent
     /** @return Response */
     public function getResponse()
     {
-        if (!$this->response) {
-            $this->setResponse($this->getController()->getResponse());
-        }
+        $this->init();
         return $this->response;
     }
 
@@ -86,14 +106,13 @@ class Event extends BaseEvent
     {
         $this->response = $response;
         $this->setParam('response', $response);
+        $this->setResult($response);
     }
 
     /** @return ViewModelInterface */
     public function getViewModel()
     {
-        if (!$this->viewModel) {
-            $this->setViewModel(new ViewModel());
-        }
+        $this->init();
         return $this->viewModel;
     }
 
@@ -102,6 +121,13 @@ class Event extends BaseEvent
     {
         $this->viewModel = $viewModel;
         $this->setParam('viewModel', $viewModel);
+        $this->setResult($viewModel);
+    }
+
+    /** @return boolean */
+    public function hasEntity()
+    {
+        return (boolean) $this->entity;
     }
 
     /**
@@ -158,6 +184,12 @@ class Event extends BaseEvent
         $this->setParam('identifier', $identifier);
     }
 
+    /** @return boolean */
+    public function hasForm()
+    {
+        return (boolean) $this->form;
+    }
+
     /**
      * @return \Zend\Form\FormInterface
      * @throws ConfigurationError When no form is available.
@@ -174,5 +206,33 @@ class Event extends BaseEvent
     {
         $this->form = $form;
         $this->setParam('form', $form);
+    }
+
+    /**
+     * @return \Zend\View\Model\ModelInterface|\Zend\Http\Response
+     *         The result that should be returned from the controller.
+     */
+    public function getResult()
+    {
+        $this->init();
+        return $this->result;
+    }
+
+    private function setResult($result)
+    {
+        $this->result = $result;
+        $this->setParam('__RESULT__', $result);
+    }
+
+    public function getParam($name, $default = null)
+    {
+        $this->init();
+        return parent::getParam($name, $default);
+    }
+
+    public function getParams()
+    {
+        $this->init();
+        return parent::getParams();
     }
 }

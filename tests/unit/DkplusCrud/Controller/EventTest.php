@@ -65,7 +65,6 @@ class EventTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function providesTheRequestAlsoAsParam()
     {
-        $this->event->getRequest();
         $this->assertSame($this->request, $this->event->getParam('request'));
     }
 
@@ -86,7 +85,6 @@ class EventTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function providesTheResponseAlsoAsParam()
     {
-        $this->event->getResponse();
         $this->assertSame($this->response, $this->event->getParam('response'));
 
         $newResponse = $this->getMock('Zend\Http\Response');
@@ -111,9 +109,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function providesTheViewModelAlsoAsParam()
     {
-        $newViewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $this->event->setViewModel($newViewModel);
-        $this->assertSame($newViewModel, $this->event->getParam('viewModel'));
+        $this->assertSame($this->event->getViewModel(), $this->event->getParam('viewModel'));
     }
 
     /**
@@ -172,6 +168,16 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($entity, $this->event->getParam('entity'));
     }
 
+    /** @test */
+    public function canTestWhetherAnEntityIsAvailable()
+    {
+        $this->assertFalse($this->event->hasEntity());
+
+        $this->event->setEntity(new \stdClass());
+
+        $this->assertTrue($this->event->hasEntity());
+    }
+
     /**
      * @test
      * @expectedException DkplusCrud\Controller\ConfigurationError
@@ -228,5 +234,60 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->event->setForm($form);
 
         $this->assertSame($form, $this->event->getParam('form'));
+    }
+
+    /** @test */
+    public function canTestWhetherAFormIsAvailable()
+    {
+        $this->assertFalse($this->event->hasForm());
+
+        $this->event->setForm($this->getMockForAbstractClass('Zend\Form\FormInterface'));
+
+        $this->assertTrue($this->event->hasForm());
+    }
+
+    /** @test */
+    public function usesTheDefaultViewModelAsResult()
+    {
+        $this->assertSame($this->event->getViewModel(), $this->event->getResult());
+    }
+
+    /** @test */
+    public function canUseACustomViewModelAsResult()
+    {
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        $this->event->setViewModel($viewModel);
+
+        $this->assertSame($viewModel, $this->event->getResult());
+    }
+
+    /** @test */
+    public function canUseAResponseAsResult()
+    {
+        $response = $this->getMock('Zend\Http\Response');
+        $this->event->setResponse($response);
+
+        $this->assertSame($response, $this->event->getResult());
+    }
+
+    /** @test */
+    public function providesTheResultAlsoAsParam()
+    {
+        $result = $this->event->getResult();
+        $param  = $this->event->getParam('__RESULT__');
+
+        \Zend\Debug\Debug::dump($result);
+        \Zend\Debug\Debug::dump($param);
+
+        $this->assertSame($result, $param);
+    }
+
+    /** @test */
+    public function providesParamsAlsoWhenTheyHasNotBeenInitializedBefore()
+    {
+        $this->assertArrayHasKey('request', $this->event->getParams());
+        $this->assertArrayHasKey('response', $this->event->getParams());
+        $this->assertArrayHasKey('viewModel', $this->event->getParams());
+        $this->assertArrayHasKey('__RESULT__', $this->event->getParams());
     }
 }
