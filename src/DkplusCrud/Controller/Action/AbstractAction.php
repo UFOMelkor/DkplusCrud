@@ -57,7 +57,6 @@ abstract class AbstractAction implements ActionInterface
     {
         $this->events = $events;
         foreach ($this->features as $feature) {
-            $feature->setController($this->controller);
             $feature->attachTo($this->getName(), $events);
         }
     }
