@@ -14,7 +14,7 @@ namespace DkplusCrud\Controller\Action;
  * @subpackage Controller\Action
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class UpdateFormAction extends CreateFormAction
+class UpdateFormAction extends AbstractAction
 {
     public function execute()
     {

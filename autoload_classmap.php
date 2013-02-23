@@ -3,9 +3,8 @@
 return array(
     'DkplusCrud\Controller\Action\AbstractAction'                  => __DIR__ . '/src/DkplusCrud/Controller/Action/AbstractAction.php',
     'DkplusCrud\Controller\Action\ActionInterface'                 => __DIR__ . '/src/DkplusCrud/Controller/Action/ActionInterface.php',
-    'DkplusCrud\Controller\Action\CreationFormAction'              => __DIR__ . '/src/DkplusCrud/Controller/Action/CreationFormAction.php',
+    'DkplusCrud\Controller\Action\DefaultAction'                   => __DIR__ . '/src/DkplusCrud/Controller/Action/DefaultAction.php',
     'DkplusCrud\Controller\Action\Exception\RuntimeException'      => __DIR__ . '/src/DkplusCrud/Controller/Action/Exception/RuntimeException.php',
-    'DkplusCrud\Controller\Action\MultipleEntitiesAction'          => __DIR__ . '/src/DkplusCrud/Controller/Action/MultipleEntitiesAction.php',
     'DkplusCrud\Controller\Action\SingleEntityAction'              => __DIR__ . '/src/DkplusCrud/Controller/Action/SingleEntityAction.php',
     'DkplusCrud\Controller\Action\UpdateFormAction'                => __DIR__ . '/src/DkplusCrud/Controller/Action/UpdateFormAction.php',
     'DkplusCrud\Controller\ConfigurationError'                     => __DIR__ . '/src/DkplusCrud/Controller/ConfigurationError.php',

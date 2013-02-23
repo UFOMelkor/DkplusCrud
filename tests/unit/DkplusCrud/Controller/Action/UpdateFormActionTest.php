@@ -23,13 +23,81 @@ class UpdateFormActionTest extends ActionTestCase
         parent::setUp();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function isInitiallyNotStrict()
+    /** @test */
+    public function triggersPreEvent()
     {
-        $this->assertFalse($this->action->isStrict());
+        $this->expectPreEventToBeTriggered();
+        $this->action->execute();
+    }
+
+    /** @test */
+    public function triggersNotFoundEventWhenNoEntityHasBeenFound()
+    {
+        $this->event->expects($this->any())
+                    ->method('hasForm')
+                    ->will($this->returnValue(false));
+
+        $this->expectNotFoundEventToBeTriggered();
+        $this->expectCountOfTriggeredEvents(2);
+
+        $this->action->execute();
+    }
+
+    /** @test */
+    public function triggersMainEventWhenAnEntityHasBeenFound()
+    {
+        $this->event->expects($this->any())
+                    ->method('hasForm')
+                    ->will($this->returnValue(true));
+
+        $this->expectMainEventToBeTriggered();
+        $this->expectCountOfTriggeredEvents(3);
+
+        $this->action->execute();
+    }
+
+    /** @test */
+    public function triggersPostEventWhenAnEntityHasBeenFound()
+    {
+        $this->event->expects($this->any())
+                    ->method('hasForm')
+                    ->will($this->returnValue(true));
+
+        $this->expectPostEventToBeTriggered();
+        $this->expectCountOfTriggeredEvents(3);
+
+        $this->action->execute();
+    }
+
+    /** @test */
+    public function returnsEventResultWhenAnEntityHasBeenFound()
+    {
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $this->event->expects($this->any())
+                    ->method('hasForm')
+                    ->will($this->returnValue(true));
+
+        $this->event->expects($this->any())
+                    ->method('getResult')
+                    ->will($this->returnValue($viewModel));
+
+        $this->assertSame($viewModel, $this->action->execute());
+    }
+
+    /** @test */
+    public function returnsEventResultWhenNoEntityHasBeenFound()
+    {
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $this->event->expects($this->any())
+                    ->method('hasForm')
+                    ->will($this->returnValue(false));
+
+        $this->event->expects($this->any())
+                    ->method('getResult')
+                    ->will($this->returnValue($viewModel));
+
+        $this->assertSame($viewModel, $this->action->execute());
     }
 }
