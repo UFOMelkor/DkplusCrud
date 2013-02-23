@@ -9,7 +9,7 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Service\ServiceInterface as Service;
-use Zend\EventManager\EventInterface;
+use DkplusCrud\Controller\Event;
 
 /**
  * @category   Dkplus
@@ -31,21 +31,18 @@ class Deletion extends AbstractFeature
         $this->options = $options;
     }
 
-    public function execute(EventInterface $event)
+    public function execute(Event $event)
     {
-        $ctrl        = $this->getController();
-        $entity      = $event->getParam('entity');
+        $entity      = $event->getEntity();
         $message     = $this->options->getComputatedMessage($entity);
+        $messageNs   = $this->options->getMessageNamespace();
         $route       = $this->options->getRedirectRoute();
         $routeParams = $this->options->getComputatedRedirectRouteParams($entity);
 
         $this->service->delete($entity);
 
-        return $ctrl->dsl()->redirect()->to()->route($route, $routeParams)
-                           ->with()->success()->message($message);
-
-        $event->useResponseAsResult();
         $event->setResponse($event->getController()->redirect()->toRoute($route, $routeParams));
-        $event->getController()->setNamespace('success')->addMessage($message);
+        $event->getController()->flashMessenger()->setNamespace($messageNs);
+        $event->getController()->flashMessenger()->addMessage($message);
     }
 }

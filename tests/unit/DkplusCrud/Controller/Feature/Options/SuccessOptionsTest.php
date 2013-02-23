@@ -18,21 +18,13 @@ use PHPUnit_Framework_TestCase as TestCase;
  */
 class SuccessOptionsTest extends TestCase
 {
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAnOptionsInstance()
     {
         $this->assertInstanceOf('Zend\Stdlib\AbstractOptions', new SuccessOptions());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesRedirectRoute()
     {
         $options = new SuccessOptions();
@@ -41,11 +33,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame('foo/bar', $options->getRedirectRoute());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesHomeAsInitialRedirectRoute()
     {
         $options = new SuccessOptions();
@@ -53,11 +41,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame('home', $options->getRedirectRoute());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesRedirectRouteParams()
     {
         $options = new SuccessOptions();
@@ -66,11 +50,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame(array('foo' => 'bar'), $options->getComputatedRedirectRouteParams(null));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesAnEmptyArrayAsInitialRedirectRouteParams()
     {
         $options = new SuccessOptions();
@@ -78,11 +58,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame(array(), $options->getComputatedRedirectRouteParams(null));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseAnCallbackAsRedirectRouteParams()
     {
         $callbackObject = $this->getMock('stdClass', array('execute'));
@@ -96,11 +72,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame(array('foo' => 'bar'), $options->getComputatedRedirectRouteParams(null));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseTheGivenEntityWithinTheRedirectRouteParamsCallback()
     {
         $entity = $this->getMock('stdClass');
@@ -116,11 +88,7 @@ class SuccessOptionsTest extends TestCase
         $options->getComputatedRedirectRouteParams($entity);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesMessage()
     {
         $options = new SuccessOptions();
@@ -129,11 +97,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame('successful done', $options->getComputatedMessage(null));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesAnEmptyStringAsInitialMessage()
     {
         $options = new SuccessOptions();
@@ -141,11 +105,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame('', $options->getComputatedMessage(null));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseAnCallbackAsMessage()
     {
         $callbackObject = $this->getMock('stdClass', array('execute'));
@@ -159,11 +119,7 @@ class SuccessOptionsTest extends TestCase
         $this->assertSame(':-)', $options->getComputatedMessage(null));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseTheGivenEntityWithinTheMessageCallback()
     {
         $entity = $this->getMock('stdClass');
@@ -177,5 +133,22 @@ class SuccessOptionsTest extends TestCase
         $options->setMessage(array($callbackObject, 'execute'));
 
         $options->getComputatedMessage($entity);
+    }
+
+    /** @test */
+    public function providesAMessageNamespace()
+    {
+        $options = new SuccessOptions();
+        $options->setMessageNamespace('alright');
+
+        $this->assertEquals('alright', $options->getMessageNamespace());
+    }
+
+    /** @test */
+    public function hasSuccessAsDefaultMessageNamespace()
+    {
+        $options = new SuccessOptions();
+
+        $this->assertEquals('success', $options->getMessageNamespace());
     }
 }
