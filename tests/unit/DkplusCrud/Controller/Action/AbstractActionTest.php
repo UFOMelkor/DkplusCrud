@@ -39,22 +39,6 @@ class AbstractActionTest extends TestCase
     }
 
     /** @test */
-    public function putsTheControllerIntoEachFeature()
-    {
-        $controller = $this->getMock('DkplusCrud\Controller\Controller');
-        $events     = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
-        $feature    = $this->getMockForAbstractClass('DkplusCrud\Controller\Feature\FeatureInterface');
-        $feature->expects($this->once())
-                ->method('setController')
-                ->with($controller);
-
-        $this->action->setController($controller);
-
-        $this->action->addFeature($feature);
-        $this->action->attachTo($events);
-    }
-
-    /** @test */
     public function attachesTheEventsToEachFeature()
     {
         $controller = $this->getMock('DkplusCrud\Controller\Controller');

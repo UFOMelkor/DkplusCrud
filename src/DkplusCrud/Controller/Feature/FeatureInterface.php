@@ -8,8 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 use Zend\EventManager\EventManagerInterface as EventManager;
 
 /**
@@ -21,8 +20,6 @@ use Zend\EventManager\EventManagerInterface as EventManager;
 interface FeatureInterface
 {
     public function attachTo($eventName, EventManager $events);
-
-    public function setController(Controller $controller);
 
     public function execute(Event $event);
 }
