@@ -8,8 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
-use DkplusControllerDsl\Test\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -20,55 +19,37 @@ use DkplusControllerDsl\Test\TestCase;
  */
 class RenderingTest extends TestCase
 {
-    /** @var Controller */
-    protected $controller;
-
     /** @var Assigning */
     protected $feature;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->controller = new Controller();
-        $this->feature    = new Rendering('crud/controller/read');
-        $this->feature->setController($this->controller);
+
+        $this->feature = new Rendering('crud/controller/read');
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function returnsADsl()
+    /** @test */
+    public function setsATemplate()
     {
-        $this->setUpController($this->controller);
+        $viewModel = $this->getMock('Zend\View\Model\ViewModel');
+        $viewModel->expects($this->once())
+                  ->method('setTemplate')
+                  ->with('crud/controller/read');
 
-        $event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $this->assertDsl($this->feature->execute($event));
-    }
+        $event = $this->getMockBuilder('DkplusCrud\Controller\Event')
+                      ->disableOriginalConstructor()
+                      ->getMock();
+        $event->expects($this->once())
+              ->method('getViewModel')
+              ->will($this->returnValue($viewModel));
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function rendersTheTemplate()
-    {
-        $this->setUpController($this->controller);
-
-        $event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-
-        $this->expectsDsl()->toRender('crud/controller/read');
         $this->feature->execute($event);
     }
 }
