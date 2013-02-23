@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature\Options;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest

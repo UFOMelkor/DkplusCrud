@@ -13,12 +13,14 @@
         "zendframework/zend-stdlib": ">=2.1.2",
         "zendframework/zend-view": ">=2.1",
 
-        "dkplus/base": "dev-master",
+        "dkplus/base": ">=0.1.0",
 
         "zf-commons/zfc-base": ">=0.1.0"
     },
     "require-dev": {
-        "dkplus/unit-test": "dev-master",
+        "doctrine/orm": "2.*"
+    },
+    "suggest": {
         "doctrine/orm": "2.*"
     },
     "autoload": {
