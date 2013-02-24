@@ -37,7 +37,7 @@ class Event extends BaseEvent
     /** @var mixed */
     protected $entity;
 
-    /** @var array */
+    /** @var mixed */
     protected $entities;
 
     /** @var mixed */
@@ -149,7 +149,7 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return array
+     * @return mixed
      * @throws ConfigurationError When no entities are available.
      */
     public function getEntities()
@@ -160,7 +160,7 @@ class Event extends BaseEvent
         return $this->entities;
     }
 
-    public function setEntities(array $entities)
+    public function setEntities($entities)
     {
         $this->entities = $entities;
         $this->setParam('entities', $entities);

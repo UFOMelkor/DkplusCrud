@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 
 /**
  * @category   Dkplus
@@ -36,9 +36,6 @@ class Assigning extends AbstractFeature
     public function execute(Event $event)
     {
         $assignable = $event->getParam($this->eventParameter);
-        $dsl        = $event->getParam('result');
-        return $dsl->assign($assignable)->as($this->assignAlias);
-
         $event->getViewModel()->setVariable($this->assignAlias, $assignable);
     }
 }
