@@ -8,8 +8,8 @@
 
 namespace DkplusCrud\Controller\Feature;
 
+use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
-use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus
