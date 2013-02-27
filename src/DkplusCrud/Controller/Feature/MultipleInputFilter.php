@@ -8,9 +8,9 @@
 
 namespace DkplusCrud\Controller\Feature;
 
+use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\Service;
 use DkplusCrud\Service\Feature\Filter as ServiceFilter;
-use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus
@@ -120,53 +120,53 @@ class MultipleInputFilter extends AbstractFeature
     public function execute(Event $event)
     {
         foreach ($this->propertyInputMap as $property => $input) {
-            $this->setUpFilter($property, $input);
+            $this->setUpFilter($property, $input, $event);
         }
 
         $this->service->addFeature($this->getFilter());
     }
 
-    protected function setUpFilter($property, $input)
+    protected function setUpFilter($property, $input, Event $event)
     {
         switch ($this->comparator) {
             case self::FILTER_GREATER_THAN_EQUALS:
-                $this->getFilter()->greaterThanEquals($property, $this->getInputValue($input));
+                $this->getFilter()->greaterThanEquals($property, $this->getInputValue($input, $event));
                 break;
             case self::FILTER_GREATER_THAN:
-                $this->getFilter()->greaterThan($property, $this->getInputValue($input));
+                $this->getFilter()->greaterThan($property, $this->getInputValue($input, $event));
                 break;
             case self::FILTER_LESS_THAN_EQUALS:
-                $this->getFilter()->lessThanEquals($property, $this->getInputValue($input));
+                $this->getFilter()->lessThanEquals($property, $this->getInputValue($input, $event));
                 break;
             case self::FILTER_LESS_THAN:
-                $this->getFilter()->lessThan($property, $this->getInputValue($input));
+                $this->getFilter()->lessThan($property, $this->getInputValue($input, $event));
                 break;
             case self::FILTER_EQUALS:
-                $this->getFilter()->equals($property, $this->getInputValue($input));
+                $this->getFilter()->equals($property, $this->getInputValue($input, $event));
                 break;
             case self::FILTER_LIKE:
-                $this->getFilter()->like($property, $this->getInputValue($input));
+                $this->getFilter()->like($property, $this->getInputValue($input, $event));
                 break;
             case self::FILTER_ENDING_WITH:
-                $this->getFilter()->like($property, '%' . $this->getInputValue($input));
+                $this->getFilter()->like($property, '%' . $this->getInputValue($input, $event));
                 break;
             case self::FILTER_STARTING_WITH:
-                $this->getFilter()->like($property, $this->getInputValue($input) . '%');
+                $this->getFilter()->like($property, $this->getInputValue($input, $event) . '%');
                 break;
             default:
-                $this->getFilter()->like($property, '%' . $this->getInputValue($input) . '%');
+                $this->getFilter()->like($property, '%' . $this->getInputValue($input, $event) . '%');
                 break;
         }
     }
 
-    protected function getInputValue($input)
+    protected function getInputValue($input, Event $event)
     {
         if ($this->source == self::SOURCE_POST) {
-            return $this->getController()->params()->fromPost($input);
+            return $event->getController()->params()->fromPost($input);
         } elseif ($this->source == self::SOURCE_QUERY) {
-            return $this->getController()->params()->fromQuery($input);
+            return $event->getController()->params()->fromQuery($input);
         } elseif ($this->source == self::SOURCE_ROUTE) {
-            return $this->getController()->params()->fromRoute($input);
+            return $event->getController()->params()->fromRoute($input);
         }
 
         return $input;

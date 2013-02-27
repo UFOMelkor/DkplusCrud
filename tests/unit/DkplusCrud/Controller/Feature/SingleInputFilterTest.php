@@ -19,26 +19,20 @@ use PHPUnit_Framework_TestCase as TestCase;
  */
 class SingleInputFilterTest extends TestCase
 {
-    /** @var \DkplusCrud\Service\Service */
+    /** @var \DkplusCrud\Service\Service|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \Zend\EventManager\EventInterface */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject  */
     protected $event;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $this->service = $this->getMockBuilder('DkplusCrud\Service\Service')
-                              ->disableOriginalConstructor()
-                              ->getMock();
+        $this->event   = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
+        $this->service = $this->getMockBuilder('DkplusCrud\Service\Service')->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf(
@@ -47,11 +41,7 @@ class SingleInputFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -63,11 +53,7 @@ class SingleInputFilterTest extends TestCase
         $feature->attachTo('list', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfWithAnHigherPriority()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -79,11 +65,7 @@ class SingleInputFilterTest extends TestCase
         $feature->attachTo('list', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function addsAFilterToTheService()
     {
         $feature = new SingleInputFilter($this->service, array('foo'), 'q');
@@ -96,11 +78,7 @@ class SingleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canOverrideTheDefaultFilter()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -114,11 +92,7 @@ class SingleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseARefiningFilter()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -131,11 +105,7 @@ class SingleInputFilterTest extends TestCase
         $feature->refineResults();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseAnEnlargingFilter()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -148,11 +118,7 @@ class SingleInputFilterTest extends TestCase
         $feature->enlargeResults();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canFilterForASingleGivenValues()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -166,11 +132,7 @@ class SingleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canFilterByMultipleProperties()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -189,8 +151,6 @@ class SingleInputFilterTest extends TestCase
 
     /**
      * @test
-     * @group unit
-     * @group unit/controller
      * @dataProvider filteringComparators
      */
     public function canFilterByDifferentComparators($type, $method, $value)
@@ -223,98 +183,65 @@ class SingleInputFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetTheValuesFromTheRouter()
     {
         $params = $this->getMock('stdClass', array('fromRoute'));
-        $params->expects($this->any())
-               ->method('fromRoute')
-               ->with('q')
-               ->will($this->returnValue('bar'));
+        $params->expects($this->any())->method('fromRoute')->with('q')->will($this->returnValue('bar'));
 
         $controller = $this->getMock('DkplusCrud\Controller\Controller', array('params'));
-        $controller->expects($this->any())
-                   ->method('params')
-                   ->will($this->returnValue($params));
+        $controller->expects($this->any())->method('params')->will($this->returnValue($params));
+
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($controller));
 
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter->expects($this->once())->method('like')->with('foo', 'bar');
 
         $feature = new SingleInputFilter($this->service, array('foo'), 'q');
         $feature->setSource(SingleInputFilter::SOURCE_ROUTE);
         $feature->setFilter($filter);
-        $feature->setController($controller);
-
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'bar');
 
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetTheValuesFromQuery()
     {
         $params = $this->getMock('stdClass', array('fromQuery'));
-        $params->expects($this->any())
-               ->method('fromQuery')
-               ->with('q')
-               ->will($this->returnValue('bar'));
+        $params->expects($this->any())->method('fromQuery')->with('q')->will($this->returnValue('bar'));
 
         $controller = $this->getMock('DkplusCrud\Controller\Controller', array('params'));
-        $controller->expects($this->any())
-                   ->method('params')
-                   ->will($this->returnValue($params));
+        $controller->expects($this->any())->method('params')->will($this->returnValue($params));
+
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($controller));
 
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter->expects($this->once())->method('like')->with('foo', 'bar');
 
         $feature = new SingleInputFilter($this->service, array('foo'), 'q');
         $feature->setSource(SingleInputFilter::SOURCE_QUERY);
         $feature->setFilter($filter);
-        $feature->setController($controller);
-
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'bar');
 
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetTheValuesFromPost()
     {
         $params = $this->getMock('stdClass', array('fromPost'));
-        $params->expects($this->any())
-               ->method('fromPost')
-               ->with('q')
-               ->will($this->returnValue('bar'));
+        $params->expects($this->any())->method('fromPost')->with('q')->will($this->returnValue('bar'));
 
         $controller = $this->getMock('DkplusCrud\Controller\Controller', array('params'));
-        $controller->expects($this->any())
-                   ->method('params')
-                   ->will($this->returnValue($params));
+        $controller->expects($this->any())->method('params')->will($this->returnValue($params));
 
-        $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($controller));
+
+        $filter = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter->expects($this->once())->method('like')->with('foo', 'bar');
 
         $feature = new SingleInputFilter($this->service, array('foo'), 'q');
         $feature->setSource(SingleInputFilter::SOURCE_POST);
         $feature->setFilter($filter);
-        $feature->setController($controller);
-
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'bar');
 
         $feature->execute($this->event);
     }
