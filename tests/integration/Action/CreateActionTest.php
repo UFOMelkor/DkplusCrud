@@ -24,7 +24,6 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
-use Zend\Http\PhpEnvironment\Request;
 use Zend\InputFilter\Input;
 use Zend\Mvc\Router\Http\Segment as SegmentRoute;
 use Zend\Session\Container as SessionContainer;
@@ -83,7 +82,7 @@ class CreateActionTest extends TestCase
         );
 
         $this->controller = new Controller();
-        $this->controller->addAction(new Action\CreateFormAction('create'));
+        $this->controller->addAction(new Action\DefaultAction('create'));
         $this->controller->addFeature('create', new Feature\CreationFormProvider($service));
         $this->controller->addFeature(
             'create',

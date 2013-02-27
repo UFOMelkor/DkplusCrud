@@ -8,19 +8,17 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
-use DkplusControllerDsl\Test\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
  * @package    Crud
  * @subpackage Controller\Feature
  * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\Controller\Feature\FormSubmission
  */
-class FormSubmissionTest extends TestCase
+class FormHandlingTest extends TestCase
 {
-    /** @var Controller */
+    /** @var \DkplusCrud\Controller\Controller|\PHPUnit_Framework_MockObject_MockObject */
     protected $controller;
 
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -55,33 +53,16 @@ class FormSubmissionTest extends TestCase
         $this->options    = $this->getMockIgnoringConstructor('DkplusCrud\Controller\Feature\Options\SuccessOptions');
         $this->controller = new Controller();
         $this->service    = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
-        $this->feature    = new FormSubmission(array($this->service, 'create'), $this->options, 'user/edit');
-        $this->feature->setController($this->controller);
-
-        $this->setUpController($this->controller);
+        $this->feature    = new FormSubmission(array($this->service, 'create'), $this->options);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function isCrudListener()
+    /** @test */
+    public function isAControllerFeature()
     {
         $this->assertInstanceOf(
             'DkplusCrud\Controller\Feature\FeatureInterface',
             $this->feature
         );
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function returnsDsl()
-    {
-        $this->assertDsl($this->feature->execute($this->event));
     }
 
     /**

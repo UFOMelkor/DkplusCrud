@@ -33,6 +33,9 @@ class NotFoundReplaceOptions extends AbstractOptions
     /** @var string|null */
     protected $errorMessage;
 
+    /** @var string */
+    protected $messageNamespace = '404-not-found';
+
     /** @return string */
     public function getContentReplaceController()
     {
@@ -97,5 +100,17 @@ class NotFoundReplaceOptions extends AbstractOptions
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
+    }
+
+    /** @return string */
+    public function getMessageNamespace()
+    {
+        return $this->messageNamespace;
+    }
+
+    /** @param string $messageNamespace */
+    public function setMessageNamespace($messageNamespace)
+    {
+        $this->messageNamespace = $messageNamespace;
     }
 }

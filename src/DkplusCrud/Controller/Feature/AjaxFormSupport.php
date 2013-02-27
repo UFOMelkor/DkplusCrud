@@ -35,6 +35,7 @@ class AjaxFormSupport extends AbstractFeature
         return $dsl->onAjaxRequest($ctrl->dsl()->assign()->formMessages()->asJson());
 
         if ($event->getRequest()->isXmlHttpRequest()) {
+            $event->getC
             $event->getForm()->isValid();
 
             if (!$event->getViewModel() instanceof JsonModel) {

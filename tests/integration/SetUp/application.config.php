@@ -7,7 +7,7 @@
  */
 return array(
     'modules' => array(
-        'DkplusControllerDsl',
+        'DkplusBase',
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
