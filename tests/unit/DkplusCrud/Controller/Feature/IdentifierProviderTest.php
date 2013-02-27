@@ -18,7 +18,7 @@ use \PHPUnit_Framework_TestCase as TestCase;
  */
 class IdentifierProviderTest extends TestCase
 {
-    /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     /** @var \Zend\Http\Request|\PHPUnit_Framework_MockObject_MockObject */
@@ -29,28 +29,18 @@ class IdentifierProviderTest extends TestCase
 
     protected function setUp()
     {
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-
-        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
-                                 ->disableOriginalConstructor()
-                                 ->getMock();
+        $this->event      = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
+        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')->disableOriginalConstructor()->getMock();
 
         $mvcEvent = $this->getMock('Zend\Mvc\MvcEvent');
-        $mvcEvent->expects($this->any())
-                 ->method('getRouteMatch')
-                 ->will($this->returnValue($this->routeMatch));
+        $mvcEvent->expects($this->any())->method('getRouteMatch')->will($this->returnValue($this->routeMatch));
 
         $this->controller = $this->getMock('DkplusCrud\Controller\Controller');
-        $this->controller->expects($this->any())
-                         ->method('getEvent')
-                         ->will($this->returnValue($mvcEvent));
+        $this->controller->expects($this->any())->method('getEvent')->will($this->returnValue($mvcEvent));
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf(
@@ -59,90 +49,52 @@ class IdentifierProviderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->once())
-               ->method('attach')
-               ->with('preDelete');
+        $events->expects($this->once())->method('attach')->with('preDelete');
 
         $feature = new IdentifierProvider();
         $feature->attachTo('delete', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfWithAPriorityOfTwo()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->once())
-               ->method('attach')
-               ->with($this->isType('string'), $this->isType('array'), 2);
+        $events->expects($this->once())->method('attach')->with($this->isType('string'), $this->isType('array'), 2);
 
         $feature = new IdentifierProvider();
         $feature->attachTo('delete', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function putsTheIdentifierFromTheRouteMatchIntoTheEvent()
     {
-        $this->event->expects($this->once())
-                    ->method('setParam')
-                    ->with('identifier', 5);
+        $this->event->expects($this->once())->method('setParam')->with('identifier', 5);
 
-        $this->routeMatch->expects($this->any())
-                         ->method('getParam')
-                         ->will($this->returnValue(5));
+        $this->routeMatch->expects($this->any())->method('getParam')->will($this->returnValue(5));
 
         $feature = new IdentifierProvider();
-        $feature->setController($this->controller);
-
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function hasIdAsDefaultRouteMatchParam()
     {
-        $this->routeMatch->expects($this->once())
-                         ->method('getParam')
-                         ->with('id');
+        $this->routeMatch->expects($this->once())->method('getParam')->with('id');
 
         $feature = new IdentifierProvider();
-        $feature->setController($this->controller);
-
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function mightHaveAnotherRouteMatchParamForGettingTheIdentifier()
     {
-        $this->routeMatch->expects($this->once())
-                         ->method('getParam')
-                         ->with('my-identifier');
+        $this->routeMatch->expects($this->once())->method('getParam')->with('my-identifier');
 
         $feature = new IdentifierProvider('my-identifier');
-        $feature->setController($this->controller);
-
         $feature->execute($this->event);
     }
 }

@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 
 /**
  * @category   Dkplus
@@ -39,7 +39,7 @@ class IdentifierProvider extends AbstractFeature
     {
         $event->setParam(
             'identifier',
-            $this->getController()->getEvent()->getRouteMatch()->getParam($this->routeMatchParam)
+            $event->getController()->getEvent()->getRouteMatch()->getParam($this->routeMatchParam)
         );
     }
 }
