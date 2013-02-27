@@ -24,12 +24,12 @@ class CreationFormProviderTest extends TestCase
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     protected function setUp()
     {
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->event   = $this->getMockBuilder('\DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
 
         $this->feature = new CreationFormProvider($this->service);
