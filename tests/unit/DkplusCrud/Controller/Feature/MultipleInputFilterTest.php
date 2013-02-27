@@ -19,19 +19,17 @@ use PHPUnit_Framework_TestCase as TestCase;
  */
 class MultipleInputFilterTest extends TestCase
 {
-    /** @var \DkplusCrud\Service\Service */
+    /** @var \DkplusCrud\Service\Service|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \Zend\EventManager\EventInterface */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $this->service = $this->getMockBuilder('DkplusCrud\Service\Service')
-                              ->disableOriginalConstructor()
-                              ->getMock();
+        $this->event   = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
+        $this->service = $this->getMockBuilder('DkplusCrud\Service\Service')->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -55,9 +53,7 @@ class MultipleInputFilterTest extends TestCase
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->once())
-               ->method('attach')
-               ->with('preList');
+        $events->expects($this->once())->method('attach')->with('preList');
 
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->attachTo('list', $events);
@@ -71,9 +67,7 @@ class MultipleInputFilterTest extends TestCase
     public function attachesItselfWithAnHigherPriority()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
-        $events->expects($this->once())
-               ->method('attach')
-               ->with($this->isType('string'), $this->isType('array'), 2);
+        $events->expects($this->once())->method('attach')->with($this->isType('string'), $this->isType('array'), 2);
 
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->attachTo('list', $events);
@@ -89,9 +83,7 @@ class MultipleInputFilterTest extends TestCase
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $filter = $feature->getFilter();
 
-        $this->service->expects($this->once())
-                      ->method('addFeature')
-                      ->with($filter);
+        $this->service->expects($this->once())->method('addFeature')->with($filter);
 
         $feature->execute($this->event);
     }
@@ -107,9 +99,7 @@ class MultipleInputFilterTest extends TestCase
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setFilter($filter);
 
-        $this->service->expects($this->once())
-                      ->method('addFeature')
-                      ->with($filter);
+        $this->service->expects($this->once())->method('addFeature')->with($filter);
 
         $feature->execute($this->event);
     }
@@ -125,8 +115,7 @@ class MultipleInputFilterTest extends TestCase
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setFilter($filter);
 
-        $filter->expects($this->once())
-               ->method('refineResults');
+        $filter->expects($this->once())->method('refineResults');
 
         $feature->refineResults();
     }
@@ -142,8 +131,7 @@ class MultipleInputFilterTest extends TestCase
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setFilter($filter);
 
-        $filter->expects($this->once())
-               ->method('enlargeResults');
+        $filter->expects($this->once())->method('enlargeResults');
 
         $feature->enlargeResults();
     }
@@ -159,9 +147,7 @@ class MultipleInputFilterTest extends TestCase
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setFilter($filter);
 
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'q');
+        $filter->expects($this->once())->method('like')->with('foo', 'q');
 
         $feature->execute($this->event);
     }
@@ -177,12 +163,8 @@ class MultipleInputFilterTest extends TestCase
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q', 'bar' => 'query'));
         $feature->setFilter($filter);
 
-        $filter->expects($this->at(0))
-               ->method('like')
-               ->with('foo', 'q');
-        $filter->expects($this->at(1))
-               ->method('like')
-               ->with('bar', 'query');
+        $filter->expects($this->at(0))->method('like')->with('foo', 'q');
+        $filter->expects($this->at(1))->method('like')->with('bar', 'query');
 
         $feature->execute($this->event);
     }
@@ -201,9 +183,7 @@ class MultipleInputFilterTest extends TestCase
 
         $feature->setComparator($type);
 
-        $filter->expects($this->once())
-               ->method($method)
-               ->with('foo', $value);
+        $filter->expects($this->once())->method($method)->with('foo', $value);
 
         $feature->execute($this->event);
     }
@@ -231,26 +211,18 @@ class MultipleInputFilterTest extends TestCase
     public function canGetTheValuesFromTheRouter()
     {
         $params = $this->getMock('stdClass', array('fromRoute'));
-        $params->expects($this->any())
-               ->method('fromRoute')
-               ->with('q')
-               ->will($this->returnValue('bar'));
+        $params->expects($this->any())->method('fromRoute')->with('q')->will($this->returnValue('bar'));
 
         $controller = $this->getMock('DkplusCrud\Controller\Controller', array('params'));
-        $controller->expects($this->any())
-                   ->method('params')
-                   ->will($this->returnValue($params));
+        $controller->expects($this->any())->method('params')->will($this->returnValue($params));
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($controller));
 
-        $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter->expects($this->once())->method('like')->with('foo', 'bar');
 
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setSource(MultipleInputFilter::SOURCE_ROUTE);
         $feature->setFilter($filter);
-        $feature->setController($controller);
-
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'bar');
 
         $feature->execute($this->event);
     }
@@ -263,26 +235,18 @@ class MultipleInputFilterTest extends TestCase
     public function canGetTheValuesFromQuery()
     {
         $params = $this->getMock('stdClass', array('fromQuery'));
-        $params->expects($this->any())
-               ->method('fromQuery')
-               ->with('q')
-               ->will($this->returnValue('bar'));
+        $params->expects($this->any())->method('fromQuery')->with('q')->will($this->returnValue('bar'));
 
         $controller = $this->getMock('DkplusCrud\Controller\Controller', array('params'));
-        $controller->expects($this->any())
-                   ->method('params')
-                   ->will($this->returnValue($params));
+        $controller->expects($this->any())->method('params')->will($this->returnValue($params));
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($controller));
 
-        $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter->expects($this->once())->method('like')->with('foo', 'bar');
 
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setSource(MultipleInputFilter::SOURCE_QUERY);
         $feature->setFilter($filter);
-        $feature->setController($controller);
-
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'bar');
 
         $feature->execute($this->event);
     }
@@ -295,26 +259,18 @@ class MultipleInputFilterTest extends TestCase
     public function canGetTheValuesFromPost()
     {
         $params = $this->getMock('stdClass', array('fromPost'));
-        $params->expects($this->any())
-               ->method('fromPost')
-               ->with('q')
-               ->will($this->returnValue('bar'));
+        $params->expects($this->any())->method('fromPost')->with('q')->will($this->returnValue('bar'));
 
         $controller = $this->getMock('DkplusCrud\Controller\Controller', array('params'));
-        $controller->expects($this->any())
-                   ->method('params')
-                   ->will($this->returnValue($params));
+        $controller->expects($this->any())->method('params')->will($this->returnValue($params));
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($controller));
 
-        $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter = $this->getMock('DkplusCrud\Service\Feature\Filter');
+        $filter->expects($this->once())->method('like')->with('foo', 'bar');
 
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
         $feature->setSource(MultipleInputFilter::SOURCE_POST);
         $feature->setFilter($filter);
-        $feature->setController($controller);
-
-        $filter->expects($this->once())
-               ->method('like')
-               ->with('foo', 'bar');
 
         $feature->execute($this->event);
     }

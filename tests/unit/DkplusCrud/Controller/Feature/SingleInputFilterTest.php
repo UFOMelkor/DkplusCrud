@@ -22,7 +22,7 @@ class SingleInputFilterTest extends TestCase
     /** @var \DkplusCrud\Service\Service|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject  */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     protected function setUp()
