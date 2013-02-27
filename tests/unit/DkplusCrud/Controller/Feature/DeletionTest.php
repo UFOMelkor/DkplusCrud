@@ -173,7 +173,7 @@ class DeletionTest extends TestCase
         $this->flashMessenger->expects($this->at(1))
                              ->method('addMessage')
                              ->with($message);
-        
+
         $this->redirect->expects($this->any())
                        ->method('toRoute')
                        ->will($this->returnValue($this->getMock('Zend\Http\Response')));
