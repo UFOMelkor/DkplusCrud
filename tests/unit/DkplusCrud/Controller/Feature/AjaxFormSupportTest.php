@@ -83,7 +83,8 @@ class AjaxFormSupportTest extends TestCase
         $this->request->expects($this->any())->method('isPost')->will($this->returnValue(false));
         $this->request->expects($this->any())->method('getQuery')->will($this->returnValue($queryData));
 
-        $this->event->expects($this->any())->method('getViewModel')->will($this->returnValue($this->getMock('Zend\View\Model\JsonModel')));
+        $viewModel = $this->getMock('Zend\View\Model\JsonModel');
+        $this->event->expects($this->any())->method('getViewModel')->will($this->returnValue($viewModel));
 
         $this->form->expects($this->once())->method('setData')->with($queryArrayData);
 
@@ -101,7 +102,8 @@ class AjaxFormSupportTest extends TestCase
         $this->request->expects($this->any())->method('isPost')->will($this->returnValue(true));
         $this->request->expects($this->any())->method('getPost')->will($this->returnValue($postData));
 
-        $this->event->expects($this->any())->method('getViewModel')->will($this->returnValue($this->getMock('Zend\View\Model\JsonModel')));
+        $viewModel = $this->getMock('Zend\View\Model\JsonModel');
+        $this->event->expects($this->any())->method('getViewModel')->will($this->returnValue($viewModel));
 
         $this->form->expects($this->once())->method('setData')->with($postArrayData);
 
@@ -140,7 +142,9 @@ class AjaxFormSupportTest extends TestCase
 
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
         $this->event->expects($this->any())->method('getViewModel')->will($this->returnValue($viewModel));
-        $this->event->expects($this->once())->method('setViewModel')->with($this->isInstanceOf('Zend\View\Model\JsonModel'));
+        $this->event->expects($this->once())
+                    ->method('setViewModel')
+                    ->with($this->isInstanceOf('Zend\View\Model\JsonModel'));
 
 
         $this->feature->execute($this->event);
