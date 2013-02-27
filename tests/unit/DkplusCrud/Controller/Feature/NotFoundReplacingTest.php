@@ -8,8 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
-use DkplusControllerDsl\Test\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -20,7 +19,7 @@ use DkplusControllerDsl\Test\TestCase;
  */
 class NotFoundReplacingTest extends TestCase
 {
-    /** @var Controller */
+    /** @var \Dkplus\Crud\Controller\Controller|\PHPUnit_Framework_MockObject_MockObject */
     protected $controller;
 
     /** @var NotFoundReplacing */
@@ -29,20 +28,24 @@ class NotFoundReplacingTest extends TestCase
     /** @var Options\NotFoundOptions|\PHPUnit_Framework_MockObject_MockObject */
     protected $options;
 
-    /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     protected function setUp()
     {
         parent::setUp();
-        $this->event      = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
-        $this->options    = $this->getMockIgnoringConstructor(
-            'DkplusCrud\Controller\Feature\Options\NotFoundReplaceOptions'
-        );
-        $this->controller = new Controller();
+        $this->event = $this->getMockBuilder('DkplusCrud\Controller\Event')
+                            ->disableOriginalConstructor()
+                            ->getMock();
+
+        $this->options = $this->getMockBuilder('DkplusCrud\Controller\Feature\Options\NotFoundReplaceOptions')
+                              ->disableOriginalConstructor()
+                              ->getMock();
+
+        $this->controller = $this->getMock('DkplusCrud\Controller\Controller', array('flashMessenger', 'forward'));
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
+
         $this->feature    = new NotFoundReplacing($this->options);
-        $this->feature->setController($this->controller);
-        $this->setUpController($this->controller);
     }
 
     /**

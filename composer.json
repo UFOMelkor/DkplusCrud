@@ -14,7 +14,7 @@
         "zendframework/zend-stdlib": ">=2.1.2",
         "zendframework/zend-view": ">=2.1",
 
-        "dkplus/base": ">=0.1.0",
+        "dkplus/base": ">=0.2.0",
 
         "zf-commons/zfc-base": ">=0.1.0"
     },
