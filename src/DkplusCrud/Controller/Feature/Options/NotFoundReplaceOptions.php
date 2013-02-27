@@ -28,7 +28,7 @@ class NotFoundReplaceOptions extends AbstractOptions
     protected $crRouteParams = array();
 
     /** @var string */
-    protected $crRoute = 'home';
+    protected $crRoute = null;
 
     /** @var string|null */
     protected $errorMessage;
@@ -72,6 +72,11 @@ class NotFoundReplaceOptions extends AbstractOptions
         $this->crRouteParams = $routeParams;
     }
 
+    public function getAllContentReplaceRouteParams()
+    {
+        
+    }
+
     /** @return string */
     public function getContentReplaceRoute()
     {
@@ -82,6 +87,11 @@ class NotFoundReplaceOptions extends AbstractOptions
     public function setContentReplaceRoute($route)
     {
         $this->crRoute = $route;
+    }
+
+    public function hasContentReplaceRoute()
+    {
+
     }
 
     /** @return boolean */
