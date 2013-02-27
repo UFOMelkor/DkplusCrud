@@ -8,8 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use RuntimeException;
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 use Zend\View\Model\JsonModel;
 
 /**
@@ -25,17 +24,14 @@ class AjaxFormSupport extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $ctrl = $this->getController();
-        $dsl  = $event->getParam('result');
-
-        if ($dsl === null) {
-            throw new RuntimeException('missing dsl');
-        }
-
-        return $dsl->onAjaxRequest($ctrl->dsl()->assign()->formMessages()->asJson());
-
         if ($event->getRequest()->isXmlHttpRequest()) {
-            $event->getC
+
+            $data = $event->getRequest()->isPost()
+                  ? $event->getRequest()->getPost()->toArray()
+                  : $event->getRequest()->getQuery()->toArray();
+
+            $form = $event->getForm();
+            $form->setData($data);
             $event->getForm()->isValid();
 
             if (!$event->getViewModel() instanceof JsonModel) {
