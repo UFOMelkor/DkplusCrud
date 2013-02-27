@@ -21,7 +21,7 @@ class EntityProviderTest extends TestCase
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     /** @var EntityProvider */
@@ -29,26 +29,18 @@ class EntityProviderTest extends TestCase
 
     protected function setUp()
     {
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->event   = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
         $this->feature = new EntityProvider($this->service);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -59,24 +51,13 @@ class EntityProviderTest extends TestCase
         $this->feature->attachTo('read', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function fetchesTheEntityFromTheServiceUsingTheIdentifier()
     {
         $entity = $this->getMock('stdClass');
 
-        $this->event->expects($this->once())
-                    ->method('getParam')
-                    ->with('identifier')
-                    ->will($this->returnValue(5));
-
-        $this->service->expects($this->any())
-                      ->method('get')
-                      ->with(5)
-                      ->will($this->returnValue($entity));
+        $this->event->expects($this->once())->method('getIdentifier')->will($this->returnValue(5));
+        $this->service->expects($this->any())->method('get')->with(5)->will($this->returnValue($entity));
 
         $this->assertSame($entity, $this->feature->execute($this->event));
     }
