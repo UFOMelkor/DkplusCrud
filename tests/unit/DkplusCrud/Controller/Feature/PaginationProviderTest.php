@@ -35,7 +35,9 @@ class PaginationProviderTest extends TestCase
         $this->event   = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
 
-        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')->disableOriginalConstructor()->getMock();
+        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+                                 ->disableOriginalConstructor()
+                                 ->getMock();
 
         $mvcEvent = $this->getMock('Zend\Mvc\MvcEvent');
         $mvcEvent->expects($this->any())->method('getRouteMatch')->will($this->returnValue($this->routeMatch));

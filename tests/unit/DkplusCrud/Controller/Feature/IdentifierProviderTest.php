@@ -29,8 +29,12 @@ class IdentifierProviderTest extends TestCase
 
     protected function setUp()
     {
-        $this->event      = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
-        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')->disableOriginalConstructor()->getMock();
+        $this->event      = $this->getMockBuilder('DkplusCrud\Controller\Event')
+                                 ->disableOriginalConstructor()
+                                 ->getMock();
+        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+                                 ->disableOriginalConstructor()
+                                 ->getMock();
 
         $mvcEvent = $this->getMock('Zend\Mvc\MvcEvent');
         $mvcEvent->expects($this->any())->method('getRouteMatch')->will($this->returnValue($this->routeMatch));
