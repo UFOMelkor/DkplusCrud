@@ -21,7 +21,7 @@ class PaginationProviderTest extends TestCase
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \DkplusCrud\Controller\Event\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     /** @var \Zend\Http\Request|\PHPUnit_Framework_MockObject_MockObject */
@@ -32,22 +32,17 @@ class PaginationProviderTest extends TestCase
 
     protected function setUp()
     {
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->event   = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
 
-        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
-                                 ->disableOriginalConstructor()
-                                 ->getMock();
+        $this->routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')->disableOriginalConstructor()->getMock();
 
         $mvcEvent = $this->getMock('Zend\Mvc\MvcEvent');
-        $mvcEvent->expects($this->any())
-                 ->method('getRouteMatch')
-                 ->will($this->returnValue($this->routeMatch));
+        $mvcEvent->expects($this->any())->method('getRouteMatch')->will($this->returnValue($this->routeMatch));
 
         $this->controller = $this->getMock('DkplusCrud\Controller\Controller');
-        $this->controller->expects($this->any())
-                         ->method('getEvent')
-                         ->will($this->returnValue($mvcEvent));
+        $this->controller->expects($this->any())->method('getEvent')->will($this->returnValue($mvcEvent));
+        $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
     }
 
     /**
@@ -95,8 +90,6 @@ class PaginationProviderTest extends TestCase
                       ->will($this->returnValue($paginator));
 
         $feature = new PaginationProvider($this->service);
-        $feature->setController($this->controller);
-
         $this->assertSame($paginator, $feature->execute($this->event));
     }
 
@@ -117,8 +110,6 @@ class PaginationProviderTest extends TestCase
                       ->with(5);
 
         $feature = new PaginationProvider($this->service);
-        $feature->setController($this->controller);
-
         $feature->execute($this->event);
     }
 
@@ -139,8 +130,6 @@ class PaginationProviderTest extends TestCase
                       ->with(7);
 
         $feature = new PaginationProvider($this->service, 'my-page');
-        $feature->setController($this->controller);
-
         $feature->execute($this->event);
     }
 }
