@@ -42,23 +42,6 @@ class NotFoundReplaceOptionsTest extends TestCase
     }
 
     /** @test */
-    public function providesContentReplaceAction()
-    {
-        $options = new NotFoundReplaceOptions();
-        $options->setContentReplaceAction('paginate');
-
-        $this->assertSame('paginate', $options->getContentReplaceAction());
-    }
-
-    /** @test */
-    public function providesIndexAsInitialContentReplaceAction()
-    {
-        $options = new NotFoundReplaceOptions();
-
-        $this->assertSame('index', $options->getContentReplaceAction());
-    }
-
-    /** @test */
     public function providesContentReplaceRoute()
     {
         $options = new NotFoundReplaceOptions();
@@ -68,11 +51,11 @@ class NotFoundReplaceOptionsTest extends TestCase
     }
 
     /** @test */
-    public function providesHomeAsInitialContentReplaceRoute()
+    public function providesNullAsInitialContentReplaceRoute()
     {
         $options = new NotFoundReplaceOptions();
 
-        $this->assertSame('home', $options->getContentReplaceRoute());
+        $this->assertNull($options->getContentReplaceRoute());
     }
 
     /** @test */
@@ -85,11 +68,11 @@ class NotFoundReplaceOptionsTest extends TestCase
     }
 
     /** @test */
-    public function providesAnEmptyArrayAsInitialContentReplaceRouteParams()
+    public function providesAnActionAsInitialContentReplaceRouteParams()
     {
         $options = new NotFoundReplaceOptions();
 
-        $this->assertSame(array(), $options->getContentReplaceRouteParams());
+        $this->assertSame(array('action' => 'index'), $options->getContentReplaceRouteParams());
     }
 
     /** @test */

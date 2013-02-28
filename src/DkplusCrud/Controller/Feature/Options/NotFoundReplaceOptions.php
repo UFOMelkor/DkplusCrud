@@ -21,13 +21,10 @@ class NotFoundReplaceOptions extends AbstractOptions
     /** @var string */
     protected $crController = 'Application\Controller\Index';
 
-    /** @var string */
-    protected $crAction = 'index';
-
     /** @var string[] */
-    protected $crRouteParams = array();
+    protected $crRouteParams = array('action' => 'index');
 
-    /** @var string */
+    /** @var string|nulls */
     protected $crRoute = null;
 
     /** @var string|null */
@@ -48,18 +45,6 @@ class NotFoundReplaceOptions extends AbstractOptions
         $this->crController = $controller;
     }
 
-    /** @return string */
-    public function getContentReplaceAction()
-    {
-        return $this->crAction;
-    }
-
-    /** @param string $action */
-    public function setContentReplaceAction($action)
-    {
-        $this->crAction = $action;
-    }
-
     /** @return string[] */
     public function getContentReplaceRouteParams()
     {
@@ -72,26 +57,16 @@ class NotFoundReplaceOptions extends AbstractOptions
         $this->crRouteParams = $routeParams;
     }
 
-    public function getAllContentReplaceRouteParams()
-    {
-        
-    }
-
-    /** @return string */
+    /** @return string|null */
     public function getContentReplaceRoute()
     {
         return $this->crRoute;
     }
 
-    /** @param string $route */
+    /** @param string $route|nulls */
     public function setContentReplaceRoute($route)
     {
         $this->crRoute = $route;
-    }
-
-    public function hasContentReplaceRoute()
-    {
-
     }
 
     /** @return boolean */
