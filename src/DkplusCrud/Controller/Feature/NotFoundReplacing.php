@@ -29,7 +29,7 @@ class NotFoundReplacing extends AbstractFeature
     public function execute(Event $event)
     {
         $controller = $this->options->getContentReplaceController();
-        $params     = $this->options->getAllContentReplaceRouteParams();
+        $params     = $this->options->getContentReplaceRouteParams();
         $route      = $this->options->getContentReplaceRoute();
         $event->setViewModel($event->getController()->notFoundForward()->dispatch($controller, $params, $route));
 

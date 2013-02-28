@@ -19,7 +19,7 @@ return array(
     'DkplusCrud\Controller\Feature\EntitiesProvider'               => __DIR__ . '/src/DkplusCrud/Controller/Feature/EntitiesProvider.php',
     'DkplusCrud\Controller\Feature\EntityProvider'                 => __DIR__ . '/src/DkplusCrud/Controller/Feature/EntityProvider.php',
     'DkplusCrud\Controller\Feature\FeatureInterface'               => __DIR__ . '/src/DkplusCrud/Controller/Feature/FeatureInterface.php',
-    'DkplusCrud\Controller\Feature\FormSubmission'                 => __DIR__ . '/src/DkplusCrud/Controller/Feature/FormSubmission.php',
+    'DkplusCrud\Controller\Feature\FormHandling'                   => __DIR__ . '/src/DkplusCrud/Controller/Feature/FormHandling.php',
     'DkplusCrud\Controller\Feature\IdentifierProvider'             => __DIR__ . '/src/DkplusCrud/Controller/Feature/IdentifierProvider.php',
     'DkplusCrud\Controller\Feature\MultipleInputFilter'            => __DIR__ . '/src/DkplusCrud/Controller/Feature/MultipleInputFilter.php',
     'DkplusCrud\Controller\Feature\NotFoundReplacing'              => __DIR__ . '/src/DkplusCrud/Controller/Feature/NotFoundReplacing.php',

@@ -20,7 +20,7 @@ return array(
     'DkplusCrud\Controller\Feature\DeletionTest'                       => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/DeletionTest.php',
     'DkplusCrud\Controller\Feature\EntitiesProviderTest'               => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/EntitiesProviderTest.php',
     'DkplusCrud\Controller\Feature\EntityProviderTest'                 => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/EntityProviderTest.php',
-    'DkplusCrud\Controller\Feature\FormSubmissionTest'                 => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/FormSubmissionTest.php',
+    'DkplusCrud\Controller\Feature\FormHandlingTest'                   => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/FormHandlingTest.php',
     'DkplusCrud\Controller\Feature\IdentifierProviderTest'             => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/IdentifierProviderTest.php',
     'DkplusCrud\Controller\Feature\MultipleInputFilterTest'            => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/MultipleInputFilterTest.php',
     'DkplusCrud\Controller\Feature\NotFoundReplacingTest'              => __DIR__ . '/tests/unit/DkplusCrud/Controller/Feature/NotFoundReplacingTest.php',

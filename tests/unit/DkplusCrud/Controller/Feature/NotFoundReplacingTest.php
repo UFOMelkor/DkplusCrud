@@ -42,101 +42,99 @@ class NotFoundReplacingTest extends TestCase
                               ->disableOriginalConstructor()
                               ->getMock();
 
-        $this->controller = $this->getMock('DkplusCrud\Controller\Controller', array('flashMessenger', 'forward'));
+        $this->controller = $this->getMock(
+            'DkplusCrud\Controller\Controller',
+            array('flashMessenger', 'notFoundForward')
+        );
         $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
 
-        $this->feature    = new NotFoundReplacing($this->options);
+        $this->feature = new NotFoundReplacing($this->options);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function replacesContentWithAnotherControllerAction()
     {
-        $this->expectsDsl()->toReplaceContentWithControllerAction();
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $this->expectsNotFoundForwardToReturnAViewModel($viewModel);
+
+        $this->event->expects($this->once())->method('setViewModel')->with($viewModel);
 
         $this->feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function setsAn404ResponseHeaderButIgnoresZfErrorHandling()
+    protected function expectsNotFoundForwardToReturnAViewModel($viewModel = null)
     {
-        $this->expectsDsl()->toMarkPageAsNotFound(true);
+        if (!$viewModel) {
+            $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        }
 
-        $this->feature->execute($this->event);
+        $notFoundForward = $this->getMockBuilder('DkplusBase\Mvc\Controller\Plugin\NotFoundForward')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+        $notFoundForward->expects($this->any())->method('dispatch')->will($this->returnValue($viewModel));
+
+        $this->controller->expects($this->any())->method('notFoundForward')->will($this->returnValue($notFoundForward));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function canConfigurateControllerActionForContentReplacing()
+    /** @test */
+    public function canConfigurateNotFoundForward()
     {
         $controller  = 'my-controller';
-        $action      = 'my-action';
-        $routeParams = array('my-route' => 'params');
+        $routeParams = array('action' => 'my-action');
+        $routeName   = 'home';
 
-        $this->options->expects($this->any())
-             ->method('getContentReplaceController')
-             ->will($this->returnValue($controller));
-        $this->options->expects($this->any())
-             ->method('getContentReplaceAction')
-             ->will($this->returnValue($action));
-        $this->options->expects($this->any())
-             ->method('getContentReplaceRouteParams')
-             ->will($this->returnValue($routeParams));
+        $this->options->expects($this->any())->method('getContentReplaceController')->will($this->returnValue($controller));
+        $this->options->expects($this->any())->method('getContentReplaceRouteParams')->will($this->returnValue($routeParams));
+        $this->options->expects($this->any())->method('getContentReplaceRoute')->will($this->returnValue($routeName));
 
-        $this->expectsDsl()->toReplaceContentWithControllerAction($controller, $action, $routeParams);
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+
+        $notFoundForward = $this->getMockBuilder('DkplusBase\Mvc\Controller\Plugin\NotFoundForward')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+        $notFoundForward->expects($this->once())
+                        ->method('dispatch')
+                        ->with($controller, $routeParams, $routeName)
+                        ->will($this->returnValue($viewModel));
+
+        $this->controller->expects($this->any())->method('notFoundForward')->will($this->returnValue($notFoundForward));
 
         $this->feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function addsNo404NotFoundMessageUntilItIsConfigurated()
     {
-        $this->expectsDsl()->toDoNotAddFlashMessages();
+        $this->controller->expects($this->never())->method('flashMessenger');
+        $this->expectsNotFoundForwardToReturnAViewModel();
 
         $this->feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canConfigurateA404NotFoundMessage()
     {
+        $namespace = 'notFound';
         $message   = 'could not found any data';
 
-        $this->options->expects($this->any())
-             ->method('hasErrorMessage')
-             ->will($this->returnValue(true));
-        $this->options->expects($this->any())
-             ->method('getErrorMessage')
-             ->will($this->returnValue($message));
+        $this->options->expects($this->any())->method('hasErrorMessage')->will($this->returnValue(true));
+        $this->options->expects($this->any())->method('getErrorMessage')->will($this->returnValue($message));
+        $this->options->expects($this->any())->method('getMessageNamespace')->will($this->returnValue($namespace));
 
-        $this->expectsDsl()->toAddFlashMessage($message, 'notFound');
+        $flashMessenger = $this->getMock('Zend\Mvc\Controller\Plugin\FlashMessenger');
+        $flashMessenger->expects($this->at(0))->method('setNamespace')->with($namespace);
+        $flashMessenger->expects($this->at(1))->method('addMessage')->with($message);
+
+        $this->controller->expects($this->any())->method('flashMessenger')->will($this->returnValue($flashMessenger));
+
+        $this->expectsNotFoundForwardToReturnAViewModel();
 
         $this->feature->execute($this->event);
     }
