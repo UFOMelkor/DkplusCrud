@@ -8,8 +8,6 @@
 
 namespace DkplusCrud\Integration\Action;
 
-use DkplusControllerDsl\Dsl\ContainerInterface as Container;
-
 use DkplusCrud\Controller\Controller;
 use DkplusCrud\Controller\Action;
 use DkplusCrud\Controller\Feature\Options;
@@ -70,24 +68,22 @@ class CreateActionTest extends TestCase
 
         $successOptions = new Options\SuccessOptions();
         $successOptions->setMessage(
-            function (Container $container) {
-                return \sprintf('%s created.', \htmlspecialchars($container->getVariable('__RESULT__')->name));
+            function ($entity) {
+                return \sprintf('%s created.', \htmlspecialchars($entity->name));
             }
         );
         $successOptions->setRedirectRoute('my-module/success/target');
         $successOptions->setRedirectRouteParams(
-            function (Container $container) {
-                return array('id' => $container->getVariable('__RESULT__')->id);
+            function ($entity) {
+                return array('id' => $entity->id);
             }
         );
 
         $this->controller = new Controller();
         $this->controller->addAction(new Action\DefaultAction('create'));
         $this->controller->addFeature('create', new Feature\CreationFormProvider($service));
-        $this->controller->addFeature(
-            'create',
-            new Feature\FormSubmission(array($service, 'create'), $successOptions, 'my-module/creation/template')
-        );
+        $this->controller->addFeature('create', new Feature\FormHandling(array($service, 'create'), $successOptions));
+        $this->controller->addFeature('create', new Feature\Rendering('my-module/creation/template'));
         $this->controller->addFeature('create', new Feature\AjaxFormSupport());
 
         $this->setUp->setUp($this->controller);
