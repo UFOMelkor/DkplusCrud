@@ -41,6 +41,11 @@ class FormHandling extends AbstractFeature
         $this->options  = $options;
     }
 
+    public function handleAjaxRequest()
+    {
+        $this->handleAjaxRequest = true;
+    }
+
     public function execute(Event $event)
     {
         $form = $event->getForm();

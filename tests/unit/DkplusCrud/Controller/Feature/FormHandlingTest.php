@@ -50,7 +50,7 @@ class FormHandlingTest extends TestCase
                     ->method('getParam')
                     ->with('form')
                     ->will($this->returnValue($this->form));
-        $this->options    = $this->getMockIgnoringConstructor('DkplusCrud\Controller\Feature\Options\SuccessOptions');
+        $this->options    = $this->getMock('DkplusCrud\Controller\Feature\Options\SuccessOptions');
         $this->controller = new Controller();
         $this->service    = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
         $this->feature    = new FormSubmission(array($this->service, 'create'), $this->options);
