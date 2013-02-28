@@ -32,6 +32,6 @@ class CreationFormProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        return $this->service->getCreationForm();
+        $event->setForm($this->service->getCreationForm());
     }
 }

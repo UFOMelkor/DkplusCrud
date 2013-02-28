@@ -32,6 +32,6 @@ class UpdateFormProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        return $this->service->getUpdateForm($event->getIdentifier());
+        $event->setForm($this->service->getUpdateForm($event->getIdentifier()));
     }
 }

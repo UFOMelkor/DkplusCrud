@@ -50,12 +50,14 @@ class EntitiesProviderTest extends TestCase
     }
 
     /** @test */
-    public function fetchesTheEntitiesFromTheService()
+    public function putsTheEntitiesFromTheServiceIntoTheEvent()
     {
         $collection = $this->getMock('stdClass');
 
         $this->service->expects($this->any())->method('getAll')->will($this->returnValue($collection));
 
-        $this->assertSame($collection, $this->feature->execute($this->event));
+        $this->event->expects($this->once())->method('setEntities')->with($collection);
+
+        $this->feature->execute($this->event);
     }
 }

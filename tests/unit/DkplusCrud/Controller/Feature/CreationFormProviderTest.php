@@ -35,21 +35,13 @@ class CreationFormProviderTest extends TestCase
         $this->feature = new CreationFormProvider($this->service);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -60,12 +52,8 @@ class CreationFormProviderTest extends TestCase
         $this->feature->attachTo('create', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function returnsTheCreationFormFromTheService()
+    /** @test */
+    public function setsTheCreationFormFromTheService()
     {
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
@@ -73,6 +61,10 @@ class CreationFormProviderTest extends TestCase
                       ->method('getCreationForm')
                       ->will($this->returnValue($form));
 
-        $this->assertSame($form, $this->feature->execute($this->event));
+        $this->event->expects($this->once())
+                    ->method('setForm')
+                    ->with($form);
+
+        $this->feature->execute($this->event);
     }
 }

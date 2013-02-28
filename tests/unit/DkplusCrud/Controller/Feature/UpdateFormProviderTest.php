@@ -53,9 +53,8 @@ class UpdateFormProviderTest extends TestCase
     }
 
     /** @test */
-    public function returnsTheFormFromTheService()
+    public function putsTheFormFromTheServiceIntoTheEvent()
     {
-
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
         $this->event->expects($this->any())
@@ -67,6 +66,8 @@ class UpdateFormProviderTest extends TestCase
                       ->with(5)
                       ->will($this->returnValue($form));
 
-        $this->assertSame($form, $this->feature->execute($this->event));
+        $this->event->expects($this->once())->method('setForm')->with($form);
+
+        $this->feature->execute($this->event);
     }
 }

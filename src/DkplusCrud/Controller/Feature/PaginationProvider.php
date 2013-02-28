@@ -44,6 +44,6 @@ class PaginationProvider extends AbstractFeature
                             ->getEvent()
                             ->getRouteMatch()
                             ->getParam($this->pageParameter);
-        return $this->service->getPaginator($pageNumber);
+        $event->setEntities($this->service->getPaginator($pageNumber));
     }
 }

@@ -81,18 +81,18 @@ class PaginationProviderTest extends TestCase
      * @group unit
      * @group unit/controller
      */
-    public function returnsThePaginatorFromTheService()
+    public function putsThePaginatorFromTheServiceIntoTheEvent()
     {
         $paginator = $this->getMockBuilder('Zend\Paginator\Paginator')
                           ->disableOriginalConstructor()
                           ->getMock();
 
-        $this->service->expects($this->any())
-                      ->method('getPaginator')
-                      ->will($this->returnValue($paginator));
+        $this->service->expects($this->any())->method('getPaginator')->will($this->returnValue($paginator));
+
+        $this->event->expects($this->once())->method('setEntities')->with($paginator);
 
         $feature = new PaginationProvider($this->service);
-        $this->assertSame($paginator, $feature->execute($this->event));
+        $feature->execute($this->event);
     }
 
     /**

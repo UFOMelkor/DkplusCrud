@@ -37,8 +37,7 @@ class IdentifierProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $event->setParam(
-            'identifier',
+        $event->setIdentifier(
             $event->getController()->getEvent()->getRouteMatch()->getParam($this->routeMatchParam)
         );
     }

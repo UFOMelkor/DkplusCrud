@@ -52,13 +52,14 @@ class EntityProviderTest extends TestCase
     }
 
     /** @test */
-    public function fetchesTheEntityFromTheServiceUsingTheIdentifier()
+    public function putsTheEntityFromTheServiceIntoTheEventUsingTheIdentifier()
     {
         $entity = $this->getMock('stdClass');
 
         $this->event->expects($this->once())->method('getIdentifier')->will($this->returnValue(5));
         $this->service->expects($this->any())->method('get')->with(5)->will($this->returnValue($entity));
+        $this->event->expects($this->once())->method('setEntity')->with($entity);
 
-        $this->assertSame($entity, $this->feature->execute($this->event));
+        $this->feature->execute($this->event);
     }
 }

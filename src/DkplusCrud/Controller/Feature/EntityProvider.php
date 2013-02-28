@@ -33,6 +33,6 @@ class EntityProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        return $this->service->get($event->getIdentifier());
+        $event->setEntity($this->service->get($event->getIdentifier()));
     }
 }

@@ -76,7 +76,7 @@ class IdentifierProviderTest extends TestCase
     /** @test */
     public function putsTheIdentifierFromTheRouteMatchIntoTheEvent()
     {
-        $this->event->expects($this->once())->method('setParam')->with('identifier', 5);
+        $this->event->expects($this->once())->method('setIdentifier')->with(5);
 
         $this->routeMatch->expects($this->any())->method('getParam')->will($this->returnValue(5));
 
