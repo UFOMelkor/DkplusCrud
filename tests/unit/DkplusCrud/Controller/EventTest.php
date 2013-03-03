@@ -139,6 +139,14 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(10, $this->event->getParam('identifier'));
     }
 
+    /** @test */
+    public function canTestWhetherAnIdentifierExists()
+    {
+        $this->assertFalse($this->event->hasIdentifier());
+        $this->event->setIdentifier(5);
+        $this->assertTrue($this->event->hasIdentifier());
+    }
+
     /**
      * @test
      * @expectedException DkplusCrud\Controller\ConfigurationError

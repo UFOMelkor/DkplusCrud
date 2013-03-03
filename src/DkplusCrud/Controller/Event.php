@@ -166,6 +166,12 @@ class Event extends BaseEvent
         $this->setParam('entities', $entities);
     }
 
+    /** @return boolean */
+    public function hasIdentifier()
+    {
+        return $this->identifier !== null;
+    }
+
     /**
      * @return mixed
      * @throws ConfigurationError When no identifier is available.
