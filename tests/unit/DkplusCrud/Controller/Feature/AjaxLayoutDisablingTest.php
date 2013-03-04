@@ -8,8 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
-use DkplusControllerDsl\Test\TestCase as TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -22,44 +21,25 @@ class AjaxLayoutDisablingTest extends TestCase
     /** @var AjaxLayoutDisabling */
     protected $feature;
 
-    /** @var \Zend\EventManager\EventManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
-    protected $controller;
-
     /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     protected function setUp()
     {
-        $this->event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->event = $this->getMockBuilder('DkplusCrud\Controller\Event')
+                            ->disableOriginalConstructor()
+                            ->getMock();
 
         $this->feature = new AjaxLayoutDisabling();
     }
 
-    /** @return Controller */
-    protected function getController()
-    {
-        if ($this->controller === null) {
-            $this->controller = new Controller();
-            $this->setUpController($this->controller);
-        }
-        return $this->controller;
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPostEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -70,41 +50,43 @@ class AjaxLayoutDisablingTest extends TestCase
         $this->feature->attachTo('list', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function disablesTheLayoutWhenAnAjaxRequestIsDetected()
     {
-        $this->feature->setController($this->getController());
+        $request = $this->getMock('Zend\Http\Request');
+        $request->expects($this->any())
+                ->method('isXmlHttpRequest')
+                ->will($this->returnValue(true));
 
-        $dsl = $this->getDslMockBuilder()
-                    ->withMockedPhrases(array('onAjaxRequest'))
-                    ->getMock();
-        $ajaxDsl = $this->expectsDsl()->toDisableLayout();
-
-        $dsl->expects($this->once())
-            ->method('onAjaxRequest')
-            ->with($ajaxDsl)
-            ->will($this->returnSelf());
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        $viewModel->expects($this->once())
+                  ->method('setTerminal')
+                  ->with(true);
 
         $this->event->expects($this->any())
-                    ->method('getParam')
-                    ->with('result')
-                    ->will($this->returnValue($this->controller->dsl()));
+                    ->method('getRequest')
+                    ->will($this->returnValue($request));
+        $this->event->expects($this->any())
+                    ->method('getViewModel')
+                    ->will($this->returnValue($viewModel));
 
         $this->feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     * @expectedException RuntimeException
-     */
-    public function throwsAnExceptionIfNoDslIsStoredAsResultParameter()
+    /** @test */
+    public function doesNotDisableTheLayoutWhenNoAjaxRequestIsDetected()
     {
+        $request = $this->getMock('Zend\Http\Request');
+        $request->expects($this->any())
+                ->method('isXmlHttpRequest')
+                ->will($this->returnValue(false));
+
+        $this->event->expects($this->any())
+                    ->method('getRequest')
+                    ->will($this->returnValue($request));
+        $this->event->expects($this->never())
+                    ->method('getViewModel');
+
         $this->feature->execute($this->event);
     }
 }

@@ -8,8 +8,6 @@
 
 namespace DkplusCrud\Controller\Action;
 
-use RuntimeException;
-
 /**
  * @category   Dkplus
  * @package    Crud
@@ -18,68 +16,18 @@ use RuntimeException;
  */
 class SingleEntityAction extends AbstractAction
 {
-    /** @throws RuntimeException when not getting a valid controller response */
     public function execute()
     {
-        $entity = $this->getPreEventResult();
+        $this->triggerEvent('pre');
 
-        if ($entity === null) {
-            return $this->getNotFoundEventResult();
+        if (!$this->getEvent()->hasEntity()) {
+            $this->triggerEvent('notFound');
+            return $this->getEvent()->getResult();
         }
 
-        $result = $this->getMainEventResult($entity);
+        $this->triggerEvent('');
+        $this->triggerEvent('post');
 
-        $this->triggerPostEvent($entity, $result);
-
-        return $result;
-    }
-
-    protected function getPreEventResult()
-    {
-        return $this->triggerEvent(
-            'pre',
-            array(),
-            array('DkplusCrud\Util\EventResultVerifier', 'isNotNull')
-        );
-    }
-
-    /** @throws RuntimeException when not getting a valid controller response */
-    protected function getNotFoundEventResult()
-    {
-        $notFoundResult = $this->triggerEvent(
-            'notFound',
-            array(),
-            array('DkplusCrud\Util\EventResultVerifier', 'isControllerResponse')
-        );
-
-        if ($notFoundResult === null) {
-            throw new RuntimeException(
-                'notFound' . \ucFirst($this->getName()) . ' should result in a valid controller response'
-            );
-        }
-        return $notFoundResult;
-    }
-
-    /** @throws \RuntimeException when not getting a valid controller response */
-    protected function getMainEventResult($entity)
-    {
-        $result = $this->triggerEvent(
-            '',
-            array('entity' => $entity),
-            array('DkplusCrud\Util\EventResultVerifier', 'isControllerResponse')
-        );
-
-        if ($result === null) {
-            throw new RuntimeException(
-                $this->getName() . ' should result in a valid controller response'
-            );
-        }
-
-        return $result;
-    }
-
-    protected function triggerPostEvent($entity, $result)
-    {
-        $this->triggerEvent('post', array('entity' => $entity, 'result' => $result));
+        return $this->getEvent()->getResult();
     }
 }

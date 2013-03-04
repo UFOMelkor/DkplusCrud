@@ -60,15 +60,4 @@ abstract class AbstractFeature implements FeatureInterface
             $this->priority
         );
     }
-
-    public function setController(Controller $controller)
-    {
-        $this->controller = $controller;
-    }
-
-    /** @return Controller */
-    public function getController()
-    {
-        return $this->controller;
-    }
 }

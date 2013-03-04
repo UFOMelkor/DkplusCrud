@@ -8,7 +8,6 @@
 
 namespace DkplusCrud\Controller;
 
-use DkplusControllerDsl\Dsl\DslInterface as Dsl;
 use OutOfBoundsException;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
@@ -60,10 +59,6 @@ class Controller extends AbstractActionController
         $result = empty($this->actions[$action])
                 ? parent::onDispatch($event)
                 : $this->actions[$action]->execute();
-
-        if ($result instanceof Dsl) {
-            $result = $result->execute();
-        }
 
         $event->setResult($result);
         return $result;

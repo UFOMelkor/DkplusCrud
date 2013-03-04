@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 
 /**
  * @category   Dkplus
@@ -28,6 +28,6 @@ class Rendering extends AbstractFeature
 
     public function execute(Event $event)
     {
-        return $this->getController()->dsl()->render($this->template);
+        $event->getViewModel()->setTemplate($this->template);
     }
 }

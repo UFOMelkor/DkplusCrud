@@ -86,16 +86,4 @@ class AbstractFeatureTest extends TestCase
         $this->feature->setPriority(10);
         $this->feature->attachTo('foo', $this->events);
     }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function providesControllerAccess()
-    {
-        $controller = $this->getMock('DkplusCrud\Controller\Controller');
-        $this->feature->setController($controller);
-        $this->assertSame($controller, $this->feature->getController());
-    }
 }

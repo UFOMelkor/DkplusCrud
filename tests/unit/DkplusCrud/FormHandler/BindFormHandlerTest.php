@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\FormHandler;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest

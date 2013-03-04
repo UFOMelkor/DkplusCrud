@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 
 /**
  * @category   Dkplus
@@ -28,19 +28,14 @@ class NotFoundReplacing extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $opt        = $this->options;
-        $controller = $this->getController();
+        $controller = $this->options->getContentReplaceController();
+        $params     = $this->options->getContentReplaceRouteParams();
+        $route      = $this->options->getContentReplaceRoute();
+        $event->setViewModel($event->getController()->notFoundForward()->dispatch($controller, $params, $route));
 
-        $dsl = $controller->dsl()->replaceContent()->with()->controllerAction(
-            $opt->getContentReplaceController(),
-            $opt->getContentReplaceAction(),
-            $opt->getContentReplaceRouteParams()
-        )->and()->with()->route($opt->getContentReplaceRoute())
-         ->and()->pageNotFound()->but()->ignore404NotFoundController();
-
-        if ($opt->hasErrorMessage()) {
-            $dsl->and()->add()->notFound()->message($opt->getErrorMessage());
+        if ($this->options->hasErrorMessage()) {
+            $event->getController()->flashMessenger()->setNamespace($this->options->getMessageNamespace());
+            $event->getController()->flashMessenger()->addMessage($this->options->getErrorMessage());
         }
-        return $dsl;
     }
 }

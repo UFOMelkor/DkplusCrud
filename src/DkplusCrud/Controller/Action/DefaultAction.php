@@ -14,17 +14,11 @@ namespace DkplusCrud\Controller\Action;
  * @subpackage Controller\Action
  * @author     Oskar Bley <oskar@programming-php.net>
  */
-class UpdateFormAction extends AbstractAction
+class DefaultAction extends AbstractAction
 {
     public function execute()
     {
         $this->triggerEvent('pre');
-
-        if (!$this->getEvent()->hasForm()) {
-            $this->triggerEvent('notFound');
-            return $this->getEvent()->getResult();
-        }
-
         $this->triggerEvent('');
         $this->triggerEvent('post');
 

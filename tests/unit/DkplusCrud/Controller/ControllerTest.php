@@ -152,11 +152,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         return $event;
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function getsTheResultFromAnActionWhenAnActionHasBeenFound()
     {
         $expectedResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
@@ -171,11 +167,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($expectedResult, $this->controller->onDispatch($event));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function putsTheResultAsResultIntoTheEvent()
     {
         $expectedResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
@@ -192,33 +184,5 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
               ->with($expectedResult);
 
         $this->controller->onDispatch($event);
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function executesDslsBeforeSettingItAsResultWhenAnActionHasReturnedOne()
-    {
-        $expectedResult = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-
-        $dsl = $this->getMockForAbstractClass('DkplusControllerDsl\Dsl\DslInterface');
-        $dsl->expects($this->once())
-            ->method('execute')
-            ->will($this->returnValue($expectedResult));
-
-        $action = $this->getNamedAction('paginate');
-        $action->expects($this->any())
-               ->method('execute')
-               ->will($this->returnValue($dsl));
-        $this->controller->addAction($action);
-
-        $event = $this->getEventWithRouteMatch('paginate');
-        $event->expects($this->once())
-              ->method('setResult')
-              ->with($expectedResult);
-
-        $this->assertSame($expectedResult, $this->controller->onDispatch($event));
     }
 }
