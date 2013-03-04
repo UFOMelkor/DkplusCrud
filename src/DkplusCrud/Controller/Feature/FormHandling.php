@@ -9,6 +9,7 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Controller\Event;
+use DkplusCrud\Service\ServiceInterface as Service;
 use Zend\Http\Response;
 
 /**
@@ -22,8 +23,8 @@ class FormHandling extends AbstractFeature
     /** @var Options\SuccessOptions */
     protected $options;
 
-    /** @var callable */
-    protected $storage;
+    /** @var Service */
+    protected $service;
 
     /** @var string */
     protected $identifier = 'id';
@@ -32,12 +33,12 @@ class FormHandling extends AbstractFeature
     protected $handleAjaxRequest = false;
 
     /**
-     * @param callable $storage
+     * @param Service $storage
      * @param Options\SuccessOptions $options
      */
-    public function __construct($storage, Options\SuccessOptions $options)
+    public function __construct(Service $service, Options\SuccessOptions $options)
     {
-        $this->storage  = $storage;
+        $this->service  = $service;
         $this->options  = $options;
     }
 
@@ -48,14 +49,10 @@ class FormHandling extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $form = $event->getForm();
-        $event->getViewModel()->setVariable('form', $form);
-
         if (!$event->getRequest()->isXmlHttpRequest()
             || $this->handleAjaxRequest
         ) {
 
-            $identifier = $form->get($this->identifier)->getValue();
             $controller = $event->getController();
             $prg        = $controller->postRedirectGet();
 
@@ -65,11 +62,20 @@ class FormHandling extends AbstractFeature
                 return;
             }
 
+            $form = $event->getForm();
+            $event->getViewModel()->setVariable('form', $form);
+
+            if (!\is_array($prg)) {
+                return;
+            }
+
             $form->setData($prg);
 
             if ($form->isValid()) {
 
-                $entity = \call_user_func($this->storage, $form->getData(), $identifier);
+                $entity = $event->hasIdentifier()
+                        ? $this->service->update($form->getData(), $event->getIdentifier())
+                        : $this->service->create($form->getData());
 
                 $messageNamespace    = $this->options->getMessageNamespace();
                 $message             = $this->options->getComputatedMessage($entity);
