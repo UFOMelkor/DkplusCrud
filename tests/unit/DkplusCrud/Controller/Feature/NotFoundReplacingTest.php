@@ -90,9 +90,15 @@ class NotFoundReplacingTest extends TestCase
         $routeParams = array('action' => 'my-action');
         $routeName   = 'home';
 
-        $this->options->expects($this->any())->method('getContentReplaceController')->will($this->returnValue($controller));
-        $this->options->expects($this->any())->method('getContentReplaceRouteParams')->will($this->returnValue($routeParams));
-        $this->options->expects($this->any())->method('getContentReplaceRoute')->will($this->returnValue($routeName));
+        $this->options->expects($this->any())
+                      ->method('getContentReplaceController')
+                      ->will($this->returnValue($controller));
+        $this->options->expects($this->any())
+                      ->method('getContentReplaceRouteParams')
+                      ->will($this->returnValue($routeParams));
+        $this->options->expects($this->any())
+                      ->method('getContentReplaceRoute')
+                      ->will($this->returnValue($routeName));
 
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
