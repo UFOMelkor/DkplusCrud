@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature\Options;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -18,21 +18,13 @@ use DkplusUnitTest\TestCase;
  */
 class NotFoundReplaceOptionsTest extends TestCase
 {
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAnOptionsInstance()
     {
         $this->assertInstanceOf('Zend\Stdlib\AbstractOptions', new NotFoundReplaceOptions());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesContentReplaceController()
     {
         $options = new NotFoundReplaceOptions();
@@ -41,11 +33,7 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertSame('My\Controller', $options->getContentReplaceController());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesApplicationControllerAsInitialContentReplaceController()
     {
         $options = new NotFoundReplaceOptions();
@@ -53,36 +41,7 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertSame('Application\Controller\Index', $options->getContentReplaceController());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function providesContentReplaceAction()
-    {
-        $options = new NotFoundReplaceOptions();
-        $options->setContentReplaceAction('paginate');
-
-        $this->assertSame('paginate', $options->getContentReplaceAction());
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function providesIndexAsInitialContentReplaceAction()
-    {
-        $options = new NotFoundReplaceOptions();
-
-        $this->assertSame('index', $options->getContentReplaceAction());
-    }
-
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesContentReplaceRoute()
     {
         $options = new NotFoundReplaceOptions();
@@ -91,23 +50,15 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertSame('user/paginate', $options->getContentReplaceRoute());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function providesHomeAsInitialContentReplaceRoute()
+    /** @test */
+    public function providesNullAsInitialContentReplaceRoute()
     {
         $options = new NotFoundReplaceOptions();
 
-        $this->assertSame('home', $options->getContentReplaceRoute());
+        $this->assertNull($options->getContentReplaceRoute());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesContentReplaceRouteParams()
     {
         $options = new NotFoundReplaceOptions();
@@ -116,23 +67,15 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertSame(array('foo' => 'bar'), $options->getContentReplaceRouteParams());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function providesAnEmptyArrayAsInitialContentReplaceRouteParams()
+    /** @test */
+    public function providesAnActionAsInitialContentReplaceRouteParams()
     {
         $options = new NotFoundReplaceOptions();
 
-        $this->assertSame(array(), $options->getContentReplaceRouteParams());
+        $this->assertSame(array('action' => 'index'), $options->getContentReplaceRouteParams());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesAnErrorMessage()
     {
         $options = new NotFoundReplaceOptions();
@@ -141,11 +84,7 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertSame(':-(', $options->getErrorMessage());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function providesInitallyNoErrorMessage()
     {
         $options = new NotFoundReplaceOptions();
@@ -153,11 +92,7 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertSame(null, $options->getErrorMessage());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canDetectAnExistingErrorMessage()
     {
         $options = new NotFoundReplaceOptions();
@@ -166,15 +101,28 @@ class NotFoundReplaceOptionsTest extends TestCase
         $this->assertTrue($options->hasErrorMessage());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canDetectNotExistingErrorMessage()
     {
         $options = new NotFoundReplaceOptions();
 
         $this->assertFalse($options->hasErrorMessage());
+    }
+
+    /** @test */
+    public function providesAMessageNamespace()
+    {
+        $options = new NotFoundReplaceOptions();
+        $options->setMessageNamespace('error');
+
+        $this->assertEquals('error', $options->getMessageNamespace());
+    }
+
+    /** @test */
+    public function hasADefaultMessageNamespace()
+    {
+        $options = new NotFoundReplaceOptions();
+
+        $this->assertEquals('404-not-found', $options->getMessageNamespace());
     }
 }

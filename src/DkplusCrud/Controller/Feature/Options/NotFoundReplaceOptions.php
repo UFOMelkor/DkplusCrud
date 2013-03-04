@@ -21,17 +21,17 @@ class NotFoundReplaceOptions extends AbstractOptions
     /** @var string */
     protected $crController = 'Application\Controller\Index';
 
-    /** @var string */
-    protected $crAction = 'index';
-
     /** @var string[] */
-    protected $crRouteParams = array();
+    protected $crRouteParams = array('action' => 'index');
 
-    /** @var string */
-    protected $crRoute = 'home';
+    /** @var string|nulls */
+    protected $crRoute = null;
 
     /** @var string|null */
     protected $errorMessage;
+
+    /** @var string */
+    protected $messageNamespace = '404-not-found';
 
     /** @return string */
     public function getContentReplaceController()
@@ -43,18 +43,6 @@ class NotFoundReplaceOptions extends AbstractOptions
     public function setContentReplaceController($controller)
     {
         $this->crController = $controller;
-    }
-
-    /** @return string */
-    public function getContentReplaceAction()
-    {
-        return $this->crAction;
-    }
-
-    /** @param string $action */
-    public function setContentReplaceAction($action)
-    {
-        $this->crAction = $action;
     }
 
     /** @return string[] */
@@ -69,13 +57,13 @@ class NotFoundReplaceOptions extends AbstractOptions
         $this->crRouteParams = $routeParams;
     }
 
-    /** @return string */
+    /** @return string|null */
     public function getContentReplaceRoute()
     {
         return $this->crRoute;
     }
 
-    /** @param string $route */
+    /** @param string $route|nulls */
     public function setContentReplaceRoute($route)
     {
         $this->crRoute = $route;
@@ -97,5 +85,17 @@ class NotFoundReplaceOptions extends AbstractOptions
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
+    }
+
+    /** @return string */
+    public function getMessageNamespace()
+    {
+        return $this->messageNamespace;
+    }
+
+    /** @param string $messageNamespace */
+    public function setMessageNamespace($messageNamespace)
+    {
+        $this->messageNamespace = $messageNamespace;
     }
 }

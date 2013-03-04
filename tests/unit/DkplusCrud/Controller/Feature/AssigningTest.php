@@ -8,8 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Controller;
-use DkplusControllerDsl\Test\TestCase;
+use \PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -29,26 +28,16 @@ class AssigningTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->controller = new Controller();
-        $this->feature    = new Assigning('data', 'paginator');
-        $this->feature->setController($this->controller);
+        $this->feature = new Assigning('entities', 'paginator');
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPostEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -59,40 +48,28 @@ class AssigningTest extends TestCase
         $this->feature->attachTo('list', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function assignsTheEventParameterAsAlias()
     {
-        $this->setUpController($this->controller);
+        $paginator = $this->getMockBuilder('Zend\Paginator\Paginator')
+                          ->disableOriginalConstructor()
+                          ->getMock();
 
-        $paginator = $this->getMockIgnoringConstructor('Zend\Paginator\Paginator');
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        $viewModel->expects($this->once())
+                  ->method('setVariable')
+                  ->with('paginator', $paginator);
 
-        $dsl = $this->getDslMockBuilder()
-                    ->withMockedPhrases(array('assign'))
-                    ->getMock();
-        $dsl->expects($this->at(0))
-            ->method('assign')
-            ->with($paginator)
-            ->will($this->returnSelf());
-        $dsl->expects($this->at(1))
-            ->method('__call')
-            ->with('as', array('paginator'))
-            ->will($this->returnSelf());
-
-        $map = array(
-            array('result', null, $dsl),
-            array('data', null, $paginator)
-        );
-        $event = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $event = $this->getMockBuilder('DkplusCrud\Controller\Event')
+                      ->disableOriginalConstructor()
+                      ->getMock();
         $event->expects($this->any())
               ->method('getParam')
-              ->will($this->returnValueMap($map));
-
-        $this->assertSame($dsl, $event->getParam('result'));
-        $this->assertSame($paginator, $event->getParam('data'));
+              ->with('entities')
+              ->will($this->returnValue($paginator));
+        $event->expects($this->any())
+              ->method('getViewModel')
+              ->will($this->returnValue($viewModel));
 
         $this->feature->execute($event);
     }

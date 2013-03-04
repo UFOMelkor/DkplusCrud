@@ -21,6 +21,9 @@ class SuccessOptions extends AbstractOptions
     /** @var string|callable */
     protected $message = '';
 
+    /** @var string */
+    protected $messageNamespace = 'success';
+
     /** @var string|callable */
     protected $redirectRoute = 'home';
 
@@ -69,5 +72,17 @@ class SuccessOptions extends AbstractOptions
     public function setMessage($message)
     {
         $this->message = $message;
+    }
+
+    /** @return string */
+    public function getMessageNamespace()
+    {
+        return $this->messageNamespace;
+    }
+
+    /** @param string $namespace */
+    public function setMessageNamespace($namespace)
+    {
+        $this->messageNamespace = $namespace;
     }
 }

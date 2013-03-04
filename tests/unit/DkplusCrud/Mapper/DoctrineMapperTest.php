@@ -8,7 +8,7 @@
 
 namespace DkplusCrud\Mapper;
 
-use DkplusUnitTest\TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
  * @category   DkplusTest
@@ -28,7 +28,9 @@ class DoctrineMapperTest extends TestCase
     {
         parent::setUp();
 
-        $this->entityManager = $this->getMockIgnoringConstructor('Doctrine\ORM\EntityManager');
+        $this->entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
         $this->mapper        = new DoctrineMapper($this->entityManager, 'stdClass');
     }
 
@@ -142,7 +144,9 @@ class DoctrineMapperTest extends TestCase
     {
         $query = $this->getMock('stdClass', array('execute'));
 
-        $queryBuilder = $this->getMockIgnoringConstructor('Doctrine\ORM\QueryBuilder');
+        $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+                             ->disableOriginalConstructor()
+                             ->getMock();
         $queryBuilder->expects($this->once())
                      ->method('select')
                      ->with('e');
@@ -175,7 +179,9 @@ class DoctrineMapperTest extends TestCase
               ->method('execute')
               ->will($this->returnValue($executionResult));
 
-        $queryBuilder = $this->getMockIgnoringConstructor('Doctrine\ORM\QueryBuilder');
+        $queryBuilder = $this->getMockBuilder('Doctrine\ORM\QueryBuilder')
+                             ->disableOriginalConstructor()
+                             ->getMock();
 
         $queryBuilder->expects($this->any())
                      ->method('getQuery')

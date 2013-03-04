@@ -8,8 +8,8 @@
 
 namespace DkplusCrud\Controller\Feature;
 
+use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
-use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus
@@ -40,10 +40,10 @@ class PaginationProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $pageNumber = $this->getController()
-                           ->getEvent()
-                           ->getRouteMatch()
-                           ->getParam($this->pageParameter);
-        return $this->service->getPaginator($pageNumber);
+        $pageNumber = $event->getController()
+                            ->getEvent()
+                            ->getRouteMatch()
+                            ->getParam($this->pageParameter);
+        $event->setEntities($this->service->getPaginator($pageNumber));
     }
 }

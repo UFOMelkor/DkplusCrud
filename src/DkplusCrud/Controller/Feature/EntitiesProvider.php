@@ -8,8 +8,8 @@
 
 namespace DkplusCrud\Controller\Feature;
 
+use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
-use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus
@@ -33,6 +33,6 @@ class EntitiesProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        return $this->service->getAll();
+        $event->setEntities($this->service->getAll());
     }
 }

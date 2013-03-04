@@ -8,8 +8,8 @@
 
 namespace DkplusCrud\Controller\Feature;
 
+use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
-use Zend\EventManager\EventInterface as Event;
 
 /**
  * @category   Dkplus
@@ -32,7 +32,6 @@ class UpdateFormProvider extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $identifier = $event->getParam('identifier');
-        return $this->service->getUpdateForm($identifier);
+        $event->setForm($this->service->getUpdateForm($event->getIdentifier()));
     }
 }

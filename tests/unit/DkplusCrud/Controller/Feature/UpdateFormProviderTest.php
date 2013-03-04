@@ -24,32 +24,24 @@ class UpdateFormProviderTest extends TestCase
     /** @var \DkplusCrud\Service\ServiceInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $service;
 
-    /** @var \Zend\EventManager\EventInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
     protected function setUp()
     {
-        $this->event   = $this->getMockForAbstractClass('Zend\EventManager\EventInterface');
+        $this->event   = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
 
         $this->feature = new UpdateFormProvider($this->service);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -60,19 +52,13 @@ class UpdateFormProviderTest extends TestCase
         $this->feature->attachTo('create', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
-    public function returnsTheFormFromTheService()
+    /** @test */
+    public function putsTheFormFromTheServiceIntoTheEvent()
     {
-
         $form = $this->getMockForAbstractClass('Zend\Form\FormInterface');
 
         $this->event->expects($this->any())
-                    ->method('getParam')
-                    ->with('identifier')
+                    ->method('getIdentifier')
                     ->will($this->returnValue(5));
 
         $this->service->expects($this->any())
@@ -80,6 +66,8 @@ class UpdateFormProviderTest extends TestCase
                       ->with(5)
                       ->will($this->returnValue($form));
 
-        $this->assertSame($form, $this->feature->execute($this->event));
+        $this->event->expects($this->once())->method('setForm')->with($form);
+
+        $this->feature->execute($this->event);
     }
 }

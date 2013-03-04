@@ -8,9 +8,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusControllerDsl\Dsl\DslInterface as Dsl;
-use RuntimeException;
-use Zend\EventManager\EventInterface as Event;
+use DkplusCrud\Controller\Event;
 
 /**
  * @category   Dkplus
@@ -25,13 +23,8 @@ class AjaxLayoutDisabling extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $ctrl = $this->getController();
-        $dsl  = $event->getParam('result');
-
-        if (!$dsl instanceof Dsl) {
-            throw new RuntimeException('missing dsl');
+        if ($event->getRequest()->isXmlHttpRequest()) {
+            $event->getViewModel()->setTerminal(true);
         }
-
-        return $dsl->onAjaxRequest($ctrl->dsl()->disableLayout());
     }
 }
