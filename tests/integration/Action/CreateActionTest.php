@@ -22,6 +22,7 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 use Zend\Form\Element;
 use Zend\Form\Form;
+use Zend\Http\Request;
 use Zend\InputFilter\Input;
 use Zend\Mvc\Router\Http\Segment as SegmentRoute;
 use Zend\Session\Container as SessionContainer;
@@ -82,18 +83,14 @@ class CreateActionTest extends TestCase
         $this->controller = new Controller();
         $this->controller->addAction(new Action\DefaultAction('create'));
         $this->controller->addFeature('create', new Feature\CreationFormProvider($service));
-        $this->controller->addFeature('create', new Feature\FormHandling(array($service, 'create'), $successOptions));
+        $this->controller->addFeature('create', new Feature\FormHandling($service, $successOptions));
         $this->controller->addFeature('create', new Feature\Rendering('my-module/creation/template'));
         $this->controller->addFeature('create', new Feature\AjaxFormSupport());
 
         $this->setUp->setUp($this->controller);
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function returnsAViewModel()
     {
         $this->assertInstanceOf(
@@ -102,11 +99,7 @@ class CreateActionTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function rendersTheGivenTemplate()
     {
         $viewModel = $this->controller->dispatch($this->controller->getRequest());
@@ -114,11 +107,7 @@ class CreateActionTest extends TestCase
         $this->assertEquals('my-module/creation/template', $viewModel->getTemplate());
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function canRenderTheForm()
     {
         $viewModel = $this->controller->dispatch($this->controller->getRequest());
@@ -126,11 +115,7 @@ class CreateActionTest extends TestCase
         $this->assertInstanceOf('Zend\Form\FormInterface', $viewModel->getVariable('form'));
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function redirectsOnNonAjaxSuccess()
     {
         $container = new SessionContainer('prg_post1');
@@ -154,11 +139,7 @@ class CreateActionTest extends TestCase
         $this->assertSame('/target/5', $response->getHeaders()->get('Location')->getUri());
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function doesNotRedirectOnValidationError()
     {
         $container = new SessionContainer('prg_post1');
@@ -172,11 +153,7 @@ class CreateActionTest extends TestCase
         $this->assertInstanceOf('Zend\View\Model\ViewModel', $result);
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function doesNotSaveOnAjaxSuccess()
     {
         $container = new SessionContainer('prg_post1');
@@ -190,11 +167,7 @@ class CreateActionTest extends TestCase
         $this->controller->dispatch($request);
     }
 
-    /**
-     * @test
-     * @group integration
-     * @group integration\controller
-     */
+    /** @test */
     public function returnsEmptyFormErrosAsJsonOnAjaxValidationError()
     {
         $container = new SessionContainer('prg_post1');
@@ -209,16 +182,13 @@ class CreateActionTest extends TestCase
 
     /**
      * @test
-     * @group integration
-     * @group integration\controller
+     * @group debug
      */
     public function returnsTheFormErrosAsJsonOnAjaxValidationError()
     {
-        $container = new SessionContainer('prg_post1');
-        $container->post = array('name' => 'fo');
-
         $request = $this->controller->getRequest();
         /* @var $request Request */
+        $request->setMethod(Request::METHOD_POST);
         $request->getPost()->set('name', 'fo');
         $request->getHeaders()->addHeaderLine('X_REQUESTED_WITH', 'XMLHttpRequest');
 

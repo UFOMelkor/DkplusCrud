@@ -284,9 +284,6 @@ class EventTest extends \PHPUnit_Framework_TestCase
         $result = $this->event->getResult();
         $param  = $this->event->getParam('__RESULT__');
 
-        \Zend\Debug\Debug::dump($result);
-        \Zend\Debug\Debug::dump($param);
-
         $this->assertSame($result, $param);
     }
 
