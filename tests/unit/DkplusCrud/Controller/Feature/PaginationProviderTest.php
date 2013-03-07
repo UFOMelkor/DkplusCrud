@@ -47,7 +47,11 @@ class PaginationProviderTest extends TestCase
         $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function isAFeature()
     {
         $this->assertInstanceOf(
@@ -56,7 +60,11 @@ class PaginationProviderTest extends TestCase
         );
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -68,7 +76,11 @@ class PaginationProviderTest extends TestCase
         $feature->attachTo('paginate', $events);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function putsThePaginatorFromTheServiceIntoTheEvent()
     {
         $paginator = $this->getMockBuilder('Zend\Paginator\Paginator')
@@ -83,7 +95,11 @@ class PaginationProviderTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function hasPageAsDefaultRouteMatchParam()
     {
         $this->routeMatch->expects($this->once())
@@ -99,7 +115,11 @@ class PaginationProviderTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function mightHaveAnotherRouteMatchParamForGettingThePage()
     {
         $this->routeMatch->expects($this->once())

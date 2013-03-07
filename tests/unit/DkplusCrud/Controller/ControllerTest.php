@@ -30,7 +30,11 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->events     = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function attachesTheOnDispatchMethodFurthermoreToTheDispatchEvent()
     {
         $this->events->expects($this->once())
@@ -40,7 +44,11 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->setEventManager($this->events);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function attachesTheEventManagerToEachAddedAction()
     {
         $action = $this->getMockForAbstractClass('DkplusCrud\Controller\Action\ActionInterface');
@@ -52,7 +60,11 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->setEventManager($this->events);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function putsItselfIntoEachAddedAction()
     {
         $action = $this->getMockForAbstractClass('DkplusCrud\Controller\Action\ActionInterface');
@@ -63,7 +75,11 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->addAction($action);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function canAddFeaturesToAddedActions()
     {
         $feature = $this->getMockForAbstractClass('DkplusCrud\Controller\Feature\FeatureInterface');
@@ -89,6 +105,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @group unit
+     * @group unit/controller
      * @expectedException OutOfBoundsException
      */
     public function throwsAnExceptionIfAFeatureShouldBeAddedToANonExistingAction()
@@ -97,7 +115,11 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
         $this->controller->addFeature('paginate', $feature);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/controller
+     */
     public function usesParentDispatchingWhenNoActionCouldBeFound()
     {
         $event  = $this->getEventWithRouteMatch('index');

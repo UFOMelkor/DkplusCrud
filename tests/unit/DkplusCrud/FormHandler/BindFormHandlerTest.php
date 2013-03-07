@@ -33,19 +33,31 @@ class BindFormHandlerTest extends TestCase
         $this->formHandler = new BindFormHandler($this->form, 'stdClass');
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function isAFormStrategy()
     {
         $this->assertInstanceOf('DkplusCrud\FormHandler\FormHandlerInterface', $this->formHandler);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheOvergivenFormAsCreationForm()
     {
         $this->assertSame($this->form, $this->formHandler->getCreationForm());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function bindsAnInstanceOfTheModelToTheCreationForm()
     {
         $this->form->expects($this->once())
@@ -54,14 +66,22 @@ class BindFormHandlerTest extends TestCase
         $this->formHandler->getCreationForm();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheOvergivenFormAsUpdateForm()
     {
         $entity = $this->getMock('stdClass');
         $this->assertSame($this->form, $this->formHandler->getUpdateForm($entity));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function bindsTheGivenInstanceOfTheModelToTheUpdateForm()
     {
         $entity = $this->getMock('stdClass');
@@ -72,14 +92,22 @@ class BindFormHandlerTest extends TestCase
         $this->formHandler->getUpdateForm($entity);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function doesNotNeedToCreateNewEntitiesBecauseTheyAreAlreadyCreated()
     {
         $entity = $this->getMock('stdClass');
         $this->assertSame($entity, $this->formHandler->createEntity($entity));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function doesNotNeedToUpdateNewEntitiesBecauseTheyAreAlreadyUpdated()
     {
         $data = array('foo', 'bar', 'baz');

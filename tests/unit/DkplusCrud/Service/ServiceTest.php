@@ -41,19 +41,32 @@ class ServiceTest extends TestCase
         $this->service      = new Service($this->mapper, $this->formHandler);
     }
 
-    /** @test */
-    public function isACrudService()
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     * @testdox is a crud service
+     */
+    public function isCrudService()
     {
         $this->assertInstanceOf('DkplusCrud\Service\ServiceInterface', $this->service);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function needsAnEventManager()
     {
         $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $this->service);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function letTheFormStrategyCreateTheEntity()
     {
         $data = array('foo' => 'bar', 'baz' => 'bar');
@@ -65,7 +78,11 @@ class ServiceTest extends TestCase
         $this->service->create($data);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function storesTheCreatedEntityIntoTheMapper()
     {
         $createdEntity = $this->getMock('stdClass');
@@ -81,7 +98,11 @@ class ServiceTest extends TestCase
         $this->service->create(array());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheCreatedEntity()
     {
         $createdEntity = $this->getMock('stdClass');
@@ -93,7 +114,11 @@ class ServiceTest extends TestCase
         $this->assertSame($createdEntity, $this->service->create(array()));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function getsTheEntityToUpdateFromTheMapper()
     {
         $this->mapper->expects($this->once())
@@ -103,7 +128,11 @@ class ServiceTest extends TestCase
         $this->service->update(array(), 34);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function letTheFormStrategyUpdateTheEntity()
     {
         $entity = $this->getMock('stdClass');
@@ -120,7 +149,11 @@ class ServiceTest extends TestCase
         $this->service->update($data, 15);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function storesTheUpdatedEntityIntoTheMapper()
     {
         $entity = $this->getMock('stdClass');
@@ -136,7 +169,11 @@ class ServiceTest extends TestCase
         $this->service->update(array(), 15);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheUpdatedEntity()
     {
         $updatedEntity = $this->getMock('stdClass');
@@ -148,7 +185,11 @@ class ServiceTest extends TestCase
         $this->assertSame($updatedEntity, $this->service->update(array(), 10));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function getsTheCreationFormFromFormStrategy()
     {
         $form = $this->getMock('Zend\Form\FormInterface');
@@ -160,7 +201,11 @@ class ServiceTest extends TestCase
         $this->assertSame($form, $this->service->getCreationForm());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function findsEntitiesViaMapper()
     {
         $entity = $this->getMock('stdClass');
@@ -175,6 +220,8 @@ class ServiceTest extends TestCase
 
     /**
      * @test
+     * @group unit
+     * @group unit/service
      * @expectedException DkplusBase\Service\Exception\EntityNotFound
      */
     public function doesNotCatchExceptionsWhenFinding()
@@ -190,7 +237,11 @@ class ServiceTest extends TestCase
         $this->service->get(5);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function deletesEntitiesViaMapper()
     {
         $entity = $this->getMock('stdClass');
@@ -201,7 +252,11 @@ class ServiceTest extends TestCase
         $this->service->delete($entity);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function getsAllEntitiesViaMapper()
     {
         $entities = array($this->getMock('stdClass'));
@@ -213,7 +268,11 @@ class ServiceTest extends TestCase
         $this->assertSame($entities, $this->service->getAll());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function getsTheEntityForTheUpdateFormFromTheMapper()
     {
         $this->mapper->expects($this->once())
@@ -223,7 +282,11 @@ class ServiceTest extends TestCase
         $this->service->getUpdateForm(46);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function getsTheUpdateFormFromTheFormHandler()
     {
         $entity = $this->getMock('stdClass');
@@ -242,6 +305,8 @@ class ServiceTest extends TestCase
 
     /**
      * @test
+     * @group unit
+     * @group unit/service
      * @expectedException DkplusBase\Service\Exception\EntityNotFound
      */
     public function doesNotCatchExceptionsWhenGettingUpdateForm()
@@ -257,7 +322,11 @@ class ServiceTest extends TestCase
         $this->service->getUpdateForm(25);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function getsAPaginatorWithAnAdapterFromTheMapper()
     {
         $adapter = $this->getMock('Zend\Paginator\Adapter\AdapterInterface');
@@ -270,7 +339,11 @@ class ServiceTest extends TestCase
         $this->assertSame($adapter, $paginator->getAdapter());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function assignsCurrentPageNumberToThePaginator()
     {
         $adapter = $this->getMock('Zend\Paginator\Adapter\AdapterInterface');
@@ -283,7 +356,11 @@ class ServiceTest extends TestCase
         $this->assertEquals(35, $paginator->getCurrentPageNumber());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function assignsEntitiesCountPerPageToThePaginator()
     {
         $adapter = $this->getMock('Zend\Paginator\Adapter\AdapterInterface');
@@ -297,13 +374,21 @@ class ServiceTest extends TestCase
         $this->assertEquals(50, $paginator->getItemCountPerPage());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function doesAlwaysHaveAnEventManager()
     {
         $this->assertInstanceOf('Zend\EventManager\EventManagerInterface', $this->service->getEventManager());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function addsAnIdentifierToTheEventManager()
     {
         $this->eventManager->expects($this->once())
@@ -313,7 +398,11 @@ class ServiceTest extends TestCase
         $this->service->setEventManager($this->eventManager);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function putsTheAddedEventManagerIntoTheMapperWhenImplementingEventManagerAware()
     {
         $mapper = $this->getMockBuilder('DkplusCrud\Mapper\DoctrineMapper')
@@ -328,7 +417,11 @@ class ServiceTest extends TestCase
         $service->setEventManager($this->eventManager);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function attachesFeaturesToExistingEventManager()
     {
         $this->service->setEventManager($this->eventManager);
@@ -341,7 +434,11 @@ class ServiceTest extends TestCase
         $this->service->addFeature($feature);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function attachesFeaturesToLaterAddedEventManager()
     {
         $feature = $this->getMockForAbstractClass('DkplusCrud\Service\Feature\FeatureInterface');

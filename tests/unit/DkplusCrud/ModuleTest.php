@@ -27,7 +27,11 @@ class ModuleTest extends TestCase
         $this->module = new Module();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/module
+     */
     public function implementsAutoloaderProviderInterface()
     {
         $this->assertInstanceOf('Zend\ModuleManager\Feature\AutoloaderProviderInterface', $this->module);
@@ -35,6 +39,8 @@ class ModuleTest extends TestCase
 
     /**
      * @test
+     * @group unit
+     * @group unit/module
      * @depends implementsAutoloaderProviderInterface
      */
     public function providesAutoloaderConfigAsArray()

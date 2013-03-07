@@ -39,26 +39,42 @@ class FactoryFormHandlerTest extends TestCase
         $this->formHandler     = new FactoryFormHandler($this->form, $this->hydrationFactory);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function isAFormStrategy()
     {
         $this->assertInstanceOf('DkplusCrud\FormHandler\FormHandlerInterface', $this->formHandler);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheOvergivenFormAsCreationForm()
     {
         $this->assertSame($this->form, $this->formHandler->getCreationForm());
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheOvergivenFormAsUpdateForm()
     {
         $entity = $this->getMock('stdClass');
         $this->assertSame($this->form, $this->formHandler->getUpdateForm($entity));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function putsTheDataOfTheModelIntoTheUpdateForm()
     {
         $entity = $this->getMock('stdClass');
@@ -76,7 +92,11 @@ class FactoryFormHandlerTest extends TestCase
         $this->formHandler->getUpdateForm($entity);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function createsNewEntitiesUsingTheHydrationFactory()
     {
         $entity = $this->getMock('stdClass');
@@ -90,7 +110,11 @@ class FactoryFormHandlerTest extends TestCase
         $this->assertSame($entity, $this->formHandler->createEntity($data));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function updatesEntitiesUsingTheHydrationFactory()
     {
         $data = array('foo', 'bar', 'baz');
@@ -103,7 +127,11 @@ class FactoryFormHandlerTest extends TestCase
         $this->formHandler->updateEntity($data, $entity);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function returnsTheUpdatedEntity()
     {
         $entity = $this->getMock('stdClass');

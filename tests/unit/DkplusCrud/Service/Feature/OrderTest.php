@@ -37,7 +37,11 @@ class OrderTest extends TestCase
                     ->will($this->returnValue($this->queryBuilder));
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function attachesItselfToTheQueryBuilderEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -49,7 +53,11 @@ class OrderTest extends TestCase
         $feature->attachTo($events);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function addsAnOrderToTheQuery()
     {
         $this->queryBuilder->expects($this->once())
@@ -60,7 +68,11 @@ class OrderTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function ordersAscByDefault()
     {
         $this->queryBuilder->expects($this->once())
@@ -71,7 +83,11 @@ class OrderTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canAlsoOrderDesc()
     {
         $this->queryBuilder->expects($this->once())

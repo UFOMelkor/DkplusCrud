@@ -50,7 +50,11 @@ class FilterTest extends TestCase
         $this->filter = new Filter();
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function attachesItselfToTheQueryBuilderEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -61,7 +65,11 @@ class FilterTest extends TestCase
         $this->filter->attachTo($events);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function enlargesTheResultByDefault()
     {
         $this->expressions->expects($this->any())
@@ -82,7 +90,11 @@ class FilterTest extends TestCase
     }
 
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function mayAlsoRefineTheResult()
     {
         $this->expressions->expects($this->any())
@@ -97,7 +109,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function usesTheLastRefineEnlargeBeforeExecuting()
     {
         $this->expressions->expects($this->any())
@@ -113,7 +129,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterEquals()
     {
         $expression = $this->getExprMock();
@@ -134,7 +154,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterBetween()
     {
         $expression = $this->getExprMock();
@@ -158,7 +182,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterLike()
     {
         $expression = $this->getExprMock();
@@ -179,7 +207,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterInArray()
     {
         $expression = $this->getExprMock();
@@ -200,7 +232,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterGreaterThanEquals()
     {
         $expression = $this->getExprMock();
@@ -221,7 +257,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterGreaterThan()
     {
         $expression = $this->getExprMock();
@@ -242,7 +282,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterLessThanEquals()
     {
         $expression = $this->getExprMock();
@@ -263,7 +307,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterLessThan()
     {
         $expression = $this->getExprMock();
@@ -284,7 +332,11 @@ class FilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @group unit
+     * @group unit/service
+     */
     public function canFilterByMultipleCriterias()
     {
         $expressionA = $this->getExprMock();
