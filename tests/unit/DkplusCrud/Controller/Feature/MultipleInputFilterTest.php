@@ -32,11 +32,7 @@ class MultipleInputFilterTest extends TestCase
         $this->service = $this->getMockBuilder('DkplusCrud\Service\Service')->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function isAFeature()
     {
         $this->assertInstanceOf(
@@ -45,11 +41,7 @@ class MultipleInputFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfAsPreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -59,11 +51,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->attachTo('list', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesItselfWithAnHigherPriority()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -73,11 +61,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->attachTo('list', $events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function addsAFilterToTheService()
     {
         $feature = new MultipleInputFilter($this->service, array('foo' => 'q'));
@@ -88,11 +72,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canOverrideTheDefaultFilter()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -104,11 +84,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseARefiningFilter()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -120,11 +96,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->refineResults();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canUseAnEnlargingFilter()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -136,11 +108,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->enlargeResults();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canFilterForASingleGivenValues()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -152,11 +120,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canFilterByMultipleProperties()
     {
         $filter  = $this->getMock('DkplusCrud\Service\Feature\Filter');
@@ -171,8 +135,6 @@ class MultipleInputFilterTest extends TestCase
 
     /**
      * @test
-     * @group unit
-     * @group unit/controller
      * @dataProvider filteringComparators
      */
     public function canFilterByDifferentComparators($type, $method, $value)
@@ -203,11 +165,7 @@ class MultipleInputFilterTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetTheValuesFromTheRouter()
     {
         $params = $this->getMock('stdClass', array('fromRoute'));
@@ -227,11 +185,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetTheValuesFromQuery()
     {
         $params = $this->getMock('stdClass', array('fromQuery'));
@@ -251,11 +205,7 @@ class MultipleInputFilterTest extends TestCase
         $feature->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetTheValuesFromPost()
     {
         $params = $this->getMock('stdClass', array('fromPost'));

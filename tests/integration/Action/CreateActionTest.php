@@ -180,10 +180,7 @@ class CreateActionTest extends TestCase
         $this->assertInstanceOf('Zend\View\Model\JsonModel', $result);
     }
 
-    /**
-     * @test
-     * @group debug
-     */
+    /** @test */
     public function returnsTheFormErrosAsJsonOnAjaxValidationError()
     {
         $request = $this->controller->getRequest();
