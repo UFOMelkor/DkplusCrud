@@ -30,11 +30,7 @@ class AbstractFeatureTest extends TestCase
         $this->events  = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesTheExecuteMethodToTheEvents()
     {
         $this->events->expects($this->once())
@@ -44,11 +40,7 @@ class AbstractFeatureTest extends TestCase
         $this->feature->attachTo('foo', $this->events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function attachesTheFeatureToTheEventNameByDefault()
     {
         $this->events->expects($this->once())
@@ -58,11 +50,7 @@ class AbstractFeatureTest extends TestCase
         $this->feature->attachTo('foo', $this->events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function hasAnDefaultPriorityOfOne()
     {
         $this->events->expects($this->once())
@@ -72,11 +60,7 @@ class AbstractFeatureTest extends TestCase
         $this->feature->attachTo('foo', $this->events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/controller
-     */
+    /** @test */
     public function canGetAnotherPriority()
     {
         $this->events->expects($this->once())

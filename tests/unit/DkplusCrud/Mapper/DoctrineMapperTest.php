@@ -34,31 +34,19 @@ class DoctrineMapperTest extends TestCase
         $this->mapper        = new DoctrineMapper($this->entityManager, 'stdClass');
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function isACrudMapper()
     {
         $this->assertInstanceOf('DkplusCrud\Mapper\MapperInterface', $this->mapper);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function needsAnEventManager()
     {
         $this->assertInstanceOf('Zend\EventManager\EventManagerAwareInterface', $this->mapper);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function savesEntitiesByPuttingThemIntoTheEntityManager()
     {
         $entity = $this->getMock('stdClass');
@@ -72,11 +60,7 @@ class DoctrineMapperTest extends TestCase
         $this->mapper->save($entity);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function returnsTheSavedEntity()
     {
         $entity = $this->getMock('stdClass');
@@ -84,11 +68,7 @@ class DoctrineMapperTest extends TestCase
         $this->assertSame($entity, $this->mapper->save($entity));
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function findsAnEntityUsingTheEntityManager()
     {
         $entity = $this->getMock('stdClass');
@@ -103,8 +83,6 @@ class DoctrineMapperTest extends TestCase
 
     /**
      * @test
-     * @group unit
-     * @group unit/service
      * @expectedException DkplusBase\Service\Exception\EntityNotFound
      */
     public function throwsAnExceptionWhenNoEntityHasBeenFound()
@@ -117,11 +95,7 @@ class DoctrineMapperTest extends TestCase
         $this->mapper->find(71);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function canDeleteEntities()
     {
         $entity = $this->getMock('stdClass');
@@ -135,11 +109,7 @@ class DoctrineMapperTest extends TestCase
         $this->mapper->delete($entity);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function createsAQueryBuilderToFindEntities()
     {
         $query = $this->getMock('stdClass', array('execute'));
@@ -164,11 +134,7 @@ class DoctrineMapperTest extends TestCase
         $this->mapper->findAll();
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function returnsTheExecutedQueryAsFoundResult()
     {
         $executionResult = array('firstEntity', 'secondEntity');
@@ -194,11 +160,7 @@ class DoctrineMapperTest extends TestCase
         $this->assertSame($executionResult, $this->mapper->findAll());
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function triggersAnEventWhenBuildingAQuery()
     {
         $query = $this->getMock('stdClass', array('execute'));
