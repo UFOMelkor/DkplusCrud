@@ -42,11 +42,7 @@ class EntityFilterTest extends TestCase
         $this->filter = new EntityFilter('My\Entity');
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function attachesItselfToTheQueryBuilderEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
@@ -57,11 +53,7 @@ class EntityFilterTest extends TestCase
         $this->filter->attachTo($events);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function refinesTheResultByDefault()
     {
         $this->queryBuilder->expects($this->once())
@@ -70,11 +62,7 @@ class EntityFilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function mayAlsoEnlargeTheResult()
     {
         $this->queryBuilder->expects($this->once())
@@ -84,11 +72,7 @@ class EntityFilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function usesTheLastRefineEnlargeBeforeExecuting()
     {
         $this->queryBuilder->expects($this->once())
@@ -99,11 +83,7 @@ class EntityFilterTest extends TestCase
         $this->filter->execute($this->event);
     }
 
-    /**
-     * @test
-     * @group unit
-     * @group unit/service
-     */
+    /** @test */
     public function filtersEntitiesOfTheGivenClass()
     {
         $this->queryBuilder->expects($this->once())
