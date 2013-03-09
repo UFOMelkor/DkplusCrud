@@ -83,13 +83,14 @@ Should be used for updating an entity. Like the `SingleEntityAction` it triggers
 **Event:** `post`
 Assigns the messages from the form to the view model. For this the form must be validated, but there will be no handling of a valid form (for this look at the [FormHandling](#formhandling)-Feature). If there is no instance of `Zend\View\Model\JsonModel` available the view model will be overriden.
 
-The feature can handle post and query data by determining the request-method.
+The feature can handle post and query data by determining the request-method. As the name suggests it will only does its work if an ajax request has been detected.
 
 ### AjaxLayoutDisabling
 
 [`DkplusCrud\Controller\Feature\AjaxLayoutDisabling`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/AjaxLayoutDisabling.php)
 
 **Event:** `post`
+Disables the layout if an ajax request has been detected
 
 ### Assigning
 
