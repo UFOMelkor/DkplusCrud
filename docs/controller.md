@@ -60,13 +60,13 @@ Actually there are 3 different actions:
 
 [`DkplusCrud\Controller\Action\DefaultAction`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Action/DefaultAction.php)
 
-Can be used in most cases. It does not more than triggering the three events und returning the event result.
+Can be used in most cases. It does not more than triggering the three events und returning the event result. On each event you can hook some features in so they will be executed.
 
 ### SingleEntityAction
 
 [`DkplusCrud\Controller\Action\SingleEntityAction`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Action/SingleEntityAction.php)
 
-Should be used in most cases working on a single entity like showing or deleting. If there is no entity available after the `pre`-event a `notFound`-event will be triggered instead of `main`- and `post`-event.
+Should be used in most cases working on a single entity like showing or deleting. If there is no entity available after the `pre`-event a `notFound`-event will be triggered instead of the `main`- and `post`-event.
 
 ### UpdateFormAction
 
@@ -81,6 +81,9 @@ Should be used for updating an entity. Like the `SingleEntityAction` it triggers
 [`DkplusCrud\Controller\Feature\AjaxFormSupport`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/AjaxFormSupport.php)
 
 **Event:** `post`
+Assigns the messages from the form to the view model. For this the form must be validated, but there will be no handling of a valid form (for this look at the [FormHandling](#formhandling)-Feature). If there is no instance of `Zend\View\Model\JsonModel` available the view model will be overriden.
+
+The feature can handle post and query data by determining the request-method.
 
 ### AjaxLayoutDisabling
 
