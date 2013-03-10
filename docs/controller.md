@@ -21,7 +21,6 @@
         - [Rendering](#rendering)
         - [SingleInputFilter](#singleinputfilter)
         - [UpdateFormProvider](#updateformprovider)
-    - [Own extensions](#own-extensions)
 
 # Controller
 
