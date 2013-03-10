@@ -19,22 +19,10 @@ use \PHPUnit_Framework_TestCase as TestCase;
  */
 class AssigningTest extends TestCase
 {
-    /** @var Controller */
-    protected $controller;
-
-    /** @var Assigning */
-    protected $feature;
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->feature = new Assigning('entities', 'paginator');
-    }
-
     /** @test */
     public function isAFeature()
     {
-        $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
+        $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', new Assigning('value', 'alias'));
     }
 
     /** @test */
@@ -45,7 +33,8 @@ class AssigningTest extends TestCase
                ->method('attach')
                ->with('postList');
 
-        $this->feature->attachTo('list', $events);
+        $feature = new Assigning('value', 'alias');
+        $feature->attachTo('list', $events);
     }
 
     /** @test */
@@ -56,9 +45,7 @@ class AssigningTest extends TestCase
                           ->getMock();
 
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
-        $viewModel->expects($this->once())
-                  ->method('setVariable')
-                  ->with('paginator', $paginator);
+        $viewModel->expects($this->once())->method('setVariable')->with('paginator', $paginator);
 
         $event = $this->getMockBuilder('DkplusCrud\Controller\Event')
                       ->disableOriginalConstructor()
@@ -71,6 +58,23 @@ class AssigningTest extends TestCase
               ->method('getViewModel')
               ->will($this->returnValue($viewModel));
 
-        $this->feature->execute($event);
+        $feature = new Assigning('entities', 'paginator');
+        $feature->execute($event);
+    }
+
+    /** @test */
+    public function canAlsoAssignValuesDirectly()
+    {
+        $message = 'foo bar';
+
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
+        $viewModel->expects($this->once())->method('setVariable')->with('message', $message);
+
+        $event = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
+        $event->expects($this->any())->method('getViewModel')->will($this->returnValue($viewModel));
+
+        $feature = new Assigning($message, 'message');
+        $feature->useEvent(false);
+        $feature->execute($event);
     }
 }
