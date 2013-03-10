@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Mapper
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Mapper;
@@ -15,10 +13,8 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginationAdapter;
 use ZfcBase\EventManager\EventProvider;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Mapper
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class DoctrineMapper extends EventProvider implements MapperInterface
 {

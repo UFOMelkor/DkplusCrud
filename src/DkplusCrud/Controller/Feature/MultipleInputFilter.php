@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -13,10 +11,8 @@ use DkplusCrud\Service\Service;
 use DkplusCrud\Service\Feature\Filter as ServiceFilter;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class MultipleInputFilter extends AbstractFeature
 {

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Action;
@@ -14,14 +12,17 @@ use DkplusCrud\Controller\Event;
 use Zend\EventManager\EventManagerInterface as EventManager;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 abstract class AbstractAction implements ActionInterface
 {
-    /** @var string */
+    /**
+     * Correlates to the of the name of the method in ActionControllers.
+     * E.g. update, read, …
+     *
+     * @var string
+     */
     protected $name;
 
     /** @var Controller */
@@ -36,7 +37,9 @@ abstract class AbstractAction implements ActionInterface
     /** @var Event */
     private $event;
 
-    /** @param string $name */
+    /**
+     * @param string $name Correlates to the name of the method in ActionControllers.
+     */
     public function __construct($name)
     {
         $this->name = $name;
@@ -79,9 +82,8 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
-     *
-     * @return DkplusCrud\Controller\Event
-     * @throws Exception
+     * @return Event
+     * @throws Exception\RuntimeException if event and controller have not been set.
      */
     public function getEvent()
     {

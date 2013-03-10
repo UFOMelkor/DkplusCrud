@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Module
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud;
@@ -11,10 +9,8 @@ namespace DkplusCrud;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface as AutoloaderProvider;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Module
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class Module implements AutoloaderProvider
 {

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage FormHandler
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\FormHandler;
@@ -11,10 +9,8 @@ namespace DkplusCrud\FormHandler;
 use Zend\Form\FormInterface as Form;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage FormHandler
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class BindFormHandler implements FormHandlerInterface
 {

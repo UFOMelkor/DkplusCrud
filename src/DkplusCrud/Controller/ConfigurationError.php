@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller;
@@ -11,12 +9,10 @@ namespace DkplusCrud\Controller;
 use \RuntimeException;
 
 /**
- * Thrown if a feature has been executed for that not all needed parameters are available.
+ * Thrown when a feature has been executed for that not all needed parameters are available.
  *
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class ConfigurationError extends RuntimeException
 {

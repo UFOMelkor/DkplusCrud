@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Service
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Service;
@@ -15,10 +13,8 @@ use Zend\EventManager\EventManagerInterface as EventManagerInterface;
 use Zend\EventManager\EventManager;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Service
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class Service implements ServiceInterface, EventManagerAwareInterface
 {
