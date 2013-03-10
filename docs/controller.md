@@ -21,6 +21,7 @@
         - [Rendering](#rendering)
         - [SingleInputFilter](#singleinputfilter)
         - [UpdateFormProvider](#updateformprovider)
+    - [Own extensions](#own-extensions)
 
 # Controller
 
@@ -102,7 +103,9 @@ Disables the layout if an ajax request has been detected.
 
 [`DkplusCrud\Controller\Feature\Assigning`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/Assigning.php)  
 **Event:** configurable (default: `post`)  
-Assigns a variable to the view model.  
+Assigns a variable to the view model. By default the variable will be get from the event,
+so you can assign a paginator or anything else stored in the event object.
+If you want to assign a variable directly you have to call `useEvent(false)`.
 
 ### CreationFormProvider
 
@@ -131,6 +134,12 @@ Gets a single entity from the service and puts it into the event for further use
 
 [`DkplusCrud\Controller\Feature\FormHandling`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/FormHandling.php)  
 **Event:** `main`  
+This feature does several things. First it uses postRedirectGet for getting the form data.
+Then it puts the form as `form`-variable into the view model and if there are form data
+available from postRedirectGet they will be applied to the form. Last if the form is valid it
+saves the form data using the service, redirects and adds a flash message.  
+By default this feature will not handle ajax requests. So if you want to do this,
+you must explicit enable it by calling `handleAjaxRequest`.
 
 ### IdentifierProvider
 
@@ -169,8 +178,8 @@ Renders the given view script. Can be used only once per Action.
 **Event:** `post`  
 Like [MultipleInputFilter](#multipleinputfilter) but using a exactly one parameter for all filter columns.
 
-
 ### UpdateFormProvider
+
 [`DkplusCrud\Controller\Feature\UpdateFormProvider`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/UpdateFormProvider.php)  
 **Event:** `pre`  
 Gets a form from the service and puts it into the event for further use. Needs an identifer.
