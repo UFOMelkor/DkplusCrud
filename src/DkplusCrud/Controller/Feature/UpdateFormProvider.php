@@ -10,6 +10,10 @@ use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
 
 /**
+ * Gets a form from the service and puts it into the event for further use.
+ *
+ * Needs an identifer.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

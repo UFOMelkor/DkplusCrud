@@ -11,11 +11,12 @@ use Zend\View\Model\JsonModel;
 
 /**
  * Assigns the messages from the form to the view model.
- * For this the form must be validated, but there will be no handling of a valid
- * form (for this look at the [FormHandling](#formhandling)-Feature).
- * If there is no instance of Zend\View\Model\JsonModel available the view model will be overriden.
+ *
+ * For this, the form has to be validated, but there will be no handling of a
+ * valid form (for this look at the FormHandling-Feature).
+ * If there is no instance of <code>Zend\View\Model\JsonModel</code> available the view model will be overriden.
  * The feature can handle post and query data by determining the request-method.
- * As the name suggests it will only does its work if an ajax request has been detected.
+ * As the name suggests it will only does its work if an ajax request is detected.
  *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0

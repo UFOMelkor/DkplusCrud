@@ -10,6 +10,10 @@ use DkplusCrud\Service\ServiceInterface as Service;
 use DkplusCrud\Controller\Event;
 
 /**
+ * Deletes an entity and then redirects and adds a flash message.
+ *
+ * Requires an entity.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

@@ -10,6 +10,8 @@ use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
 
 /**
+ * Gets entities as paginator from the service and puts them into the event for further use.
+ * 
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

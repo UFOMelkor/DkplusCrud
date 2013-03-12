@@ -10,6 +10,8 @@ use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
 
 /**
+ * Gets the creation form from the service and puts it into the event for further use.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

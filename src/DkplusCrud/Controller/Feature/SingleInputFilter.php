@@ -9,6 +9,8 @@ namespace DkplusCrud\Controller\Feature;
 use DkplusCrud\Service\Service;
 
 /**
+ * Like <code>MultipleInputFilter</code> but using a exactly one parameter for all filter columns.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

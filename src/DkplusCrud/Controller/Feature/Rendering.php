@@ -9,6 +9,10 @@ namespace DkplusCrud\Controller\Feature;
 use DkplusCrud\Controller\Event;
 
 /**
+ * Renders the given view script.
+ *
+ * Can be used only once per Action.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

@@ -9,6 +9,11 @@ namespace DkplusCrud\Controller\Feature;
 use DkplusCrud\Controller\Event;
 
 /**
+ * Could be used if an entity has not been found.
+ *
+ * It sets a 404 response code and returns the content of another action,
+ * so you could show a list of related entities or something else.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */

@@ -29,7 +29,7 @@ is not about writing actions, it's about adding actions and features.
 
 ## Actions
 
-Instead of writing actions you can simple add them to the controller:
+Instead of writing actions, you can easily add them to the controller:
 
 ```php
 use DkplusCrud\Controller\Controller;
@@ -59,18 +59,18 @@ Every action must implement [`DkplusCrud\Controller\Action\ActionInterface`]
 It triggers at least three events, a `pre`-, `main`- and a `post`-event using
 [`DkplusCrud\Controller\Event`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Event.php).
 For more informations about the event please have a look at the source code.
-Actually there are 3 different actions:
+Actually, there are 3 different actions:
 
 ### DefaultAction
 
 [`DkplusCrud\Controller\Action\DefaultAction`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Action/DefaultAction.php)  
-Can be used in most cases. It does not more than triggering the three events and
-returning the event result. On each event you can hook some features in so they will be executed.
+Can be used in most cases. It does not do more than triggering the three events and
+returning the event result. On each event, you can hook some features in so they will be executed.
 
 ### SingleEntityAction
 
 [`DkplusCrud\Controller\Action\SingleEntityAction`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Action/SingleEntityAction.php)  
-Should be used in most cases working on a single entity like showing or deleting.
+Should usually be used in most cases working on a single entity like showing or deleting.
 If there is no entity available after the `pre`-event a `notFound`-event will be triggered
 instead of the `main`- and `post`-event.
 
@@ -98,17 +98,17 @@ the feature will attach to, you can simple call e.g. `$feature->setEventType(Abs
 
 [`DkplusCrud\Controller\Feature\AjaxFormSupport`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/AjaxFormSupport.php)  
 **Event:** `post`  
-Assigns the messages from the form to the view model. For this the form must be validated,
+Assigns the messages from the form to the view model. For this, the form has to be validated,
 but there will be no handling of a valid form (for this look at the [FormHandling](#formhandling)-Feature).
 If there is no instance of `Zend\View\Model\JsonModel` available the view model will be overriden.  
 The feature can handle post and query data by determining the request-method.
-As the name suggests it will only does its work if an ajax request has been detected.
+As the name suggests it will only does its work if an ajax request is detected.
 
 ### AjaxLayoutDisabling
 
 [`DkplusCrud\Controller\Feature\AjaxLayoutDisabling`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/AjaxLayoutDisabling.php)  
 **Event:** `post`  
-Disables the layout if an ajax request has been detected.
+Will disable the layout if an ajax request is detected.
 
 ### Assigning
 
@@ -128,7 +128,7 @@ Gets the creation form from the service and puts it into the event for further u
 
 [`DkplusCrud\Controller\Feature\Deletion`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/Deletion.php)  
 **Event:** `main`  
-Deletes an entity and then redirects and adds a flash message. Needs an entity.
+Deletes an entity and then redirects and adds a flash message. Requires an entity.
 
 ### EntitiesProvider
 
@@ -147,7 +147,7 @@ Gets a single entity from the service and puts it into the event for further use
 **Event:** `main`  
 This feature does several things. First it uses postRedirectGet for getting the form data.
 Then it puts the form as `form`-variable into the view model and if there are form data
-available from postRedirectGet they will be applied to the form. Last if the form is valid it
+available from postRedirectGet, they will be applied to the form. Last if the form is valid it
 saves the form data using the service, redirects and adds a flash message.  
 By default this feature will not handle ajax requests. So if you want to do this,
 you must explicit enable it by calling `handleAjaxRequest`.
@@ -168,7 +168,7 @@ Modifies a `EntitiesProvider` or a `PaginationProvider` by modifying the query u
 
 [`DkplusCrud\Controller\Feature\NotFoundReplacing`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/NotFoundReplacing.php)  
 **Event:** `notFound`  
-Can be used if an entity has not been found. It sets a 404 response code and returns the content of another action,
+Could be used if an entity has not been found. It sets a 404 response code and returns the content of another action,
 so you could show a list of related entities or something else.
 
 ### PaginationProvider

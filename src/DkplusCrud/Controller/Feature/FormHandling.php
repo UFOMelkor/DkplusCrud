@@ -11,6 +11,15 @@ use DkplusCrud\Service\ServiceInterface as Service;
 use Zend\Http\Response;
 
 /**
+ * Handles form data, validation and success handling.
+ *
+ * This feature does several things. First it uses postRedirectGet for getting the form data.
+ * Then it puts the form as <code>form<code>-variable into the view model and if there are form data
+ * available from postRedirectGet, they will be applied to the form.
+ * Last if the form is valid it saves the form data using the service, redirects and adds a flash message.
+ * By default this feature will not handle ajax requests. So if you want to do this,
+ * you must explicit enable it by calling <code>handleAjaxRequest()</code>.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */
