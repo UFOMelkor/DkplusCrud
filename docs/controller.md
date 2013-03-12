@@ -82,6 +82,15 @@ a `notFound`-event if no form is available after the `pre`-event.
 
 ## Features
 
+After adding an action you need to add some features to your action. You might access the action directly
+```php
+$action->addFeature($feature);
+```
+or you can use the controller to add the feature:
+```php
+$controller->addFeature('existing-action', $feature);
+```
+
 ### AjaxFormSupport
 
 [`DkplusCrud\Controller\Feature\AjaxFormSupport`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/AjaxFormSupport.php)  
