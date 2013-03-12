@@ -13,7 +13,7 @@ use DkplusCrud\Service\Feature\Filter as ServiceFilter;
 /**
  * Modifies a <code>EntitiesProvider`</code> or <code>PaginationProvider</code> by modifying the query.
  *
- * Can use route, post or query parameters.
+ * Can use route, post or query parameters or variables.
  *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0

@@ -39,7 +39,7 @@ class FormHandling extends AbstractFeature
 
     /**
      * @param Service $storage
-     * @param Options\SuccessOptions $options
+     * @param Options\SuccessOptions $options What should we do after a valid form
      */
     public function __construct(Service $service, Options\SuccessOptions $options)
     {
@@ -47,6 +47,7 @@ class FormHandling extends AbstractFeature
         $this->options  = $options;
     }
 
+    /** @return void */
     public function handleAjaxRequest()
     {
         $this->handleAjaxRequest = true;

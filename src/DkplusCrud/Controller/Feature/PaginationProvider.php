@@ -11,7 +11,7 @@ use DkplusCrud\Service\ServiceInterface as Service;
 
 /**
  * Gets entities as paginator from the service and puts them into the event for further use.
- * 
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */
@@ -28,7 +28,7 @@ class PaginationProvider extends AbstractFeature
 
     /**
      * @param Service $service
-     * @param string $pageParameter
+     * @param string $pageParameter The route parameter that contains the current page number.
      */
     public function __construct(Service $service, $pageParameter = 'page')
     {

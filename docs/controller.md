@@ -162,7 +162,7 @@ Gets an identifier from the route match and puts him into the event.
 
 [`DkplusCrud\Controller\Feature\MultipleInputFilter`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/MultipleInputFilter.php)  
 **Event:** `post`  
-Modifies a `EntitiesProvider` or a `PaginationProvider` by modifying the query using route, post or query parameters.
+Modifies a `EntitiesProvider` or a `PaginationProvider` by modifying the query using route, post or query parameters or variables.
 
 ### NotFoundReplacing
 

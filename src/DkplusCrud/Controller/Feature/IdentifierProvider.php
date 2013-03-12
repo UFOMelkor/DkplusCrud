@@ -25,12 +25,10 @@ class IdentifierProvider extends AbstractFeature
     /** @var string */
     protected $routeMatchParam;
 
-    /**
-     * @param string $routeMatchParam
-     */
-    public function __construct($routeMatchParam = 'id')
+    /** @param string $routeParam The name of the route param that contains the id */
+    public function __construct($routeParam = 'id')
     {
-        $this->routeMatchParam = (string) $routeMatchParam;
+        $this->routeMatchParam = (string) $routeParam;
     }
 
     public function execute(Event $event)
