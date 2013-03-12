@@ -91,6 +91,9 @@ or you can use the controller to add the feature:
 $controller->addFeature('existing-action', $feature);
 ```
 
+A Feature will attach itself to an event. If you want to change the default event,
+the feature will attach to, you can simple call e.g. `$feature->setEventType(AbstractFeature::EVENT_TYPE_POST);`.
+
 ### AjaxFormSupport
 
 [`DkplusCrud\Controller\Feature\AjaxFormSupport`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/AjaxFormSupport.php)  
