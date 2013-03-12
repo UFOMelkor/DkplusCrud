@@ -39,6 +39,10 @@ class Assigning extends AbstractFeature
     }
 
     /**
+     * Should the value be fetched from the event or should <code>$value</code> be used directly?
+     *
+     * Default is fetching from event.
+     *
      * @param boolean $flag
      */
     public function useEvent($flag)
