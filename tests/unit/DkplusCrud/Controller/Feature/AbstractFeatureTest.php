@@ -47,6 +47,15 @@ class AbstractFeatureTest extends TestCase
     }
 
     /** @test */
+    public function canAttachTheAnotherEventType()
+    {
+        $this->events->expects($this->once())->method('attach')->with('preFoo');
+
+        $this->feature->setEventType(AbstractFeature::EVENT_TYPE_PRE);
+        $this->feature->attachTo('foo', $this->events);
+    }
+
+    /** @test */
     public function hasAnDefaultPriorityOfOne()
     {
         $this->events->expects($this->once())

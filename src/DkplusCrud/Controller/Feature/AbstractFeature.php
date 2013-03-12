@@ -42,6 +42,12 @@ abstract class AbstractFeature implements FeatureInterface
         $this->priority = $priority;
     }
 
+    /** @param string $eventType */
+    public function setEventType($eventType)
+    {
+        $this->eventType = $eventType;
+    }
+
     /**
      * @param string $eventName
      * @param EventManager $events
