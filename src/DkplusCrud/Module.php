@@ -21,6 +21,5 @@ class Module implements AutoloaderProvider
                 __DIR__ . '/../../autoload_classmap.php',
             )
         );
-
     }
 }

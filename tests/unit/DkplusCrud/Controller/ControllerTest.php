@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller;
@@ -11,10 +9,8 @@ namespace DkplusCrud\Controller;
 use Zend\Mvc\MvcEvent;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class ControllerTest extends \PHPUnit_Framework_TestCase
 {
