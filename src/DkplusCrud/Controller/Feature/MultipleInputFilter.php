@@ -177,28 +177,28 @@ class MultipleInputFilter extends AbstractFeature
     protected function setUpFilter($property, $input, Event $event)
     {
         switch ($this->comparator) {
-            case self::FILTER_GREATER_THAN_EQUALS:
+            case self::COMPARATOR_GREATER_THAN_EQUALS:
                 $this->getFilter()->greaterThanEquals($property, $this->getInputValue($input, $event));
                 break;
-            case self::FILTER_GREATER_THAN:
+            case self::COMPARATOR_GREATER_THAN:
                 $this->getFilter()->greaterThan($property, $this->getInputValue($input, $event));
                 break;
-            case self::FILTER_LESS_THAN_EQUALS:
+            case self::COMPARATOR_LESS_THAN_EQUALS:
                 $this->getFilter()->lessThanEquals($property, $this->getInputValue($input, $event));
                 break;
-            case self::FILTER_LESS_THAN:
+            case self::COMPARATOR_LESS_THAN:
                 $this->getFilter()->lessThan($property, $this->getInputValue($input, $event));
                 break;
-            case self::FILTER_EQUALS:
+            case self::COMPARATOR_EQUALS:
                 $this->getFilter()->equals($property, $this->getInputValue($input, $event));
                 break;
             case self::COMPARATOR_LIKE:
                 $this->getFilter()->like($property, $this->getInputValue($input, $event));
                 break;
-            case self::FILTER_ENDING_WITH:
+            case self::COMPARATOR_ENDING_WITH:
                 $this->getFilter()->like($property, '%' . $this->getInputValue($input, $event));
                 break;
-            case self::FILTER_STARTING_WITH:
+            case self::COMPARATOR_STARTING_WITH:
                 $this->getFilter()->like($property, $this->getInputValue($input, $event) . '%');
                 break;
             default:

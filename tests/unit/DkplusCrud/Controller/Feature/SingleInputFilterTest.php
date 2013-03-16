@@ -166,15 +166,15 @@ class SingleInputFilterTest extends TestCase
     public static function filteringComparators()
     {
         return array(
-            array(SingleInputFilter::FILTER_LIKE, 'like', 'q'),
-            array(SingleInputFilter::FILTER_CONTAINING, 'like', '%q%'),
-            array(SingleInputFilter::FILTER_STARTING_WITH, 'like', 'q%'),
-            array(SingleInputFilter::FILTER_ENDING_WITH, 'like', '%q'),
-            array(SingleInputFilter::FILTER_EQUALS, 'equals', 'q'),
-            array(SingleInputFilter::FILTER_GREATER_THAN_EQUALS, 'greaterThanEquals', 'q'),
-            array(SingleInputFilter::FILTER_GREATER_THAN, 'greaterThan', 'q'),
-            array(SingleInputFilter::FILTER_LESS_THAN_EQUALS, 'lessThanEquals', 'q'),
-            array(SingleInputFilter::FILTER_LESS_THAN, 'lessThan', 'q'),
+            array(SingleInputFilter::COMPARATOR_LIKE, 'like', 'q'),
+            array(SingleInputFilter::COMPARATOR_CONTAINING, 'like', '%q%'),
+            array(SingleInputFilter::COMPARATOR_STARTING_WITH, 'like', 'q%'),
+            array(SingleInputFilter::COMPARATOR_ENDING_WITH, 'like', '%q'),
+            array(SingleInputFilter::COMPARATOR_EQUALS, 'equals', 'q'),
+            array(SingleInputFilter::COMPARATOR_GREATER_THAN_EQUALS, 'greaterThanEquals', 'q'),
+            array(SingleInputFilter::COMPARATOR_GREATER_THAN, 'greaterThan', 'q'),
+            array(SingleInputFilter::COMPARATOR_LESS_THAN_EQUALS, 'lessThanEquals', 'q'),
+            array(SingleInputFilter::COMPARATOR_LESS_THAN, 'lessThan', 'q'),
         );
     }
 
