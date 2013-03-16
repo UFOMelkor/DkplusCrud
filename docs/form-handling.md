@@ -9,7 +9,7 @@ There are 2 possible solutions provided by DkplusCrud.
 
 ## BindFormHandler
 
-The first solutions is the ‘zf2-way’ of doing form hydration. The form will do the most staff
+The first solutions is the ‘zf2-way’ of form handling. The form will do the most staff
 and you need to inject the hydrator into the form.
 
 ## FactoryFormHandler

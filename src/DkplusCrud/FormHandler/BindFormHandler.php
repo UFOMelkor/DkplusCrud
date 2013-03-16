@@ -9,6 +9,10 @@ namespace DkplusCrud\FormHandler;
 use Zend\Form\FormInterface as Form;
 
 /**
+ * The ‘zf2-way’ of form handling.
+ *
+ * The form will do the most staff and you need to inject the hydrator into the form.
+ *
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */
@@ -20,6 +24,10 @@ class BindFormHandler implements FormHandlerInterface
     /** @var string */
     private $modelClass;
 
+    /**
+     * @param Form $form
+     * @param string $modelClass The FQCN of the entity.
+     */
     public function __construct(Form $form, $modelClass)
     {
         $this->form       = $form;
@@ -27,8 +35,8 @@ class BindFormHandler implements FormHandlerInterface
     }
 
     /**
-     * @param mixed $data
-     * @return mixed
+     * @param object $data The entity binded from the form.
+     * @return object The entity
      */
     public function createEntity($data)
     {
@@ -36,9 +44,9 @@ class BindFormHandler implements FormHandlerInterface
     }
 
     /**
-     * @param mixed $data
-     * @param mixed $entity
-     * @return mixed
+     * @param object $data The entity binded from the form.
+     * @param object $entity The entity binded from the form.
+     * @return object The entity
      */
     public function updateEntity($data, $entity)
     {
@@ -54,7 +62,7 @@ class BindFormHandler implements FormHandlerInterface
     }
 
     /**
-     * @param mixed $item
+     * @param mixed $item The entity to bind to the form.
      * @return Form
      */
     public function getUpdateForm($item)
