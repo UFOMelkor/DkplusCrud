@@ -68,6 +68,7 @@ class PaginationProviderTest extends TestCase
     public function putsThePaginatorFromTheServiceIntoTheEvent()
     {
         $paginator = $this->getMockBuilder('Zend\Paginator\Paginator')
+                          ->setMethods(array('foo')) // setCache makes problem when creating a mock
                           ->disableOriginalConstructor()
                           ->getMock();
 
