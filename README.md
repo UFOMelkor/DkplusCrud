@@ -12,6 +12,8 @@ Supports
 - [mappers](https://github.com/UFOMelkor/DkplusCrud/tree/master/docs/mapper.md) supporting [DoctrineORM](http://doctrine-project.org/) (Zend\Db will be added in futere)
 - two different [form handlings](https://github.com/UFOMelkor/DkplusCrud/tree/master/docs/form-handling.md) for supporting entities with and without constructor parameters.
 
+The only things you need to provide are view scripts, your model (e.g. in form of entities) and the form-objects.
+
 ## Installation
 
 Installation of DkplusCrud uses composer. For composer documentation, please refer to [getcomposer.org](http://getcomposer.org/).
