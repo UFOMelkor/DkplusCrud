@@ -35,9 +35,7 @@ class AssigningTest extends TestCase
     /** @test */
     public function assignsTheEventParameterAsAlias()
     {
-        $paginator = $this->getMockBuilder('Zend\Paginator\Paginator')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $paginator = $this->getMock('stdClass');
 
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
         $viewModel->expects($this->once())->method('setVariable')->with('paginator', $paginator);
