@@ -10,12 +10,12 @@ namespace DkplusCrud\Controller\Action;
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */
-class UpdateFormActionTest extends ActionTestCase
+class FormActionTest extends ActionTestCase
 {
     protected function setUp()
     {
         $this->actionName = 'update';
-        $this->action     = new UpdateFormAction($this->actionName);
+        $this->action     = new FormAction($this->actionName);
         parent::setUp();
     }
 
