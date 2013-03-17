@@ -4,7 +4,7 @@
     - [Actions](#actions)
         - [DefaultAction](#defaultaction)
         - [SingleEntityAction](#singleentityaction)
-        - [UpdateFormAction](#updateformaction)
+        - [FormAction](#formaction)
     - [Features](#features)
         - [AjaxFormSupport](#ajaxformsupport)
         - [AjaxLayoutDisabling](#ajaxlayoutdisabling)
@@ -74,11 +74,11 @@ Should usually be used in most cases working on a single entity like showing or 
 If there is no entity available after the `pre`-event a `notFound`-event will be triggered
 instead of the `main`- and `post`-event.
 
-### UpdateFormAction
+### FormAction
 
-[`DkplusCrud\Controller\Action\UpdateFormAction`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Action/UpdateFormAction.php)  
-Should be used for updating an entity. Like the `SingleEntityAction` it triggers
-a `notFound`-event if no form is available after the `pre`-event.
+[`DkplusCrud\Controller\Action\FormAction`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Action/FormAction.php)  
+Should be used for updating an entity but can be also used for creating.
+Like the `SingleEntityAction` it triggers a `notFound`-event if no form is available after the `pre`-event.
 
 ## Features
 
