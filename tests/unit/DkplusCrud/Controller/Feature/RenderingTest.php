@@ -31,6 +31,17 @@ class RenderingTest extends TestCase
     }
 
     /** @test */
+    public function attachesItselfToTheMainEvent()
+    {
+        $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $events->expects($this->once())
+               ->method('attach')
+               ->with('paginate');
+
+        $this->feature->attachTo('paginate', $events);
+    }
+
+    /** @test */
     public function setsATemplate()
     {
         $viewModel = $this->getMock('Zend\View\Model\ViewModel');

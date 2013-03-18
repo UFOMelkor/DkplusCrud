@@ -19,24 +19,36 @@ use DkplusCrud\Controller\Event;
  */
 class NotFoundReplacing extends AbstractFeature
 {
-    /** @var Options\NotFoundReplaceOptions */
-    private $options;
+    /** @var string The name of controller as he is used in the controller manager. */
+    private $controllerName;
 
-    public function __construct(Options\NotFoundReplaceOptions $options)
+    /** @var string[] The route params like the action. */
+    private $routeParams;
+
+    /** @var string|null The name of the route to use or null if the current route should be used. */
+    private $route;
+
+    /** @var string */
+    protected $eventType = self::EVENT_TYPE_NOT_FOUND;
+
+    /**
+     * @param string $controllerName The name of controller as he is used in the controller manager.
+     * @param string[] $routeParams The route params like the controller-action.
+     * @param string $route The name of the route to use or null if the current route should be used.
+     */
+    public function __construct($controllerName, array $routeParams = null, $route = null)
     {
-        $this->options = $options;
+        $this->controllerName = $controllerName;
+        $this->routeParams    = $routeParams;
+        $this->route          = $route;
     }
 
     public function execute(Event $event)
     {
-        $controller = $this->options->getContentReplaceController();
-        $params     = $this->options->getContentReplaceRouteParams();
-        $route      = $this->options->getContentReplaceRoute();
-        $event->setViewModel($event->getController()->notFoundForward()->dispatch($controller, $params, $route));
-
-        if ($this->options->hasErrorMessage()) {
-            $event->getController()->flashMessenger()->setNamespace($this->options->getMessageNamespace());
-            $event->getController()->flashMessenger()->addMessage($this->options->getErrorMessage());
-        }
+        $event->setViewModel(
+            $event->getController()
+                  ->notFoundForward()
+                  ->dispatch($this->controllerName, $this->routeParams, $this->route)
+        );
     }
 }
