@@ -1,16 +1,13 @@
 <?php
 /**
- * @category   DkplusIntegration
- * @package    Crud
- * @subpackage Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Integration\Action;
 
 use DkplusCrud\Controller\Controller;
 use DkplusCrud\Controller\Action;
-use DkplusCrud\Controller\Feature\Options;
 use DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Integration\SetUp\ControllerSetUp;
@@ -29,11 +26,8 @@ use Zend\Session\Container as SessionContainer;
 use Zend\Stdlib\Hydrator\ObjectProperty as ObjectPropertyHydrator;
 
 /**
- * @category   DkplusIntegration
- * @package    Crud
- * @subpackage Action
- * @author     Oskar Bley <oskar@programming-php.net>
- * @coversNothing
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class CreateActionTest extends TestCase
 {
@@ -57,37 +51,43 @@ class CreateActionTest extends TestCase
 
         $nameInput = new Input('name');
         $nameInput->getValidatorChain()->addByName('StringLength', array('min' => 3));
-        $form      = new Form();
-        $form->setHydrator(new ObjectPropertyHydrator());
-        $form->add(new Element\Hidden('id'));
-        $form->add(new Element\Text('name'));
+
+        $form = $this->createForm();
         $form->getInputFilter()->add($nameInput);
 
         $this->mapper = $this->getMockForAbstractClass('DkplusCrud\Mapper\MapperInterface');
         $formHandler  = new BindFormHandler($form, 'stdClass');
         $service      = new Service($this->mapper, $formHandler);
 
-        $successOptions = new Options\SuccessOptions();
-        $successOptions->setMessage(
-            function ($entity) {
-                return \sprintf('%s created.', \htmlspecialchars($entity->name));
-            }
-        );
-        $successOptions->setRedirectRoute('my-module/success/target');
-        $successOptions->setRedirectRouteParams(
-            function ($entity) {
-                return array('id' => $entity->id);
-            }
-        );
+        $successMessage = function ($entity) {
+            return \sprintf('%s created.', \htmlspecialchars($entity->name));
+        };
+        $redirectParams = function ($entity) {
+            return array('id' => $entity->id);
+        };
 
         $this->controller = new Controller();
         $this->controller->addAction(new Action\DefaultAction('create'));
         $this->controller->addFeature('create', new Feature\CreationFormProvider($service));
-        $this->controller->addFeature('create', new Feature\FormHandling($service, $successOptions));
+        $this->controller->addFeature('create', new Feature\FormHandling($service));
         $this->controller->addFeature('create', new Feature\Rendering('my-module/creation/template'));
         $this->controller->addFeature('create', new Feature\AjaxFormSupport());
+        $this->controller->addFeature('create', new Feature\FlashMessage($successMessage, 'success', false));
+        $this->controller->addFeature(
+            'create',
+            new Feature\Redirect('my-module/success/target', $redirectParams, false)
+        );
 
         $this->setUp->setUp($this->controller);
+    }
+
+    protected function createForm()
+    {
+        $form = new Form();
+        $form->setHydrator(new ObjectPropertyHydrator());
+        $form->add(new Element\Hidden('id'));
+        $form->add(new Element\Text('name'));
+        return $form;
     }
 
     /** @test */

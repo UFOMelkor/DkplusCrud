@@ -16,7 +16,7 @@ use Zend\Http\Response;
  * This feature does several things. First it uses postRedirectGet for getting the form data.
  * Then it puts the form as <code>form<code>-variable into the view model and if there are form data
  * available from postRedirectGet, they will be applied to the form.
- * Last if the form is valid it saves the form data using the service, redirects and adds a flash message.
+ * Last if the form is valid it saves the form data using the service.
  * By default this feature will not handle ajax requests. So if you want to do this,
  * you must explicit enable it by calling <code>handleAjaxRequest()</code>.
  *
@@ -25,26 +25,15 @@ use Zend\Http\Response;
  */
 class FormHandling extends AbstractFeature
 {
-    /** @var Options\SuccessOptions */
-    protected $options;
-
     /** @var Service */
     protected $service;
-
-    /** @var string */
-    protected $identifier = 'id';
 
     /** @var boolean */
     protected $handleAjaxRequest = false;
 
-    /**
-     * @param Service $storage
-     * @param Options\SuccessOptions $options What should we do after a valid form
-     */
-    public function __construct(Service $service, Options\SuccessOptions $options)
+    public function __construct(Service $service)
     {
         $this->service  = $service;
-        $this->options  = $options;
     }
 
     /** @return void */
@@ -82,17 +71,7 @@ class FormHandling extends AbstractFeature
                 $entity = $event->hasIdentifier()
                         ? $this->service->update($form->getData(), $event->getIdentifier())
                         : $this->service->create($form->getData());
-
-                $messageNamespace    = $this->options->getMessageNamespace();
-                $message             = $this->options->getComputatedMessage($entity);
-                $redirectRoute       = $this->options->getRedirectRoute();
-                $redirectRouteParams = $this->options->getComputatedRedirectRouteParams($entity);
-
-                $controller->flashMessenger()->setNamespace($messageNamespace);
-                $controller->flashMessenger()->addMessage($message);
-
-                $event->setResponse($controller->redirect()->toRoute($redirectRoute, $redirectRouteParams));
-                $event->stopPropagation();
+                $event->setEntity($entity);
             }
         }
     }

@@ -53,7 +53,7 @@ class PaginationProviderTest extends TestCase
     }
 
     /** @test */
-    public function attachesItselfAsPreEvent()
+    public function attachesItselfToThePreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $events->expects($this->once())

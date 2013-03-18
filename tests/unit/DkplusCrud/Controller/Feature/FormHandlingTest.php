@@ -46,7 +46,7 @@ class FormHandlingTest extends TestCase
         $this->request    = $this->getMock('Zend\Http\Request');
         $this->controller = $this->getMock(
             'DkplusCrud\Controller\Controller',
-            array('postRedirectGet', 'flashMessenger', 'redirect')
+            array('postRedirectGet')
         );
 
         $this->event = $this->getMockBuilder('DkplusCrud\Controller\Event')->disableOriginalConstructor()->getMock();
@@ -55,7 +55,6 @@ class FormHandlingTest extends TestCase
         $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
 
         $this->service = $this->getMockForAbstractClass('DkplusCrud\Service\ServiceInterface');
-        $this->options = $this->getMock('DkplusCrud\Controller\Feature\Options\SuccessOptions');
         $this->feature = new FormHandling($this->service, $this->options);
     }
 
@@ -66,6 +65,17 @@ class FormHandlingTest extends TestCase
             'DkplusCrud\Controller\Feature\FeatureInterface',
             $this->feature
         );
+    }
+
+    /** @test */
+    public function attachesItselfToTheMainEvent()
+    {
+        $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $events->expects($this->once())
+               ->method('attach')
+               ->with('update');
+
+        $this->feature->attachTo('update', $events);
     }
 
     /** @test */
@@ -168,8 +178,6 @@ class FormHandlingTest extends TestCase
     public function putsTheDataIntoTheUpdateMethodWhenFormIsValidAndAnIdentifierExists()
     {
         $this->ensuresTheFormToBeValid();
-        $this->ensuresFlashMessengerToWithoutExceptions();
-        $this->ensuresRedirectRouteToRunWithoutExceptions();
 
         $data = array('foo' => 'bar');
 
@@ -198,38 +206,10 @@ class FormHandlingTest extends TestCase
         $this->form->expects($this->any())->method('isValid')->will($this->returnValue(true));
     }
 
-    /**
-     * Ensures that the redirect part works fine without any error/exception
-     */
-    public function ensuresRedirectRouteToRunWithoutExceptions()
-    {
-        $this->options->expects($this->any())
-                      ->method('getComputatedRedirectRouteParams')
-                      ->will($this->returnValue(array()));
-
-        $plugin = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
-        $plugin->expects($this->any())
-               ->method('toRoute')
-               ->will($this->returnValue($this->getMock('Zend\Http\Response')));
-
-        $this->controller->expects($this->any())->method('redirect')->will($this->returnValue($plugin));
-    }
-
-    /**
-     * Ensures that the flashMessenger part works fine without any error/exception
-     */
-    public function ensuresFlashMessengerToWithoutExceptions()
-    {
-        $plugin = $this->getMock('Zend\Mvc\Controller\Plugin\FlashMessenger');
-        $this->controller->expects($this->any())->method('flashMessenger')->will($this->returnValue($plugin));
-    }
-
     /** @test */
     public function putsTheDataIntoTheCreateMethodWhenFormIsValidAndNoIdentifierExists()
     {
         $this->ensuresTheFormToBeValid();
-        $this->ensuresFlashMessengerToWithoutExceptions();
-        $this->ensuresRedirectRouteToRunWithoutExceptions();
 
         $data = array('foo' => 'bar');
 
@@ -244,93 +224,20 @@ class FormHandlingTest extends TestCase
     }
 
     /** @test */
-    public function addsAFlashMessageAfterStoringTheEntityDependingFromTheEntity()
+    public function putsTheEntityIntoTheEvent()
     {
         $this->ensuresTheFormToBeValid();
-        $this->ensuresRedirectRouteToRunWithoutExceptions();
 
         $entity = $this->getMock('stdClass');
 
-        $this->service->expects($this->any())->method('create')->will($this->returnValue($entity));
+        $this->event->expects($this->any())->method('hasIdentifier')->will($this->returnValue(false));
 
-        $message   = 'my-message';
-        $namespace = 'success';
-
-        $this->options->expects($this->any())->method('getMessageNamespace')->will($this->returnValue($namespace));
-        $this->options->expects($this->any())
-                      ->method('getComputatedMessage')
-                      ->with($entity)
-                      ->will($this->returnValue($message));
-
-        $flashMessenger = $this->getMock('Zend\Mvc\Controller\Plugin\FlashMessenger');
-        $flashMessenger->expects($this->once())->method('setNamespace')->with($namespace);
-        $flashMessenger->expects($this->once())->method('addMessage')->with($message);
-
-        $this->controller->expects($this->any())->method('flashMessenger')->will($this->returnValue($flashMessenger));
-
-        $this->feature->execute($this->event);
-    }
-
-    /** @test */
-    public function redirectsAfterStoringTheEntityDependingFromTheEntity()
-    {
-        $this->ensuresTheFormToBeValid();
-        $this->ensuresFlashMessengerToWithoutExceptions();
-
-        $entity = $this->getMock('stdClass');
+        $this->form->expects($this->any())->method('isValid')->will($this->returnValue(true));
+        $this->form->expects($this->any())->method('getData')->will($this->returnValue(array()));
 
         $this->service->expects($this->any())->method('create')->will($this->returnValue($entity));
 
-        $route       = 'home';
-        $routeParams = array('foo' => 'bar');
-
-        $this->options->expects($this->any())->method('getRedirectRoute')->will($this->returnValue($route));
-        $this->options->expects($this->any())
-                      ->method('getComputatedRedirectRouteParams')
-                      ->with($entity)
-                      ->will($this->returnValue($routeParams));
-
-        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
-        $redirect->expects($this->once())
-                 ->method('toRoute')
-                 ->with($route, $routeParams)
-                 ->will($this->returnValue($this->getMock('Zend\Http\Response')));
-
-        $this->controller->expects($this->any())->method('redirect')->will($this->returnValue($redirect));
-
-        $this->feature->execute($this->event);
-    }
-
-    /** @test */
-    public function resultsInARedirectAfterStoringTheEntity()
-    {
-        $this->ensuresTheFormToBeValid();
-        $this->ensuresFlashMessengerToWithoutExceptions();
-
-        $this->options->expects($this->any())
-                      ->method('getComputatedRedirectRouteParams')
-                      ->will($this->returnValue(array()));
-
-        $response = $this->getMock('Zend\Http\Response');
-        $redirect = $this->getMock('Zend\Mvc\Controller\Plugin\Redirect');
-        $redirect->expects($this->any())
-                 ->method('toRoute')
-                 ->will($this->returnValue($response));
-        $this->controller->expects($this->any())->method('redirect')->will($this->returnValue($redirect));
-
-        $this->event->expects($this->once())->method('setResponse')->with($response);
-
-        $this->feature->execute($this->event);
-    }
-
-    /** @test */
-    public function stopsPropagationAfterRedirect()
-    {
-        $this->ensuresTheFormToBeValid();
-        $this->ensuresFlashMessengerToWithoutExceptions();
-        $this->ensuresRedirectRouteToRunWithoutExceptions();
-
-        $this->event->expects($this->once())->method('stopPropagation');
+        $this->event->expects($this->once())->method('setEntity')->with($entity);
 
         $this->feature->execute($this->event);
     }
