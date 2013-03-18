@@ -47,7 +47,7 @@ class AjaxFormSupportTest extends TestCase
     }
 
     /** @test */
-    public function attachesItselfAsPostEvent()
+    public function attachesItselfToThePostEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $events->expects($this->once())

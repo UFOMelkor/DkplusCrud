@@ -17,12 +17,6 @@ class NotFoundReplacingTest extends TestCase
     /** @var \Dkplus\Crud\Controller\Controller|\PHPUnit_Framework_MockObject_MockObject */
     protected $controller;
 
-    /** @var NotFoundReplacing */
-    protected $feature;
-
-    /** @var Options\NotFoundOptions|\PHPUnit_Framework_MockObject_MockObject */
-    protected $options;
-
     /** @var \DkplusCrud\Controller\Event|\PHPUnit_Framework_MockObject_MockObject */
     protected $event;
 
@@ -33,23 +27,30 @@ class NotFoundReplacingTest extends TestCase
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->options = $this->getMockBuilder('DkplusCrud\Controller\Feature\Options\NotFoundReplaceOptions')
-                              ->disableOriginalConstructor()
-                              ->getMock();
-
         $this->controller = $this->getMock(
             'DkplusCrud\Controller\Controller',
-            array('flashMessenger', 'notFoundForward')
+            array('notFoundForward')
         );
         $this->event->expects($this->any())->method('getController')->will($this->returnValue($this->controller));
-
-        $this->feature = new NotFoundReplacing($this->options);
     }
 
     /** @test */
     public function isAFeature()
     {
-        $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
+        $feature = new NotFoundReplacing('Application\Controller\Index');
+        $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $feature);
+    }
+
+    /** @test */
+    public function attachesItselfToTheNotFoundEvent()
+    {
+        $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $events->expects($this->once())
+               ->method('attach')
+               ->with('notFoundRead');
+
+        $feature = new NotFoundReplacing('crud/controller/read');
+        $feature->attachTo('read', $events);
     }
 
     /** @test */
@@ -61,7 +62,8 @@ class NotFoundReplacingTest extends TestCase
 
         $this->event->expects($this->once())->method('setViewModel')->with($viewModel);
 
-        $this->feature->execute($this->event);
+        $feature = new NotFoundReplacing('Application\Controller\Index');
+        $feature->execute($this->event);
     }
 
     protected function expectsNotFoundForwardToReturnAViewModel($viewModel = null)
@@ -85,16 +87,6 @@ class NotFoundReplacingTest extends TestCase
         $routeParams = array('action' => 'my-action');
         $routeName   = 'home';
 
-        $this->options->expects($this->any())
-                      ->method('getContentReplaceController')
-                      ->will($this->returnValue($controller));
-        $this->options->expects($this->any())
-                      ->method('getContentReplaceRouteParams')
-                      ->will($this->returnValue($routeParams));
-        $this->options->expects($this->any())
-                      ->method('getContentReplaceRoute')
-                      ->will($this->returnValue($routeName));
-
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
         $notFoundForward = $this->getMockBuilder('DkplusBase\Mvc\Controller\Plugin\NotFoundForward')
@@ -107,36 +99,28 @@ class NotFoundReplacingTest extends TestCase
 
         $this->controller->expects($this->any())->method('notFoundForward')->will($this->returnValue($notFoundForward));
 
-        $this->feature->execute($this->event);
+        $feature = new NotFoundReplacing($controller, $routeParams, $routeName);
+        $feature->execute($this->event);
     }
 
     /** @test */
-    public function addsNo404NotFoundMessageUntilItIsConfigurated()
+    public function mustOnlyBeConfiguratedWithAController()
     {
-        $this->controller->expects($this->never())->method('flashMessenger');
-        $this->expectsNotFoundForwardToReturnAViewModel();
+        $controller = 'my-controller';
 
-        $this->feature->execute($this->event);
-    }
+        $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
 
-    /** @test */
-    public function canConfigurateA404NotFoundMessage()
-    {
-        $namespace = 'notFound';
-        $message   = 'could not found any data';
+        $notFoundForward = $this->getMockBuilder('DkplusBase\Mvc\Controller\Plugin\NotFoundForward')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+        $notFoundForward->expects($this->once())
+                        ->method('dispatch')
+                        ->with($controller, $this->isNull(), $this->isNull())
+                        ->will($this->returnValue($viewModel));
 
-        $this->options->expects($this->any())->method('hasErrorMessage')->will($this->returnValue(true));
-        $this->options->expects($this->any())->method('getErrorMessage')->will($this->returnValue($message));
-        $this->options->expects($this->any())->method('getMessageNamespace')->will($this->returnValue($namespace));
+        $this->controller->expects($this->any())->method('notFoundForward')->will($this->returnValue($notFoundForward));
 
-        $flashMessenger = $this->getMock('Zend\Mvc\Controller\Plugin\FlashMessenger');
-        $flashMessenger->expects($this->at(0))->method('setNamespace')->with($namespace);
-        $flashMessenger->expects($this->at(1))->method('addMessage')->with($message);
-
-        $this->controller->expects($this->any())->method('flashMessenger')->will($this->returnValue($flashMessenger));
-
-        $this->expectsNotFoundForwardToReturnAViewModel();
-
-        $this->feature->execute($this->event);
+        $feature = new NotFoundReplacing($controller);
+        $feature->execute($this->event);
     }
 }

@@ -13,11 +13,13 @@
         - [Deletion](#deletion)
         - [EntitiesProvider](#entitiesprovider)
         - [EntityProvider](#entityprovider)
+        - [FlashMessage](#flashmessage)
         - [FormHandling](#formhandling)
         - [IdentifierProvider](#identifierprovider)
         - [MultipleInputFilter](#multipleinputfilter)
         - [NotFoundReplacing](#notfoundreplacing)
         - [PaginationProvider](#paginationprovider)
+        - [Redirect](#redirect)
         - [Rendering](#rendering)
         - [SingleInputFilter](#singleinputfilter)
         - [UpdateFormProvider](#updateformprovider)
@@ -128,7 +130,7 @@ Gets the creation form from the service and puts it into the event for further u
 
 [`DkplusCrud\Controller\Feature\Deletion`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/Deletion.php)  
 **Event:** `main`  
-Deletes an entity and then redirects and adds a flash message. Requires an entity.
+Deletes an entity. Requires an entity to be set.
 
 ### EntitiesProvider
 
@@ -141,6 +143,12 @@ Gets entities as array from the service and puts them into the event for further
 **Event:** `pre`  
 Gets a single entity from the service and puts it into the event for further use. Needs an identifier.
 
+### FlashMessage
+
+[`DkplusCrud\Controller\Feature\FlashMessage`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/FlashMessage.php)  
+**Evend:** `post`  
+Adds a flash message.
+
 ### FormHandling
 
 [`DkplusCrud\Controller\Feature\FormHandling`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/FormHandling.php)  
@@ -148,9 +156,7 @@ Gets a single entity from the service and puts it into the event for further use
 This feature does several things. First it uses postRedirectGet for getting the form data.
 Then it puts the form as `form`-variable into the view model and if there are form data
 available from postRedirectGet, they will be applied to the form. Last if the form is valid it
-saves the form data using the service, redirects and adds a flash message.  
-By default this feature will not handle ajax requests. So if you want to do this,
-you must explicit enable it by calling `handleAjaxRequest`.
+saves the form data using the service.
 
 ### IdentifierProvider
 
@@ -176,6 +182,12 @@ so you could show a list of related entities or something else.
 [`DkplusCrud\Controller\Feature\PaginationProvider`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/PaginationProvider.php)  
 **Event:** `pre`  
 Gets entities as paginator from the service and puts them into the event for further use.
+
+### Redirect
+
+[`DkplusCrud\Controller\Feature\Redirect`](https://github.com/UFOMelkor/DkplusCrud/blob/master/src/DkplusCrud/Controller/Feature/Redirect.php)  
+**Evend:** `post`  
+Redirects to a route.
 
 ### Rendering
 
