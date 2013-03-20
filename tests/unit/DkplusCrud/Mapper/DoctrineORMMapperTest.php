@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Mapper
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Mapper;
@@ -11,17 +9,16 @@ namespace DkplusCrud\Mapper;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Mapper
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
+ * @covers DkplusCrud\Mapper\DoctrineORMMapper
  */
-class DoctrineMapperTest extends TestCase
+class DoctrineORMMapperTest extends TestCase
 {
     /** @var \Doctrine\ORM\EntityManager|\PHPUnit_Framework_MockObject_MockObject */
     private $entityManager;
 
-    /** @var DoctrineMapper */
+    /** @var DoctrineORMMapper */
     private $mapper;
 
     protected function setUp()
@@ -31,7 +28,7 @@ class DoctrineMapperTest extends TestCase
         $this->entityManager = $this->getMockBuilder('Doctrine\ORM\EntityManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->mapper        = new DoctrineMapper($this->entityManager, 'stdClass');
+        $this->mapper        = new DoctrineORMMapper($this->entityManager, 'stdClass');
     }
 
     /** @test */

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage FormHandler
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\FormHandler;
@@ -11,11 +9,9 @@ namespace DkplusCrud\FormHandler;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage FormHandler
- * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\FormHandler\FactoryFormHandler
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.2.0
+ * @covers DkplusCrud\FormHandler\FactoryFormHandler
  */
 class FactoryFormHandlerTest extends TestCase
 {

@@ -4,16 +4,18 @@
  * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
-namespace DkplusCrud\Service\Feature;
+namespace DkplusCrud\Service\Feature\DoctrineORM;
 
+use DkplusCrud\Service\Feature\AbstractFeature;
+use DkplusCrud\Service\Feature\FilterInterface;
 use Doctrine\ORM\QueryBuilder;
 use Zend\EventManager\EventInterface as Event;
 
 /**
  * @author Oskar Bley <oskar@programming-php.net>
- * @since  0.1.0
+ * @since  0.2.0
  */
-class Filter extends AbstractFeature
+class Filter extends AbstractFeature implements FilterInterface
 {
     /** @var string */
     protected $eventName = 'queryBuilder';

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Service
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Service;
@@ -11,11 +9,9 @@ namespace DkplusCrud\Service;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Service
- * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\Service\Service
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
+ * @covers DkplusCrud\Service\Service
  */
 class ServiceTest extends TestCase
 {

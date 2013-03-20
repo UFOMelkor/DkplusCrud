@@ -11,6 +11,7 @@ use Zend\Mvc\MvcEvent;
 /**
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
+ * @covers DkplusCrud\Controller\Controller
  */
 class ControllerTest extends \PHPUnit_Framework_TestCase
 {

@@ -1,20 +1,17 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Service\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
-namespace DkplusCrud\Service\Feature;
+namespace DkplusCrud\Service\Feature\DoctrineORM;
 
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Service\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
+ * @covers DkplusCrud\Service\Feature\DoctrineORM\EntityFilter
  */
 class EntityFilterTest extends TestCase
 {

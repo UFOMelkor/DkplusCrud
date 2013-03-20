@@ -5,6 +5,7 @@
     "keywords": ["zf2"],
     "homepage": "https://github.com/UFOMelkor/DkplusCrud",
     "license": "MIT",
+
     "require": {
 
         "zendframework/zend-eventmanager": ">=2.1",
@@ -20,12 +21,17 @@
 
         "zf-commons/zfc-base": ">=0.1.0"
     },
+
     "require-dev": {
-        "doctrine/orm": "2.*"
+        "doctrine/orm": "2.*",
+        "doctrine/doctrine-orm-module": ">=0.7"
     },
+
     "suggest": {
-        "doctrine/orm": "2.*"
+        "doctrine/orm": "if you want to use doctrine orm as backend.",
+        "doctrine/doctrine-orm-module": "if you want to use doctrine orm as backend."
     },
+
     "autoload": {
         "psr-0": {
             "DkplusCrud": "src/"

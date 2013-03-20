@@ -9,6 +9,7 @@ namespace DkplusCrud\Controller;
 /**
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
+ * @covers DkplusCrud\Controller\Event
  */
 class EventTest extends \PHPUnit_Framework_TestCase
 {

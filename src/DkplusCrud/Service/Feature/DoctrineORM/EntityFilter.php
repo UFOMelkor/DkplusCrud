@@ -4,14 +4,15 @@
  * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
-namespace DkplusCrud\Service\Feature;
+namespace DkplusCrud\Service\Feature\DoctrineORM;
 
+use DkplusCrud\Service\Feature\AbstractFeature;
 use Doctrine\ORM\QueryBuilder;
 use Zend\EventManager\EventInterface as Event;
 
 /**
  * @author Oskar Bley <oskar@programming-php.net>
- * @since  0.1.0
+ * @since  0.2.0
  */
 class EntityFilter extends AbstractFeature
 {
@@ -44,12 +45,12 @@ class EntityFilter extends AbstractFeature
 
     public function execute(Event $event)
     {
-        $this->queryBuilder = $event->getParam('queryBuilder');
+        $queryBuilder = $event->getParam('queryBuilder');
 
         if ($this->refineResults) {
-            $this->queryBuilder->andWhere('e INSTANCE OF ' . $this->entityClass);
+            $queryBuilder->andWhere('e INSTANCE OF ' . $this->entityClass);
         } else {
-            $this->queryBuilder->orWhere('e INSTANCE OF ' . $this->entityClass);
+            $queryBuilder->orWhere('e INSTANCE OF ' . $this->entityClass);
         }
     }
 }

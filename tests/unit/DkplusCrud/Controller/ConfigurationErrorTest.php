@@ -9,6 +9,7 @@ namespace DkplusCrud\Controller;
 /**
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
+ * @covers DkplusCrud\Controller\ConfigurationError
  */
 class ConfigurationErrorTest extends \PHPUnit_Framework_TestCase
 {

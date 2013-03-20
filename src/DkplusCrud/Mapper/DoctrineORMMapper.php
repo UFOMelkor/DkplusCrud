@@ -16,7 +16,7 @@ use ZfcBase\EventManager\EventProvider;
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
  */
-class DoctrineMapper extends EventProvider implements MapperInterface
+class DoctrineORMMapper extends EventProvider implements MapperInterface
 {
     /** @var EntityManager */
     protected $entityManager;

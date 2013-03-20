@@ -11,6 +11,7 @@ use \PHPUnit_Framework_TestCase as TestCase;
 /**
  * @author Oskar Bley <oskar@programming-php.net>
  * @since  0.1.0
+ * @covers DkplusCrud\Controller\Action\AbstractAction
  */
 class AbstractActionTest extends TestCase
 {
