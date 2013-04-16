@@ -39,34 +39,9 @@ class Service implements ServiceInterface, EventManagerAwareInterface
         $this->formHandler = $formHandler;
     }
 
-    public function create($data)
-    {
-        $item = $this->formHandler->createEntity($data);
-        return $this->mapper->save($item);
-    }
-
-    /**
-     * @throws \DkplusBase\Service\Exception\EntityNotFound
-     */
-    public function get($identifier)
-    {
-        return $this->mapper->find($identifier);
-    }
-
     public function getCreationForm()
     {
         return $this->formHandler->getCreationForm();
-    }
-
-    public function getAll()
-    {
-        return $this->mapper->findAll();
-    }
-
-    public function update($data, $identifier)
-    {
-        $item = $this->formHandler->updateEntity($data, $this->mapper->find($identifier));
-        return $this->mapper->save($item);
     }
 
     /**
@@ -78,17 +53,52 @@ class Service implements ServiceInterface, EventManagerAwareInterface
         return $this->formHandler->getUpdateForm($item);
     }
 
+
+    public function create($data)
+    {
+        $item = $this->formHandler->createEntity($data);
+        return $this->mapper->save($item);
+    }
+
+    public function update($data, $identifier)
+    {
+        $item = $this->formHandler->updateEntity($data, $this->mapper->find($identifier));
+        return $this->mapper->save($item);
+    }
+
     public function delete($entity)
     {
         $this->mapper->delete($entity);
     }
 
     /**
+     * @throws \DkplusBase\Service\Exception\EntityNotFound
+     */
+    public function find($identifier)
+    {
+        return $this->mapper->find($identifier);
+    }
+
+    public function findAll(array $order = array())
+    {
+        return $this->mapper->findAll($order);
+    }
+
+    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null)
+    {
+        return $this->mapper->findByName($name, $params, $order, $limit, $offset);
+    }
+
+    /**
      * @param int $pageNumber
      * @return \Zend\Paginator\Paginator
      */
-    public function getPaginator($pageNumber)
+    public function getPaginator($pageNumber, $itemCountPerPage = null)
     {
+        if ($itemCountPerPage === null) {
+            $itemCountPerPage = $this->itemCountPerPage;
+        }
+
         $adapter   = $this->mapper->getPaginationAdapter();
         $paginator = new \Zend\Paginator\Paginator($adapter);
         $paginator->setCurrentPageNumber($pageNumber);

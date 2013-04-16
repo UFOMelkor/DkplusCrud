@@ -19,34 +19,41 @@ interface ServiceInterface
     public function create($data);
 
     /**
-     * @throws \DkplusBase\Service\Exception\EntityNotFound
-     */
-    public function get($identifier);
-
-    public function getCreationForm();
-
-    public function getAll();
-
-    /**
      * @param mixed $data
      * @param mixed $identifier
      * @return mixed updated item
      */
     public function update($data, $identifier);
 
+    public function delete($object);
+
+    public function getCreationForm();
+
     /**
      * @throws \DkplusBase\Service\Exception\EntityNotFound
      */
     public function getUpdateForm($identifier);
 
-    public function delete($entity);
-
     /**
      * @param int $pageNumber
-     * @return \Zend\Paginator\Paginator
+     * @param \Zend\Paginator\Paginator $itemCountPerPage
      */
-    public function getPaginator($pageNumber);
+    public function getPaginator($pageNumber, $itemCountPerPage = null, array $order = array());
 
-    /** @param int $value */
-    public function setItemCountPerPage($value);
+    public function getPaginatorByName(
+        $name,
+        $pageNumber,
+        $itemCountPerPage = null,
+        array $params = array(),
+        array $order = array()
+    );
+
+    /**
+     * @throws \DkplusBase\Service\Exception\EntityNotFound
+     */
+    public function find($identifier);
+
+    public function findAll(array $order = array());
+
+    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null);
 }

@@ -12,7 +12,9 @@ namespace DkplusCrud\Mapper;
  */
 interface MapperInterface
 {
-    public function save($entity);
+    public function persist($entity);
+
+    public function delete($entity);
 
     /**
      * @param mixed $identifier
@@ -20,10 +22,33 @@ interface MapperInterface
      */
     public function find($identifier);
 
-    public function findAll();
+    /**
+     * @param array $order
+     * @param int|null $limit
+     * @param int|null $offset
+     */
+    public function findAll(array $order = array(), $limit = null, $offset = null);
 
-    public function delete($entity);
+    /**
+     * @param string $name
+     * @param array $params
+     * @param array $order
+     * @param int|null $limit
+     * @param int|null $offset
+     */
+    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null);
 
-    /** @return \Zend\Paginator\Adapter\AdapterInterface */
-    public function getPaginationAdapter();
+    /**
+     * @param array $order
+     * @return \Zend\Paginator\Adapter\AdapterInterface
+     */
+    public function getPaginationAdapter(array $order = array());
+
+    /**
+     * @param string $name
+     * @param array $params
+     * @param array $order
+     * @return \Zend\Paginator\Adapter\AdapterInterface
+     */
+    public function getPaginationAdapterByName($name, array $params = array(), array $order = array());
 }
