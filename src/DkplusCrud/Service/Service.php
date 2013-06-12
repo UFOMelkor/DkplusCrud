@@ -93,13 +93,31 @@ class Service implements ServiceInterface, EventManagerAwareInterface
      * @param int $pageNumber
      * @return \Zend\Paginator\Paginator
      */
-    public function getPaginator($pageNumber, $itemCountPerPage = null)
+    public function getPaginator($pageNumber, $itemCountPerPage = null, array $order = array())
     {
         if ($itemCountPerPage === null) {
             $itemCountPerPage = $this->itemCountPerPage;
         }
 
-        $adapter   = $this->mapper->getPaginationAdapter();
+        $adapter   = $this->mapper->getPaginationAdapter($order);
+        $paginator = new \Zend\Paginator\Paginator($adapter);
+        $paginator->setCurrentPageNumber($pageNumber);
+        $paginator->setItemCountPerPage($this->itemCountPerPage);
+        return $paginator;
+    }
+
+    public function getPaginatorByName(
+        $name,
+        $pageNumber,
+        $itemCountPerPage = null,
+        array $params = array(),
+        array $order = array()
+    ) {
+        if ($itemCountPerPage === null) {
+            $itemCountPerPage = $this->itemCountPerPage;
+        }
+
+        $adapter   = $this->mapper->getPaginationAdapterByName($name, $params, $order);
         $paginator = new \Zend\Paginator\Paginator($adapter);
         $paginator->setCurrentPageNumber($pageNumber);
         $paginator->setItemCountPerPage($this->itemCountPerPage);

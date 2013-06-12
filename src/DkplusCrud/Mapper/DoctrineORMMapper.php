@@ -173,7 +173,7 @@ class DoctrineORMMapper extends EventProvider implements MapperInterface
             $queryBuilder->orderBy($this->normalizeProperty($property, $queryBuilder), $direction);
         }
 
-        return $this->createPaginationAdapter($queryBuilder->execute());
+        return $this->createPaginationAdapter($queryBuilder->getQuery());
     }
 
     /**
@@ -182,5 +182,10 @@ class DoctrineORMMapper extends EventProvider implements MapperInterface
     protected function createPaginationAdapter($query)
     {
         return new PaginationAdapter(new DoctrinePaginator($query));
+    }
+
+    public function setQueryBuilder($name, QueryBuilder $queryBuilder)
+    {
+        $this->queryBuilders[$name] = $queryBuilder;
     }
 }
