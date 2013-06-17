@@ -6,7 +6,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Event;
+use DkplusCrud\Controller\Event\OutputEvent;
 
 /**
  * Renders the given view script.
@@ -19,6 +19,9 @@ use DkplusCrud\Controller\Event;
 class Rendering extends AbstractFeature
 {
     /** @var string */
+    protected $eventTypes = self::EVENT_TYPE_OUTPUT;
+
+    /** @var string */
     protected $template;
 
     public function __construct($template)
@@ -26,7 +29,7 @@ class Rendering extends AbstractFeature
         $this->template = $template;
     }
 
-    public function execute(Event $event)
+    public function output(OutputEvent $event)
     {
         $event->getViewModel()->setTemplate($this->template);
     }

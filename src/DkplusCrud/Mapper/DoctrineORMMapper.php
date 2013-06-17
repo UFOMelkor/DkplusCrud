@@ -61,43 +61,15 @@ class DoctrineORMMapper extends EventProvider implements MapperInterface
         return $result;
     }
 
-    public function findAll(array $order = array(), $limit = null, $offset = null)
+    public function findNamedCollection($name, array $order = array(), array $params = array(), $limit = null, $offset = null)
     {
-        $queryBuilder = $this->createQueryBuilder();
-
-        foreach ($order as $property => $direction) {
-            $queryBuilder->orderBy($this->normalizeProperty($property, $queryBuilder), $direction);
-        }
-
-        if ($limit !== null) {
-            $queryBuilder->setMaxResults($limit);
-        }
-
-        if ($offset !== null) {
-            $queryBuilder->setFirstResult($offset);
-        }
-
+        $queryBuilder = $this->getQueryBuilderByName($name);
+        $this->applyData($queryBuilder, $params, $order, $limit, $offset);
         return $queryBuilder->execute();
     }
 
-    /** @return QueryBuilder */
-    public function createQueryBuilder()
+    protected function applyData(QueryBuilder $queryBuilder, array $params, array $order, $limit = null, $offset = null)
     {
-        $queryBuilder = $this->entityManager->createQueryBuilder();
-        $queryBuilder->select('e');
-        $queryBuilder->from($this->modelClass, 'e');
-
-        return $queryBuilder;
-    }
-
-
-    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null)
-    {
-        if (!isset($this->queryBuilders[$name])) {
-            throw new Exception;
-        }
-
-        $queryBuilder = $this->queryBuilders[$name]; /* @var $queryBuilder QueryBuilder */
         $queryBuilder->setParameters($params);
 
         foreach ($order as $property => $direction) {
@@ -111,9 +83,8 @@ class DoctrineORMMapper extends EventProvider implements MapperInterface
         if ($offset !== null) {
             $queryBuilder->setFirstResult($offset);
         }
-
-        return $queryBuilder->execute();
     }
+
     /**
      * @param string $property
      * @param QueryBuilder $queryBuilder
@@ -149,43 +120,43 @@ class DoctrineORMMapper extends EventProvider implements MapperInterface
         throw new Exception;
     }
 
-    public function getPaginationAdapter(array $order = array())
+    public function getNamedPaginationAdapter($name, array $order = array(), array $params = array())
     {
-        $queryBuilder = $this->createQueryBuilder();
+        $queryBuilder = $this->getQueryBuilderByName($name);
+        $this->applyData($queryBuilder, $params, $order);
 
-        foreach ($order as $property => $direction) {
-            $queryBuilder->orderBy($this->normalizeProperty($property, $queryBuilder), $direction);
-        }
-
-        return $this->createPaginationAdapter($queryBuilder->getQuery());
-    }
-
-    public function getPaginationAdapterByName($name, array $params = array(), array $order = array())
-    {
-        if (!isset($this->queryBuilders[$name])) {
-            throw new Exception;
-        }
-
-        $queryBuilder = $this->queryBuilders[$name]; /* @var $queryBuilder QueryBuilder */
-        $queryBuilder->setParameters($params);
-
-        foreach ($order as $property => $direction) {
-            $queryBuilder->orderBy($this->normalizeProperty($property, $queryBuilder), $direction);
-        }
-
-        return $this->createPaginationAdapter($queryBuilder->getQuery());
-    }
-
-    /**
-     * @return \Zend\Paginator\Adapter\AdapterInterface
-     */
-    protected function createPaginationAdapter($query)
-    {
-        return new PaginationAdapter(new DoctrinePaginator($query));
+        return new PaginationAdapter(new DoctrinePaginator($queryBuilder->getQuery()));
     }
 
     public function setQueryBuilder($name, QueryBuilder $queryBuilder)
     {
         $this->queryBuilders[$name] = $queryBuilder;
+    }
+
+    /**
+     * @param string $name
+     * @return QueryBuilder
+     */
+    protected function getQueryBuilderByName($name)
+    {
+        if (isset($this->queryBuilders[$name])) {
+            return clone $this->queryBuilders[$name];
+        }
+
+        if ($name == self::DEFAULT_NAME) {
+            return $this->createQueryBuilder();
+        }
+
+        throw new RuntimeException(sprintf('There is no querybuilder named "%s"', $name));
+    }
+
+    /** @return QueryBuilder */
+    public function createQueryBuilder($alias = 'e')
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+        $queryBuilder->select($alias);
+        $queryBuilder->from($this->modelClass, $alias);
+
+        return $queryBuilder;
     }
 }

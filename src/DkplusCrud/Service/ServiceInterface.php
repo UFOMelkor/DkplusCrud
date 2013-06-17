@@ -40,7 +40,7 @@ interface ServiceInterface
      */
     public function getPaginator($pageNumber, $itemCountPerPage = null, array $order = array());
 
-    public function getPaginatorByName(
+    public function getNamedPaginator(
         $name,
         $pageNumber,
         $itemCountPerPage = null,
@@ -53,7 +53,7 @@ interface ServiceInterface
      */
     public function find($identifier);
 
-    public function findAll(array $order = array());
+    public function findCollection(array $order = array());
 
-    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null);
+    public function findNamedCollection($name, array $params = array(), array $order = array(), $limit = null, $offset = null);
 }

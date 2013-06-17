@@ -18,10 +18,10 @@ class DefaultAction extends AbstractAction
 {
     public function execute()
     {
-        $this->triggerEvent('pre');
-        $this->triggerEvent('');
-        $this->triggerEvent('post');
+        $this->triggerEvent($this->getInputEvent());
+        $this->triggerEvent($this->getModelEvent());
+        $this->triggerEvent($this->getOutputEvent());
 
-        return $this->getEvent()->getResult();
+        return $this->getOutputEvent()->getResult();
     }
 }

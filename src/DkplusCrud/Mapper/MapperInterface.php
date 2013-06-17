@@ -12,6 +12,8 @@ namespace DkplusCrud\Mapper;
  */
 interface MapperInterface
 {
+    const DEFAULT_NAME = 'default';
+
     public function persist($entity);
 
     public function delete($entity);
@@ -23,26 +25,13 @@ interface MapperInterface
     public function find($identifier);
 
     /**
-     * @param array $order
-     * @param int|null $limit
-     * @param int|null $offset
-     */
-    public function findAll(array $order = array(), $limit = null, $offset = null);
-
-    /**
      * @param string $name
      * @param array $params
      * @param array $order
      * @param int|null $limit
      * @param int|null $offset
      */
-    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null);
-
-    /**
-     * @param array $order
-     * @return \Zend\Paginator\Adapter\AdapterInterface
-     */
-    public function getPaginationAdapter(array $order = array());
+    public function findNamedCollection($name, array $order = array(), array $params = array(), $limit = null, $offset = null);
 
     /**
      * @param string $name
@@ -50,5 +39,5 @@ interface MapperInterface
      * @param array $order
      * @return \Zend\Paginator\Adapter\AdapterInterface
      */
-    public function getPaginationAdapterByName($name, array $params = array(), array $order = array());
+    public function getNamedPaginationAdapter($name, array $order = array(), array $params = array());
 }

@@ -6,7 +6,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Event;
+use DkplusCrud\Controller\Event\ModelEvent;
 use DkplusCrud\Service\ServiceInterface as Service;
 
 /**
@@ -18,7 +18,7 @@ use DkplusCrud\Service\ServiceInterface as Service;
 class PaginationProvider extends AbstractFeature
 {
     /** @var string */
-    protected $eventType = self::EVENT_TYPE_PRE;
+    protected $eventTypes = self::EVENT_TYPE_MODEL;
 
     /** @var Service */
     protected $service;
@@ -36,7 +36,7 @@ class PaginationProvider extends AbstractFeature
         $this->pageParameter = (string) $pageParameter;
     }
 
-    public function execute(Event $event)
+    public function model(ModelEvent $event)
     {
         $pageNumber = $event->getController()
                             ->getEvent()

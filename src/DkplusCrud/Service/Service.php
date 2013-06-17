@@ -79,14 +79,14 @@ class Service implements ServiceInterface, EventManagerAwareInterface
         return $this->mapper->find($identifier);
     }
 
-    public function findAll(array $order = array())
+    public function findCollection(array $order = array())
     {
-        return $this->mapper->findAll($order);
+        return $this->mapper->findNamedCollection('default', $order);
     }
 
-    public function findByName($name, array $params = array(), array $order = array(), $limit = null, $offset = null)
+    public function findNamedCollection($name, array $order = array(), array $params = array(), $limit = null, $offset = null)
     {
-        return $this->mapper->findByName($name, $params, $order, $limit, $offset);
+        return $this->mapper->findNamedCollection($name, $order, $params, $limit, $offset);
     }
 
     /**
@@ -99,25 +99,25 @@ class Service implements ServiceInterface, EventManagerAwareInterface
             $itemCountPerPage = $this->itemCountPerPage;
         }
 
-        $adapter   = $this->mapper->getPaginationAdapter($order);
+        $adapter   = $this->mapper->getNamedPaginationAdapter('default', $order);
         $paginator = new \Zend\Paginator\Paginator($adapter);
         $paginator->setCurrentPageNumber($pageNumber);
         $paginator->setItemCountPerPage($this->itemCountPerPage);
         return $paginator;
     }
 
-    public function getPaginatorByName(
+    public function getNamedPaginator(
         $name,
         $pageNumber,
         $itemCountPerPage = null,
-        array $params = array(),
-        array $order = array()
+        array $order = array(),
+        array $params = array()
     ) {
         if ($itemCountPerPage === null) {
             $itemCountPerPage = $this->itemCountPerPage;
         }
 
-        $adapter   = $this->mapper->getPaginationAdapterByName($name, $params, $order);
+        $adapter   = $this->mapper->getNamedPaginationAdapter($name, $order, $params);
         $paginator = new \Zend\Paginator\Paginator($adapter);
         $paginator->setCurrentPageNumber($pageNumber);
         $paginator->setItemCountPerPage($this->itemCountPerPage);

@@ -6,7 +6,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Event;
+use DkplusCrud\Controller\Event\OutputEvent;
 
 /**
  * Assigns a variable to the view model.
@@ -27,7 +27,7 @@ class Assigning extends AbstractFeature
     protected $value;
 
     /** @var string */
-    protected $eventType = self::EVENT_TYPE_POST;
+    protected $eventTypes = self::EVENT_TYPE_OUTPUT;
 
     /** @var boolean */
     protected $useEvent = true;
@@ -50,7 +50,7 @@ class Assigning extends AbstractFeature
         $this->useEvent = (boolean) $flag;
     }
 
-    public function execute(Event $event)
+    public function output(OutputEvent $event)
     {
         $value = $this->useEvent
                ? $event->getParam($this->value)

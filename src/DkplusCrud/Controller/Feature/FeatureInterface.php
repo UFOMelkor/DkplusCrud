@@ -17,5 +17,7 @@ interface FeatureInterface
 {
     public function attachTo($eventName, EventManager $events);
 
-    public function execute(Event $event);
+    public function input(Event\HttpInputEvent $event);
+    public function model(Event\ModelEvent $event);
+    public function output(Event\OutputEvent $event);
 }

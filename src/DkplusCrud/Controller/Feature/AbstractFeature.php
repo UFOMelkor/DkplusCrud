@@ -7,6 +7,7 @@
 namespace DkplusCrud\Controller\Feature;
 
 use DkplusCrud\Controller\Controller;
+use DkplusCrud\Controller\Event;
 use Zend\EventManager\EventManagerInterface as EventManager;
 
 /**
@@ -16,19 +17,16 @@ use Zend\EventManager\EventManagerInterface as EventManager;
 abstract class AbstractFeature implements FeatureInterface
 {
     /** @var string */
-    const EVENT_TYPE_MAIN = 'main';
+    const EVENT_TYPE_INPUT = 'input';
 
     /** @var string */
-    const EVENT_TYPE_PRE = 'pre';
+    const EVENT_TYPE_MODEL = 'model';
 
     /** @var string */
-    const EVENT_TYPE_POST = 'post';
+    const EVENT_TYPE_OUTPUT = 'output';
 
-    /** @var string */
-    const EVENT_TYPE_NOT_FOUND = 'notFound';
-
-    /** @var string */
-    protected $eventType = self::EVENT_TYPE_MAIN;
+    /** @var string[] */
+    protected $eventTypes;
 
     /** @var int */
     protected $priority = 1;
@@ -42,10 +40,10 @@ abstract class AbstractFeature implements FeatureInterface
         $this->priority = $priority;
     }
 
-    /** @param string $eventType */
-    public function setEventType($eventType)
+    /** @param string|string[] $eventTypes */
+    public function setEventTypes($eventTypes)
     {
-        $this->eventType = $eventType;
+        $this->eventTypes = (array) $eventTypes;
     }
 
     /**
@@ -54,12 +52,24 @@ abstract class AbstractFeature implements FeatureInterface
      */
     public function attachTo($eventName, EventManager $events)
     {
-        $events->attach(
-            $this->eventType == self::EVENT_TYPE_MAIN
-            ? $eventName
-            : $this->eventType . ucFirst($eventName),
-            array($this, 'execute'),
-            $this->priority
-        );
+        foreach ((array) $this->eventTypes as $eventType) {
+            $events->attach(
+                $eventName . '.' . $eventType,
+                array($this, $eventType),
+                $this->priority
+            );
+        }
+    }
+
+    public function input(Event\HttpInputEvent $event)
+    {
+    }
+
+    public function model(Event\ModelEvent $event)
+    {
+    }
+
+    public function output(Event\OutputEvent $event)
+    {
     }
 }

@@ -6,7 +6,7 @@
 
 namespace DkplusCrud\Controller\Feature;
 
-use DkplusCrud\Controller\Event;
+use DkplusCrud\Controller\Event\HttpInputEvent;
 
 /**
  * Gets an identifier from the route match and puts him into the event.
@@ -17,7 +17,7 @@ use DkplusCrud\Controller\Event;
 class IdentifierProvider extends AbstractFeature
 {
     /** @var string */
-    protected $eventType = self::EVENT_TYPE_PRE;
+    protected $eventTypes = self::EVENT_TYPE_INPUT;
 
     /** @var int */
     protected $priority = 2;
@@ -31,7 +31,7 @@ class IdentifierProvider extends AbstractFeature
         $this->routeMatchParam = (string) $routeParam;
     }
 
-    public function execute(Event $event)
+    public function input(HttpInputEvent $event)
     {
         $event->setIdentifier(
             $event->getController()->getEvent()->getRouteMatch()->getParam($this->routeMatchParam)

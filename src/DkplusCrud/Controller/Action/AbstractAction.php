@@ -34,8 +34,14 @@ abstract class AbstractAction implements ActionInterface
     /** @var EventManager */
     protected $events;
 
-    /** @var Event */
-    private $event;
+    /** @var Event\HttpInputEvent */
+    protected $inputEvent;
+
+    /** @var Event\ModelEvent */
+    protected $modelEvent;
+
+    /** @var Event\OutputEvent */
+    protected $outputEvent;
 
     /**
      * @param string $name Correlates to the name of the method in ActionControllers.
@@ -72,37 +78,69 @@ abstract class AbstractAction implements ActionInterface
     /**
      * @param string $prefix Typically an emtpy string, pre, post or notFound
      */
-    protected function triggerEvent($prefix)
+    protected function triggerEvent(Event\AbstractEvent $event)
     {
-        $eventName = $prefix == ''
-                   ? $this->getName()
-                   : $prefix . \ucFirst($this->getName());
-
-        $this->events->trigger($eventName, $this->getEvent());
+        $this->events->trigger($this->getName() . '.' . $event->getType(), $event);
     }
 
     /**
-     * @return Event
+     * @return Event\HttpInputEvent
      * @throws Exception\RuntimeException if event and controller have not been set.
      */
-    public function getEvent()
+    public function getInputEvent()
     {
-        if (!$this->event) {
+        if (!$this->inputEvent) {
 
             if (!$this->controller) {
                 throw new Exception\RuntimeException(
-                    'Could not provide a default event because no controller has been injected'
+                    'Could not provide a default input event because no controller has been injected'
                 );
             }
 
-            $this->event = new Event($this->controller);
+            $this->inputEvent = new Event\HttpInputEvent($this->controller);
         }
 
-        return $this->event;
+        return $this->inputEvent;
     }
 
-    public function setEvent(Event $event)
+    public function setInputEvent(Event\HttpInputEvent $event)
     {
-        $this->event = $event;
+        $this->inputEvent = $event;
+    }
+
+    /**
+     * @return Event\ModelEvent
+     * @throws Exception\RuntimeException if no input event can be created.
+     */
+    public function getModelEvent()
+    {
+        if (!$this->modelEvent) {
+            $this->modelEvent = new Event\ModelEvent($this->getInputEvent());
+        }
+
+        return $this->modelEvent;
+    }
+
+    public function setModelEvent(Event\ModelEvent $event)
+    {
+        $this->outputEvent = $event;
+    }
+
+    /**
+     * @return Event\OutputEvent
+     * @throws Exception\RuntimeException if no model event can be created.
+     */
+    public function getOutputEvent()
+    {
+        if (!$this->outputEvent) {
+            $this->outputEvent = new Event\OutputEvent($this->getModelEvent());
+        }
+
+        return $this->outputEvent;
+    }
+
+    public function setOutputEvent(Event\OutputEvent $event)
+    {
+        $this->outputEvent = $event;
     }
 }
