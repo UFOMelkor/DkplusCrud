@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -13,35 +11,32 @@ use DkplusCrud\Service\ServiceInterface as Service;
 use Zend\Http\Response;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Handles form data, validation and success handling.
+ *
+ * This feature does several things. First it uses postRedirectGet for getting the form data.
+ * Then it puts the form as <code>form<code>-variable into the view model and if there are form data
+ * available from postRedirectGet, they will be applied to the form.
+ * Last if the form is valid it saves the form data using the service.
+ * By default this feature will not handle ajax requests. So if you want to do this,
+ * you must explicit enable it by calling <code>handleAjaxRequest()</code>.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class FormHandling extends AbstractFeature
 {
-    /** @var Options\SuccessOptions */
-    protected $options;
-
     /** @var Service */
     protected $service;
-
-    /** @var string */
-    protected $identifier = 'id';
 
     /** @var boolean */
     protected $handleAjaxRequest = false;
 
-    /**
-     * @param Service $storage
-     * @param Options\SuccessOptions $options
-     */
-    public function __construct(Service $service, Options\SuccessOptions $options)
+    public function __construct(Service $service)
     {
         $this->service  = $service;
-        $this->options  = $options;
     }
 
+    /** @return void */
     public function handleAjaxRequest()
     {
         $this->handleAjaxRequest = true;
@@ -76,17 +71,7 @@ class FormHandling extends AbstractFeature
                 $entity = $event->hasIdentifier()
                         ? $this->service->update($form->getData(), $event->getIdentifier())
                         : $this->service->create($form->getData());
-
-                $messageNamespace    = $this->options->getMessageNamespace();
-                $message             = $this->options->getComputatedMessage($entity);
-                $redirectRoute       = $this->options->getRedirectRoute();
-                $redirectRouteParams = $this->options->getComputatedRedirectRouteParams($entity);
-
-                $controller->flashMessenger()->setNamespace($messageNamespace);
-                $controller->flashMessenger()->addMessage($message);
-
-                $event->setResponse($controller->redirect()->toRoute($redirectRoute, $redirectRouteParams));
-                $event->stopPropagation();
+                $event->setEntity($entity);
             }
         }
     }

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -12,37 +10,25 @@ use DkplusCrud\Service\ServiceInterface as Service;
 use DkplusCrud\Controller\Event;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Deletes an entity.
+ *
+ * Requires an entity to be set.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class Deletion extends AbstractFeature
 {
-    /** @var Options\SuccessOptions */
-    protected $options;
-
     /** @var Service */
     protected $service;
 
-    public function __construct(Service $service, Options\SuccessOptions $options)
+    public function __construct(Service $service)
     {
         $this->service = $service;
-        $this->options = $options;
     }
 
     public function execute(Event $event)
     {
-        $entity      = $event->getEntity();
-        $message     = $this->options->getComputatedMessage($entity);
-        $messageNs   = $this->options->getMessageNamespace();
-        $route       = $this->options->getRedirectRoute();
-        $routeParams = $this->options->getComputatedRedirectRouteParams($entity);
-
-        $this->service->delete($entity);
-
-        $event->setResponse($event->getController()->redirect()->toRoute($route, $routeParams));
-        $event->getController()->flashMessenger()->setNamespace($messageNs);
-        $event->getController()->flashMessenger()->addMessage($message);
+        $this->service->delete($event->getEntity());
     }
 }

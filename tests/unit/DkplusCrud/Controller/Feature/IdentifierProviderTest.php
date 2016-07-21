@@ -1,20 +1,16 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
 
-use \PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class IdentifierProviderTest extends TestCase
 {
@@ -54,7 +50,7 @@ class IdentifierProviderTest extends TestCase
     }
 
     /** @test */
-    public function attachesItselfAsPreEvent()
+    public function attachesItselfToThePreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $events->expects($this->once())->method('attach')->with('preDelete');

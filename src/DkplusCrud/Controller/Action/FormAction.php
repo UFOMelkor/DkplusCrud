@@ -1,20 +1,18 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Action;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Use this action when you need an update form provided by the pre event.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
-class UpdateFormAction extends AbstractAction
+class FormAction extends AbstractAction
 {
     public function execute()
     {

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -11,11 +9,8 @@ namespace DkplusCrud\Controller\Feature;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\Controller\Feature\MultipleInputFilter
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class MultipleInputFilterTest extends TestCase
 {
@@ -42,7 +37,7 @@ class MultipleInputFilterTest extends TestCase
     }
 
     /** @test */
-    public function attachesItselfAsPreEvent()
+    public function attachesItselfToThePreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $events->expects($this->once())->method('attach')->with('preList');
@@ -153,15 +148,15 @@ class MultipleInputFilterTest extends TestCase
     public static function filteringComparators()
     {
         return array(
-            array(MultipleInputFilter::FILTER_LIKE, 'like', 'q'),
-            array(MultipleInputFilter::FILTER_CONTAINING, 'like', '%q%'),
-            array(MultipleInputFilter::FILTER_STARTING_WITH, 'like', 'q%'),
-            array(MultipleInputFilter::FILTER_ENDING_WITH, 'like', '%q'),
-            array(MultipleInputFilter::FILTER_EQUALS, 'equals', 'q'),
-            array(MultipleInputFilter::FILTER_GREATER_THAN_EQUALS, 'greaterThanEquals', 'q'),
-            array(MultipleInputFilter::FILTER_GREATER_THAN, 'greaterThan', 'q'),
-            array(MultipleInputFilter::FILTER_LESS_THAN_EQUALS, 'lessThanEquals', 'q'),
-            array(MultipleInputFilter::FILTER_LESS_THAN, 'lessThan', 'q'),
+            array(MultipleInputFilter::COMPARATOR_LIKE, 'like', 'q'),
+            array(MultipleInputFilter::COMPARATOR_CONTAINING, 'like', '%q%'),
+            array(MultipleInputFilter::COMPARATOR_STARTING_WITH, 'like', 'q%'),
+            array(MultipleInputFilter::COMPARATOR_ENDING_WITH, 'like', '%q'),
+            array(MultipleInputFilter::COMPARATOR_EQUALS, 'equals', 'q'),
+            array(MultipleInputFilter::COMPARATOR_GREATER_THAN_EQUALS, 'greaterThanEquals', 'q'),
+            array(MultipleInputFilter::COMPARATOR_GREATER_THAN, 'greaterThan', 'q'),
+            array(MultipleInputFilter::COMPARATOR_LESS_THAN_EQUALS, 'lessThanEquals', 'q'),
+            array(MultipleInputFilter::COMPARATOR_LESS_THAN, 'lessThan', 'q'),
         );
     }
 

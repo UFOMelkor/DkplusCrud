@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -11,10 +9,10 @@ namespace DkplusCrud\Controller\Feature;
 use DkplusCrud\Controller\Event;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Gets an identifier from the route match and puts him into the event.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class IdentifierProvider extends AbstractFeature
 {
@@ -27,12 +25,10 @@ class IdentifierProvider extends AbstractFeature
     /** @var string */
     protected $routeMatchParam;
 
-    /**
-     * @param string $routeMatchParam
-     */
-    public function __construct($routeMatchParam = 'id')
+    /** @param string $routeParam The name of the route param that contains the id */
+    public function __construct($routeParam = 'id')
     {
-        $this->routeMatchParam = (string) $routeMatchParam;
+        $this->routeMatchParam = (string) $routeParam;
     }
 
     public function execute(Event $event)

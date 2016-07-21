@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -12,10 +10,12 @@ use DkplusCrud\Controller\Event;
 use DkplusCrud\Service\ServiceInterface as Service;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Gets a form from the service and puts it into the event for further use.
+ *
+ * Needs an identifer.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class UpdateFormProvider extends AbstractFeature
 {

@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage FormHandler
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\FormHandler;
@@ -12,10 +10,13 @@ use DkplusBase\Stdlib\Hydrator\HydrationFactoryInterface as HydrationFactory;
 use Zend\Form\FormInterface as Form;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage FormHandler
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Used for entities that have constructor parameters.
+ *
+ * If the constructor of your entity needs some parameters, you cannot use the BindFormHandler.
+ * Instead you can use the FactoryFormHandler.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class FactoryFormHandler implements FormHandlerInterface
 {
@@ -32,8 +33,8 @@ class FactoryFormHandler implements FormHandlerInterface
     }
 
     /**
-     * @param mixed $data
-     * @return mixed
+     * @param array $data The data from the form.
+     * @return object
      */
     public function createEntity($data)
     {
@@ -41,9 +42,9 @@ class FactoryFormHandler implements FormHandlerInterface
     }
 
     /**
-     * @param mixed $data
-     * @param mixed $entity
-     * @return mixed
+     * @param array $data The data from the form.
+     * @param object $entity The entity that has to be updated.
+     * @return object
      */
     public function updateEntity($data, $entity)
     {
@@ -58,7 +59,7 @@ class FactoryFormHandler implements FormHandlerInterface
     }
 
     /**
-     * @param mixed $entity
+     * @param object $entity The entity that has to be updated.
      * @return Form
      */
     public function getUpdateForm($entity)

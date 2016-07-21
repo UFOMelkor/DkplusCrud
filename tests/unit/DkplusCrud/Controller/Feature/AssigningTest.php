@@ -1,21 +1,16 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
 
-use \PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\Controller\Feature\Assigning
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class AssigningTest extends TestCase
 {
@@ -26,7 +21,7 @@ class AssigningTest extends TestCase
     }
 
     /** @test */
-    public function attachesItselfAsPostEvent()
+    public function attachesItselfToThePostEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $events->expects($this->once())
@@ -40,9 +35,7 @@ class AssigningTest extends TestCase
     /** @test */
     public function assignsTheEventParameterAsAlias()
     {
-        $paginator = $this->getMockBuilder('Zend\Paginator\Paginator')
-                          ->disableOriginalConstructor()
-                          ->getMock();
+        $paginator = $this->getMock('stdClass');
 
         $viewModel = $this->getMockForAbstractClass('Zend\View\Model\ModelInterface');
         $viewModel->expects($this->once())->method('setVariable')->with('paginator', $paginator);

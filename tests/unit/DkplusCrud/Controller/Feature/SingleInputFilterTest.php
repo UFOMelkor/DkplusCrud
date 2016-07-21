@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -11,11 +9,8 @@ namespace DkplusCrud\Controller\Feature;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\Controller\Feature\SingleInputFilter
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class SingleInputFilterTest extends TestCase
 {
@@ -42,7 +37,7 @@ class SingleInputFilterTest extends TestCase
     }
 
     /** @test */
-    public function attachesItselfAsPreEvent()
+    public function attachesItselfToThePreEvent()
     {
         $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
         $events->expects($this->once())
@@ -171,15 +166,15 @@ class SingleInputFilterTest extends TestCase
     public static function filteringComparators()
     {
         return array(
-            array(SingleInputFilter::FILTER_LIKE, 'like', 'q'),
-            array(SingleInputFilter::FILTER_CONTAINING, 'like', '%q%'),
-            array(SingleInputFilter::FILTER_STARTING_WITH, 'like', 'q%'),
-            array(SingleInputFilter::FILTER_ENDING_WITH, 'like', '%q'),
-            array(SingleInputFilter::FILTER_EQUALS, 'equals', 'q'),
-            array(SingleInputFilter::FILTER_GREATER_THAN_EQUALS, 'greaterThanEquals', 'q'),
-            array(SingleInputFilter::FILTER_GREATER_THAN, 'greaterThan', 'q'),
-            array(SingleInputFilter::FILTER_LESS_THAN_EQUALS, 'lessThanEquals', 'q'),
-            array(SingleInputFilter::FILTER_LESS_THAN, 'lessThan', 'q'),
+            array(SingleInputFilter::COMPARATOR_LIKE, 'like', 'q'),
+            array(SingleInputFilter::COMPARATOR_CONTAINING, 'like', '%q%'),
+            array(SingleInputFilter::COMPARATOR_STARTING_WITH, 'like', 'q%'),
+            array(SingleInputFilter::COMPARATOR_ENDING_WITH, 'like', '%q'),
+            array(SingleInputFilter::COMPARATOR_EQUALS, 'equals', 'q'),
+            array(SingleInputFilter::COMPARATOR_GREATER_THAN_EQUALS, 'greaterThanEquals', 'q'),
+            array(SingleInputFilter::COMPARATOR_GREATER_THAN, 'greaterThan', 'q'),
+            array(SingleInputFilter::COMPARATOR_LESS_THAN_EQUALS, 'lessThanEquals', 'q'),
+            array(SingleInputFilter::COMPARATOR_LESS_THAN, 'lessThan', 'q'),
         );
     }
 

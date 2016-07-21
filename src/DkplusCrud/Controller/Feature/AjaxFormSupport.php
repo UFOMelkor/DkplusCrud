@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -12,10 +10,16 @@ use DkplusCrud\Controller\Event;
 use Zend\View\Model\JsonModel;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Assigns the messages from the form to the view model.
+ *
+ * For this, the form has to be validated, but there will be no handling of a
+ * valid form (for this look at the FormHandling-Feature).
+ * If there is no instance of <code>Zend\View\Model\JsonModel</code> available the view model will be overriden.
+ * The feature can handle post and query data by determining the request-method.
+ * As the name suggests it will only does its work if an ajax request is detected.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class AjaxFormSupport extends AbstractFeature
 {

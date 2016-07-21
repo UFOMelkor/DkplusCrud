@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Action;
@@ -13,10 +11,8 @@ use DkplusCrud\Controller\Feature\FeatureInterface as Feature;
 use Zend\EventManager\EventManagerInterface as EventManager;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Action
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 interface ActionInterface
 {
@@ -29,5 +25,6 @@ interface ActionInterface
 
     public function attachTo(EventManager $events);
 
+    /** @return \Zend\View\Model\ModelInterface|Zend\Http\Response|array */
     public function execute();
 }

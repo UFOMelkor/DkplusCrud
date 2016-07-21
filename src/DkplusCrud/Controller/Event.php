@@ -1,27 +1,22 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller;
 
 use DkplusCrud\Controller\Controller;
-
 use Zend\EventManager\Event as BaseEvent;
 use Zend\Form\FormInterface as Form;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\View\Model\ModelInterface as ViewModelInterface;
-use Zend\View\Model\ViewModel;
+use Zend\View\Model\ViewModel as DefaultViewModel;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class Event extends BaseEvent
 {
@@ -79,7 +74,7 @@ class Event extends BaseEvent
         }
 
         if (!$this->viewModel) {
-            $this->viewModel = new ViewModel();
+            $this->viewModel = new DefaultViewModel();
             $this->setParam('viewModel', $this->viewModel);
         }
 
@@ -101,7 +96,7 @@ class Event extends BaseEvent
         return $this->response;
     }
 
-    /** @param \Zend\Http\Response $response */
+    /** @param Response $response */
     public function setResponse(Response $response)
     {
         $this->response = $response;
@@ -116,7 +111,6 @@ class Event extends BaseEvent
         return $this->viewModel;
     }
 
-    /** @param \Zend\View\Model\ModelInterface $viewModel */
     public function setViewModel(ViewModelInterface $viewModel)
     {
         $this->viewModel = $viewModel;
@@ -132,7 +126,7 @@ class Event extends BaseEvent
 
     /**
      * @return mixed
-     * @throws ConfigurationError When no entity is available.
+     * @throws ConfigurationError if no entity is available.
      */
     public function getEntity()
     {
@@ -142,6 +136,7 @@ class Event extends BaseEvent
         return $this->entity;
     }
 
+    /** @param mixed $entity */
     public function setEntity($entity)
     {
         $this->entity = $entity;
@@ -150,7 +145,7 @@ class Event extends BaseEvent
 
     /**
      * @return mixed
-     * @throws ConfigurationError When no entities are available.
+     * @throws ConfigurationError if no entities are available.
      */
     public function getEntities()
     {
@@ -160,6 +155,7 @@ class Event extends BaseEvent
         return $this->entities;
     }
 
+    /** @param mixed $entities */
     public function setEntities($entities)
     {
         $this->entities = $entities;
@@ -174,7 +170,7 @@ class Event extends BaseEvent
 
     /**
      * @return mixed
-     * @throws ConfigurationError When no identifier is available.
+     * @throws ConfigurationError if no identifier is available.
      */
     public function getIdentifier()
     {
@@ -184,6 +180,7 @@ class Event extends BaseEvent
         return $this->identifier;
     }
 
+    /** @param mixed $identifier */
     public function setIdentifier($identifier)
     {
         $this->identifier = $identifier;
@@ -197,8 +194,8 @@ class Event extends BaseEvent
     }
 
     /**
-     * @return \Zend\Form\FormInterface
-     * @throws ConfigurationError When no form is available.
+     * @return Form
+     * @throws ConfigurationError if no form is available.
      */
     public function getForm()
     {
@@ -214,10 +211,7 @@ class Event extends BaseEvent
         $this->setParam('form', $form);
     }
 
-    /**
-     * @return \Zend\View\Model\ModelInterface|\Zend\Http\Response
-     *         The result that should be returned from the controller.
-     */
+    /** @return ViewModelInterface|Response The result that should be returned from the action */
     public function getResult()
     {
         $this->init();

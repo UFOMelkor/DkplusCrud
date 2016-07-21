@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -11,11 +9,8 @@ namespace DkplusCrud\Controller\Feature;
 use PHPUnit_Framework_TestCase as TestCase;
 
 /**
- * @category   DkplusTest
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
- * @covers     DkplusCrud\Controller\Feature\Rendering
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class RenderingTest extends TestCase
 {
@@ -33,6 +28,17 @@ class RenderingTest extends TestCase
     public function isAFeature()
     {
         $this->assertInstanceOf('DkplusCrud\Controller\Feature\FeatureInterface', $this->feature);
+    }
+
+    /** @test */
+    public function attachesItselfToTheMainEvent()
+    {
+        $events = $this->getMockForAbstractClass('Zend\EventManager\EventManagerInterface');
+        $events->expects($this->once())
+               ->method('attach')
+               ->with('paginate');
+
+        $this->feature->attachTo('paginate', $events);
     }
 
     /** @test */

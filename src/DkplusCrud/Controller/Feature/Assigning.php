@@ -1,9 +1,7 @@
 <?php
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * @license MIT
+ * @link    https://github.com/UFOMelkor/DkplusCrud canonical source repository
  */
 
 namespace DkplusCrud\Controller\Feature;
@@ -11,10 +9,14 @@ namespace DkplusCrud\Controller\Feature;
 use DkplusCrud\Controller\Event;
 
 /**
- * @category   Dkplus
- * @package    Crud
- * @subpackage Controller\Feature
- * @author     Oskar Bley <oskar@programming-php.net>
+ * Assigns a variable to the view model.
+ *
+ * By default the variable will be get from the event,
+ * so you can assign a paginator or anything else stored in the event object.
+ * If you want to assign a variable directly you have to call <code>useEvent(false)</code>.
+ *
+ * @author Oskar Bley <oskar@programming-php.net>
+ * @since  0.1.0
  */
 class Assigning extends AbstractFeature
 {
@@ -37,6 +39,10 @@ class Assigning extends AbstractFeature
     }
 
     /**
+     * Should the value be fetched from the event or should <code>$value</code> be used directly?
+     *
+     * Default is fetching from event.
+     *
      * @param boolean $flag
      */
     public function useEvent($flag)
